@@ -6,9 +6,10 @@
         <entry key="..\:/AndroidProjects/WeatherAppTask/app/src/main/res/drawable/selector_my_location.xml" value="0.37083333333333335" />
         <entry key="..\:/AndroidProjects/WeatherAppTask/app/src/main/res/drawable/selector_search.xml" value="0.37083333333333335" />
         <entry key="..\:/AndroidProjects/WeatherAppTask/app/src/main/res/drawable/shape_bottom_nav.xml" value="0.37083333333333335" />
+        <entry key="..\:/AndroidProjects/WeatherAppTask/app/src/main/res/drawable/shape_search.xml" value="0.5" />
         <entry key="..\:/AndroidProjects/WeatherAppTask/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/AndroidProjects/WeatherAppTask/app/src/main/res/layout/fragment_my_location.xml" value="0.384375" />
-        <entry key="..\:/AndroidProjects/WeatherAppTask/app/src/main/res/layout/fragment_search.xml" value="0.3546875" />
+        <entry key="..\:/AndroidProjects/WeatherAppTask/app/src/main/res/layout/fragment_search.xml" value="0.33" />
         <entry key="..\:/AndroidProjects/WeatherAppTask/app/src/main/res/layout/hourly_temp_item.xml" value="0.75" />
         <entry key="..\:/AndroidProjects/WeatherAppTask/app/src/main/res/menu/bottom_nav_menu.xml" value="0.3546875" />
       </map>

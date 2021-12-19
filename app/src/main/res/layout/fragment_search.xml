@@ -10,18 +10,132 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/background"
         tools:context=".ui.search.SearchFragment">
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/search_txt"
+            android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Search"
-            android:textAppearance="?attr/textAppearanceBody1"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="45dp"
+            android:text="Pick a location"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="55dp"
+            android:text="Type the area or city you want to know the\n detailed weather information at\n this time."
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="@id/title"
+            app:layout_constraintStart_toStartOf="@id/title"
+            app:layout_constraintTop_toBottomOf="@id/title" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/search"
+            android:layout_width="259dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="7.5dp"
+            android:layout_marginTop="21dp"
+            android:background="@drawable/shape_search"
+            android:drawableEnd="@drawable/ic_search_on"
+            android:hint="Search"
+            android:inputType="text"
+            android:maxLength="20"
+            android:maxLines="1"
+            android:minHeight="48dp"
+            android:paddingStart="36dp"
+            android:paddingEnd="20dp"
+            android:textColorHint="@color/white"
+            app:endIconMode="clear_text"
+            app:layout_constraintEnd_toStartOf="@id/btn"
+            app:layout_constraintStart_toStartOf="@id/description"
+            app:layout_constraintTop_toBottomOf="@id/description" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btn"
+            android:layout_width="35dp"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="7.5dp"
+            android:background="@drawable/shape_search"
+            android:src="@drawable/ic_location_on"
+            app:layout_constraintBottom_toBottomOf="@id/search"
+            app:layout_constraintEnd_toEndOf="@id/description"
+            app:layout_constraintStart_toEndOf="@id/search"
+            app:layout_constraintTop_toTopOf="@id/search" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="31dp"
+            app:cardCornerRadius="30dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/search">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/card_view">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/temp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:text="32c"
+                    android:textColor="@color/white"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/img_templ_1"
+                    app:layout_constraintEnd_toEndOf="@id/temp"
+                    app:layout_constraintStart_toStartOf="@id/temp"
+                    app:layout_constraintTop_toBottomOf="@id/temp" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/weather"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cloudy"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="@id/img"
+                    app:layout_constraintStart_toStartOf="@id/img"
+                    app:layout_constraintTop_toBottomOf="@id/img" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/city"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="25dp"
+                    android:text="Abuja"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/weather"
+                    app:layout_constraintStart_toStartOf="@id/weather"
+                    app:layout_constraintTop_toBottomOf="@id/weather" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
