@@ -1,4 +1,4 @@
-package com.example.weatherapptask.ui.mylocation.viewmodel
+package com.example.weatherapptask.data.remote
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

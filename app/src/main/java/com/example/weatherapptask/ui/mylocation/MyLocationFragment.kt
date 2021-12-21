@@ -14,7 +14,7 @@ import com.example.weatherapptask.data.remote.other.Constants.Companion.UNITS
 import com.example.weatherapptask.databinding.FragmentMyLocationBinding
 import com.example.weatherapptask.ui.mylocation.adapter.HourlyForecastAdapter
 import com.example.weatherapptask.ui.mylocation.viewmodel.HourlyForecastVM
-import com.example.weatherapptask.ui.mylocation.viewmodel.LocationForecastVM
+import com.example.weatherapptask.data.remote.LocationForecastVM
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MyLocationFragment : Fragment() {
