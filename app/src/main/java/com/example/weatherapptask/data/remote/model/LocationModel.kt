@@ -65,15 +65,6 @@ data class Sys(
 ) : Parcelable
 
 @Parcelize
-data class Weather(
-    val description: String,
-    val icon: String,
-    val id: Int,
-    @SerializedName("main")
-    val currentWeather: String
-) : Parcelable
-
-@Parcelize
 data class Wind(
     val deg: Int,
     val gust: Double,

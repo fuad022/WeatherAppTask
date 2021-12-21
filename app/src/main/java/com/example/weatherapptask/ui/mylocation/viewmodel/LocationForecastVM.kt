@@ -13,10 +13,6 @@ class LocationForecastVM(private val repository: Repository) : ViewModel() {
     private val _locationForecastData = MutableLiveData<Response<LocationModel>>()
     val locationForecastData: LiveData<Response<LocationModel>> get() = _locationForecastData
 
-//    suspend fun sendData(city: String, units: String, apiKey: String) {
-//        _locationForecastData.value = repository.getCurrentForecast(city, units, apiKey)
-//    }
-
     fun sendData(city: String, units: String, apiKey: String) =
         viewModelScope.launch {
             _locationForecastData.value = repository.getCurrentForecast(city, units, apiKey)

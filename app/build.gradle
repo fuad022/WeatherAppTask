@@ -70,4 +70,7 @@ dependencies {
 
     // Koin main features for Android (Scope,ViewModel ...)
     implementation "io.insert-koin:koin-android:3.1.2"
+
+    //Lottie
+    implementation 'com.airbnb.android:lottie:4.2.1'
 }
