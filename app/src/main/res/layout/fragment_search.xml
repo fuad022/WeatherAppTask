@@ -52,9 +52,9 @@
             android:maxLength="20"
             android:maxLines="1"
             android:minHeight="48dp"
-            android:textColor="@color/white"
             android:paddingStart="36dp"
             android:paddingEnd="20dp"
+            android:textColor="@color/white"
             android:textColorHint="@color/white"
             app:endIconMode="clear_text"
             app:layout_constraintEnd_toStartOf="@id/btn"
@@ -80,6 +80,7 @@
             android:layout_marginHorizontal="40dp"
             android:layout_marginTop="31dp"
             app:cardCornerRadius="30dp"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/search">
@@ -94,13 +95,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="25dp"
-                    android:text="32c"
                     android:textColor="@color/white"
                     android:textSize="30sp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="32c" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/img"
@@ -127,14 +128,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="25dp"
-                    android:text="Abuja"
                     android:textColor="@color/white"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@id/weather"
                     app:layout_constraintStart_toStartOf="@id/weather"
-                    app:layout_constraintTop_toBottomOf="@id/weather" />
+                    app:layout_constraintTop_toBottomOf="@id/weather"
+                    tools:text="Abuja" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
 
