@@ -3,10 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-    </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -19,19 +15,19 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="110dp"
             android:layout_marginTop="100dp"
-            android:text="Lagos"
             android:textColor="@color/white"
             android:textSize="30sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Lagos" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/country"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:text="Nigeria"
+            android:text="Azerbaijan"
             android:textColor="@color/white"
             android:textSize="30sp"
             android:textStyle="bold"
@@ -43,20 +39,20 @@
             android:id="@+id/date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="July 22, 2021"
             android:textColor="@color/white"
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="@id/country"
             app:layout_constraintStart_toStartOf="@id/city"
-            app:layout_constraintTop_toBottomOf="@id/city" />
+            app:layout_constraintTop_toBottomOf="@id/city"
+            tools:text="July 22, 2021" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            app:layout_constraintEnd_toEndOf="@id/country"
-            app:layout_constraintStart_toStartOf="@id/city"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/date"
             app:srcCompat="@drawable/img_templ_1" />
 
@@ -64,12 +60,12 @@
             android:id="@+id/temperature"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="26 c"
             android:textColor="@color/white"
             android:textSize="70sp"
             app:layout_constraintEnd_toEndOf="@id/img"
             app:layout_constraintStart_toStartOf="@id/img"
-            app:layout_constraintTop_toBottomOf="@id/img" />
+            app:layout_constraintTop_toBottomOf="@id/img"
+            tools:text="26 c" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/temp_txt"
@@ -88,13 +84,13 @@
             android:id="@+id/temp_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="26c"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@id/temp_txt"
             app:layout_constraintStart_toStartOf="@id/temp_txt"
-            app:layout_constraintTop_toBottomOf="@id/temp_txt" />
+            app:layout_constraintTop_toBottomOf="@id/temp_txt"
+            tools:text="26c" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/humidy_txt"
@@ -113,13 +109,13 @@
             android:id="@+id/humidy_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="60%"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@id/humidy_txt"
             app:layout_constraintStart_toStartOf="@id/humidy_txt"
-            app:layout_constraintTop_toBottomOf="@id/humidy_txt" />
+            app:layout_constraintTop_toBottomOf="@id/humidy_txt"
+            tools:text="60%" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/wind_txt"
@@ -135,16 +131,16 @@
             app:layout_constraintTop_toTopOf="@id/humidy_txt" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/following_txt"
+            android:id="@+id/wind_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="10m/sec"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@id/wind_txt"
             app:layout_constraintStart_toStartOf="@id/wind_txt"
-            app:layout_constraintTop_toBottomOf="@id/wind_txt" />
+            app:layout_constraintTop_toBottomOf="@id/wind_txt"
+            tools:text="10m/sec" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/today_txt"
@@ -158,17 +154,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/temp_num" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/hourly_temp_rv"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:overScrollMode="never"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/today_txt"
-            tools:listitem="@layout/hourly_temp_item" />
+        <!--        <androidx.recyclerview.widget.RecyclerView-->
+        <!--            android:id="@+id/hourly_temp_rv"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:orientation="horizontal"-->
+        <!--            android:overScrollMode="never"-->
+        <!--            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toBottomOf="@id/today_txt"-->
+        <!--            tools:listitem="@layout/hourly_temp_item" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

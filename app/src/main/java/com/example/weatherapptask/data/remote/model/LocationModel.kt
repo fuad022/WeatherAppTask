@@ -4,6 +4,15 @@ import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
+/*
+val jsonArray= JSONArray(listOf(resultModel.membersImageList))
+            jsonArray.getJSONObject(0)
+
+            val a = it.membersImageModel?.memberImg
+
+            LottieAnimationView
+ */
+
 @Parcelize
 data class LocationModel(
     val id: Int,
