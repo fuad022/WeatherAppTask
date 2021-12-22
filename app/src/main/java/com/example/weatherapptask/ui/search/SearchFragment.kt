@@ -48,7 +48,7 @@ class SearchFragment : Fragment() {
         setOnTouchListener(View.OnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_UP) {
                 if (event.rawX >= (this.left - this.compoundPaddingRight)) {
-                    this.setText(null)
+                    this.setText("")
                     binding.card.isVisible = false
                     return@OnTouchListener true
                 }
