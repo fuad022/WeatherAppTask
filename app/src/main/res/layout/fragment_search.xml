@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/search_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/background"
@@ -99,14 +100,24 @@
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="32c" />
 
-                <androidx.appcompat.widget.AppCompatImageView
+                <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/img"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/img_templ_1"
+                    android:layout_width="155dp"
+                    android:layout_height="155dp"
                     app:layout_constraintEnd_toEndOf="@id/temp"
                     app:layout_constraintStart_toStartOf="@id/temp"
-                    app:layout_constraintTop_toBottomOf="@id/temp" />
+                    app:layout_constraintTop_toBottomOf="@id/temp"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true" />
+
+                <!--                <androidx.appcompat.widget.AppCompatImageView-->
+                <!--                    android:id="@+id/img"-->
+                <!--                    android:layout_width="155dp"-->
+                <!--                    android:layout_height="155dp"-->
+                <!--                    android:src="@drawable/img_templ_1"-->
+                <!--                    app:layout_constraintEnd_toEndOf="@id/temp"-->
+                <!--                    app:layout_constraintStart_toStartOf="@id/temp"-->
+                <!--                    app:layout_constraintTop_toBottomOf="@id/temp" />-->
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/weather"
