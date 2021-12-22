@@ -27,26 +27,19 @@
                     android:id="@+id/img"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
-                    android:layout_marginTop="2.5dp"
                     android:layout_marginStart="5dp"
+                    android:layout_marginTop="2.5dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:lottie_autoPlay="true"
                     app:lottie_loop="true" />
-
-<!--                <androidx.appcompat.widget.AppCompatImageView-->
-<!--                    android:id="@+id/img"-->
-<!--                    android:layout_width="70dp"-->
-<!--                    android:layout_height="70dp"-->
-<!--                    android:src="@drawable/img_templ_1"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toTopOf="parent" />-->
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
+                    android:fontFamily="@font/roboto_slab_regular"
                     android:textColor="@color/background"
                     android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="@id/img"
@@ -58,9 +51,9 @@
                     android:id="@+id/temp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_slab_medium"
                     android:textColor="@color/background"
                     android:textSize="17sp"
-                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="@id/img"
                     app:layout_constraintStart_toStartOf="@id/time"
                     tools:text="24c" />
