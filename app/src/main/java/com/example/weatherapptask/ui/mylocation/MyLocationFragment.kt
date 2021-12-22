@@ -15,7 +15,9 @@ import com.example.weatherapptask.databinding.FragmentMyLocationBinding
 import com.example.weatherapptask.ui.mylocation.adapter.HourlyForecastAdapter
 import com.example.weatherapptask.ui.mylocation.viewmodel.HourlyForecastVM
 import com.example.weatherapptask.data.remote.LocationForecastVM
+import com.example.weatherapptask.util.Util.convertDate
 import com.example.weatherapptask.util.Util.getWeatherAnimation
+import com.example.weatherapptask.util.Util.getWholeNum
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MyLocationFragment : Fragment() {
@@ -44,12 +46,12 @@ class MyLocationFragment : Fragment() {
             if (response.isSuccessful) {
                 response.body()?.let {
                     binding.city.text = it.cityName
-                    binding.date.text = it.dateTime.toString()
+                    binding.date.text = convertDate(it.dateTime.toString(), true)
                     binding.img.setAnimation(getWeatherAnimation(it.weather[0].icon))
-                    binding.temperature.text = it.temperatureInfo.temp.toString().plus(" ").plus("c")
-                    binding.tempNum.text = it.temperatureInfo.temp.toString().plus("c")
+                    binding.temperature.text = getWholeNum(it.temperatureInfo.temp).plus(" ").plus("c")
+                    binding.tempNum.text = getWholeNum(it.temperatureInfo.temp).plus("c")
                     binding.humidyNum.text = it.temperatureInfo.humidity.toString().plus("%")
-                    binding.windNum.text = it.wind.speed.toString().plus("m/sec")
+                    binding.windNum.text = getWholeNum(it.wind.speed).plus("m/sec")
                 }
             }
         })
@@ -65,7 +67,6 @@ class MyLocationFragment : Fragment() {
         })
         binding.hourlyTempRv.adapter = hourlyForecastAdapter
     }
-
 }
 
 

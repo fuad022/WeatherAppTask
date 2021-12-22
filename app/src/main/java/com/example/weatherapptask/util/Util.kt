@@ -1,10 +1,12 @@
 package com.example.weatherapptask.util
 
 import com.example.weatherapptask.R
+import java.text.SimpleDateFormat
+import java.util.*
 
 object Util {
     fun getWeatherAnimation(weather: String): Int {
-        val result = when (weather) {
+        return when (weather) {
             "01d" -> R.raw.clear_sky_day
             "01n" -> R.raw.clear_sky_night
             "02d" -> R.raw.few_clouds_day
@@ -25,6 +27,28 @@ object Util {
             "50n" -> R.raw.mist_night
             else -> 0
         }
-        return result
+    }
+
+    fun getWholeNum(d: Double): String {
+        val str = d.toString()
+        return when (d) {
+            in -0.9..0.0 -> str.substring(str.indexOf("-") + 1, str.indexOf("."))
+            else -> str.substringBefore('.')
+        }
+    }
+
+    fun convertDate(s: String, dp: Boolean): String? {
+        val pattern = when (dp) {
+            true -> "MMMM dd, yyyy"
+            false -> "HH:mm"
+        }
+
+        return try {
+            val sdf = SimpleDateFormat(pattern, Locale.US)
+            val netDate = Date(s.toLong() * 1000)
+            sdf.format(netDate)
+        } catch (e: Exception) {
+            e.toString()
+        }
     }
 }
