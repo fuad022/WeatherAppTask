@@ -7,15 +7,16 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapptask.data.remote.model.Hourly
 import com.example.weatherapptask.databinding.HourlyTempItemBinding
+import com.example.weatherapptask.util.Util.getWeatherAnimation
 
 class HourlyForecastAdapter : ListAdapter<Hourly, HourlyForecastAdapter.ItemHolder>(DiffCallback()) {
 
     class ItemHolder(private val binding: HourlyTempItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(model: Hourly) {
-            //img
+            binding.img.setAnimation(getWeatherAnimation(model.weather[0].icon))
             binding.time.text = model.dt.toString()
-            binding.temp.text = model.temp.toString()
+            binding.temp.text = model.temp.toString().plus("c")
         }
     }
 

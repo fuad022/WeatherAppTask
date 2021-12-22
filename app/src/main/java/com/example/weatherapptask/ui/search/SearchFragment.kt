@@ -39,7 +39,6 @@ class SearchFragment : Fragment() {
     fun EditText.setupClearButtonWithAction() {
         addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(ed: Editable?) {
-//                if (ed?.trim()?.isEmpty() == true) binding.card.isVisible = false
                 getCity(ed.toString().trim())
                 val clearIcon = if (ed?.isNotEmpty() == true) R.drawable.ic_clear else 0
                 setCompoundDrawablesWithIntrinsicBounds(clearIcon, 0, R.drawable.ic_search_on, 0)
@@ -68,7 +67,6 @@ class SearchFragment : Fragment() {
     }
 
     private fun getCity(text: String) {
-//        if (text.isBlank()) binding.card.isVisible = false
         binding.card.isVisible = true
         locationForecastVM.sendData(text.lowercase(), UNITS, API_KEY)
         observeForecast()

@@ -46,10 +46,10 @@ class MyLocationFragment : Fragment() {
                     binding.city.text = it.cityName
                     binding.date.text = it.dateTime.toString()
                     binding.img.setAnimation(getWeatherAnimation(it.weather[0].icon))
-                    binding.temperature.text = it.temperatureInfo.temp.toString()
-                    binding.tempNum.text = it.temperatureInfo.temp.toString()
-                    binding.humidyNum.text = it.temperatureInfo.humidity.toString()
-                    binding.windNum.text = it.wind.speed.toString()
+                    binding.temperature.text = it.temperatureInfo.temp.toString().plus(" ").plus("c")
+                    binding.tempNum.text = it.temperatureInfo.temp.toString().plus("c")
+                    binding.humidyNum.text = it.temperatureInfo.humidity.toString().plus("%")
+                    binding.windNum.text = it.wind.speed.toString().plus("m/sec")
                 }
             }
         })
