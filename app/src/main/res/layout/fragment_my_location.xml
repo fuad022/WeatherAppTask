@@ -21,7 +21,7 @@
             app:layout_constraintEnd_toStartOf="@id/country"
             app:layout_constraintStart_toStartOf="@id/date"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Lagos" />
+            tools:text="Baku" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/country"
@@ -47,7 +47,7 @@
             app:layout_constraintTop_toBottomOf="@id/city"
             tools:text="July 22, 2021" />
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -55,7 +55,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/date"
-            app:srcCompat="@drawable/img_templ_1" />
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/temperature"

@@ -15,6 +15,7 @@ import com.example.weatherapptask.databinding.FragmentMyLocationBinding
 import com.example.weatherapptask.ui.mylocation.adapter.HourlyForecastAdapter
 import com.example.weatherapptask.ui.mylocation.viewmodel.HourlyForecastVM
 import com.example.weatherapptask.data.remote.LocationForecastVM
+import com.example.weatherapptask.util.Util.getWeatherAnimation
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MyLocationFragment : Fragment() {
@@ -44,6 +45,7 @@ class MyLocationFragment : Fragment() {
                 response.body()?.let {
                     binding.city.text = it.cityName
                     binding.date.text = it.dateTime.toString()
+                    binding.img.setAnimation(getWeatherAnimation(it.weather[0].icon))
                     binding.temperature.text = it.temperatureInfo.temp.toString()
                     binding.tempNum.text = it.temperatureInfo.temp.toString()
                     binding.humidyNum.text = it.temperatureInfo.humidity.toString()
@@ -63,6 +65,7 @@ class MyLocationFragment : Fragment() {
         })
         binding.hourlyTempRv.adapter = hourlyForecastAdapter
     }
+
 }
 
 
