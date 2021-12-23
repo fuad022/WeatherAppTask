@@ -25,6 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/shape_bottom_nav"
+            android:theme="@style/Theme.BottomNavigationView"
             app:itemTextColor="@color/bottom_nav_color"
             app:labelVisibilityMode="labeled"
             app:layout_constraintBottom_toBottomOf="parent"
