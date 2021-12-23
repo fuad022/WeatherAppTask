@@ -34,11 +34,23 @@
                     app:lottie_autoPlay="true"
                     app:lottie_loop="true" />
 
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_slab_regular"
+                    android:textColor="@color/background"
+                    android:layout_marginTop="10dp"
+                    android:textSize="11sp"
+                    app:layout_constraintTop_toTopOf="@id/img"
+                    app:layout_constraintStart_toStartOf="@id/time"
+                    tools:text="July 22" />
+
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginStart="5dp"
                     android:fontFamily="@font/roboto_slab_regular"
                     android:textColor="@color/background"
                     android:textSize="12sp"

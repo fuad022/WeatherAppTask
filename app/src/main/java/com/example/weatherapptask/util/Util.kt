@@ -37,10 +37,12 @@ object Util {
         }
     }
 
-    fun convertDate(s: String, dp: Boolean): String? {
+    fun convertDate(s: String, dp: String): String? {
         val pattern = when (dp) {
-            true -> "MMMM dd, yyyy"
-            false -> "HH:mm"
+            "1" -> "MMMM dd, yyyy"
+            "2" -> "HH:mm"
+            "3" -> "MMMM dd"
+            else -> null
         }
 
         return try {

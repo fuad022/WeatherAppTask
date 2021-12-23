@@ -82,7 +82,7 @@ class SearchFragment : Fragment() {
         locationForecastVM.locationForecastData.observe(viewLifecycleOwner, { response ->
             if (response.isSuccessful) {
                 response.body()?.let {
-                    binding.temp.text = getWholeNum(it.temperatureInfo.temp).plus("c")
+                    binding.temp.text = getWholeNum(it.temperatureInfo.temp).plus("°c")
                     binding.img.setAnimation(getWeatherAnimation(it.weather[0].icon))
                     binding.weather.text = it.weather[0].currentWeather
                     binding.city.text = it.cityName

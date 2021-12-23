@@ -17,8 +17,9 @@ class HourlyForecastAdapter : ListAdapter<Hourly, HourlyForecastAdapter.ItemHold
         RecyclerView.ViewHolder(binding.root) {
         fun bind(model: Hourly) {
             binding.img.setAnimation(getWeatherAnimation(model.weather[0].icon))
-            binding.time.text = convertDate(model.dt.toString(), false)
-            binding.temp.text = getWholeNum(model.temp).plus("c")
+            binding.date.text = convertDate(model.dt.toString(), "3")
+            binding.time.text = convertDate(model.dt.toString(), "2")
+            binding.temp.text = getWholeNum(model.temp).plus("°c")
         }
     }
 
