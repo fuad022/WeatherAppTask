@@ -65,30 +65,6 @@ class SearchFragment : Fragment() {
         })
     }
 
-//    @SuppressLint("ClickableViewAccessibility")
-//    fun EditText.setupClearButtonWithAction() {
-//        addTextChangedListener(object : TextWatcher {
-//            override fun afterTextChanged(ed: Editable?) {
-//                getCity(ed.toString().trim())
-//                val clearIcon = if (ed?.isNotEmpty() == true) R.drawable.ic_clear else 0
-//                setCompoundDrawablesWithIntrinsicBounds(clearIcon, 0, R.drawable.ic_search_on, 0)
-//            }
-//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
-//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = Unit
-//        })
-//
-//        setOnTouchListener(View.OnTouchListener { _, event ->
-//            if (event.action == MotionEvent.ACTION_UP) {
-//                if (event.rawX >= (this.left - this.compoundPaddingRight)) {
-//                    this.setText("")
-//                    binding.card.isVisible = false
-//                    return@OnTouchListener true
-//                }
-//            }
-//            return@OnTouchListener false
-//        })
-//    }
-
     private fun initBtn() {
         binding.btn.setOnClickListener {
             binding.search.setText("")
