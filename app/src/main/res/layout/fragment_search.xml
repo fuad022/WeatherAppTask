@@ -64,29 +64,6 @@
             app:layout_constraintStart_toStartOf="@id/description"
             app:layout_constraintTop_toBottomOf="@id/description" />
 
-<!--        <EditText-->
-<!--            android:id="@+id/search"-->
-<!--            android:layout_width="259dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginHorizontal="7.5dp"-->
-<!--            android:layout_marginTop="21dp"-->
-<!--            android:background="@drawable/shape_search"-->
-<!--            android:drawableEnd="@drawable/ic_search_on"-->
-<!--            android:fontFamily="@font/roboto_slab_regular"-->
-<!--            android:hint="Search"-->
-<!--            android:inputType="text"-->
-<!--            android:maxLength="20"-->
-<!--            android:maxLines="1"-->
-<!--            android:minHeight="48dp"-->
-<!--            android:paddingStart="36dp"-->
-<!--            android:paddingEnd="20dp"-->
-<!--            android:textColor="@color/white"-->
-<!--            android:textColorHint="@color/white"-->
-<!--            app:endIconMode="clear_text"-->
-<!--            app:layout_constraintEnd_toStartOf="@id/btn"-->
-<!--            app:layout_constraintStart_toStartOf="@id/description"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/description" />-->
-
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/btn"
             android:layout_width="35dp"
