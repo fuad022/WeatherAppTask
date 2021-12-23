@@ -79,7 +79,7 @@
                     app:layout_constraintEnd_toEndOf="@id/img"
                     app:layout_constraintStart_toStartOf="@id/img"
                     app:layout_constraintTop_toBottomOf="@id/img"
-                    tools:text="26 c" />
+                    tools:text="26°c" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/temp_txt"
@@ -105,7 +105,7 @@
                     app:layout_constraintEnd_toEndOf="@id/temp_txt"
                     app:layout_constraintStart_toStartOf="@id/temp_txt"
                     app:layout_constraintTop_toBottomOf="@id/temp_txt"
-                    tools:text="26c" />
+                    tools:text="26°c" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/humidy_txt"

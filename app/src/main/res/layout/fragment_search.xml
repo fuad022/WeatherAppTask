@@ -68,7 +68,7 @@
             android:id="@+id/btn"
             android:layout_width="35dp"
             android:layout_height="0dp"
-            android:layout_marginHorizontal="7.5dp"
+            android:layout_marginHorizontal="11dp"
             android:background="@drawable/shape_search"
             android:src="@drawable/ic_location_on"
             app:layout_constraintBottom_toBottomOf="@id/search"
@@ -79,7 +79,7 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="150dp"
             android:layout_marginHorizontal="40dp"
             android:layout_marginTop="31dp"
             android:visibility="gone"
@@ -93,54 +93,52 @@
                 android:layout_height="match_parent"
                 android:background="@color/card_view">
 
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/img"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_margin="12dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true" />
+
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/temp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="25dp"
                     android:fontFamily="@font/roboto_slab_semi_bold"
-                    android:textColor="@color/white"
+                    android:textColor="@color/background"
                     android:textSize="30sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="32c" />
+                    app:layout_constraintStart_toStartOf="@id/city"
+                    app:layout_constraintTop_toTopOf="@id/img"
+                    tools:text="32°c" />
 
-                <com.airbnb.lottie.LottieAnimationView
-                    android:id="@+id/img"
-                    android:layout_width="155dp"
-                    android:layout_height="155dp"
-                    app:layout_constraintEnd_toEndOf="@id/temp"
-                    app:layout_constraintStart_toStartOf="@id/temp"
-                    app:layout_constraintTop_toBottomOf="@id/temp"
-                    app:lottie_autoPlay="true"
-                    app:lottie_loop="true" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/city"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="@font/roboto_slab_semi_bold"
+                    android:textColor="@color/background"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="@id/img"
+                    app:layout_constraintStart_toEndOf="@id/img"
+                    app:layout_constraintTop_toTopOf="@id/img"
+                    tools:text="Abuja" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/weather"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_slab_regular"
-                    android:textColor="@color/white"
+                    android:textColor="@color/background"
                     android:textSize="18sp"
-                    app:layout_constraintEnd_toEndOf="@id/img"
-                    app:layout_constraintStart_toStartOf="@id/img"
-                    app:layout_constraintTop_toBottomOf="@id/img"
+                    app:layout_constraintTop_toBottomOf="@id/city"
+                    app:layout_constraintStart_toStartOf="@id/city"
                     tools:text="Cloudy" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/city"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="25dp"
-                    android:fontFamily="@font/roboto_slab_semi_bold"
-                    android:textColor="@color/white"
-                    android:textSize="20sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@id/weather"
-                    app:layout_constraintStart_toStartOf="@id/weather"
-                    app:layout_constraintTop_toBottomOf="@id/weather"
-                    tools:text="Abuja" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
 

@@ -68,7 +68,7 @@
                     android:textSize="17sp"
                     app:layout_constraintBottom_toBottomOf="@id/img"
                     app:layout_constraintStart_toStartOf="@id/time"
-                    tools:text="24c" />
+                    tools:text="24°c" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
