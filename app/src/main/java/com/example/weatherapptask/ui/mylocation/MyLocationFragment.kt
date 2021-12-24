@@ -47,7 +47,6 @@ class MyLocationFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         init()
-//        observeForecast()
         observeHourlyForecast()
         return binding.root
     }
