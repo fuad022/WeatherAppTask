@@ -27,6 +27,7 @@ import com.example.weatherapptask.util.Util
 import com.example.weatherapptask.util.Util.getWeatherAnimation
 import com.example.weatherapptask.util.Util.getWholeNum
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import org.json.JSONArray
 import org.json.JSONObject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -51,7 +52,7 @@ class SearchFragment : Fragment() {
     fun EditText.setupClearButtonWithAction() {
         addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(ed: Editable?) {
-                getCity(ed.toString())
+                getCurrentCityForecast(ed.toString())
                 val clearIcon = if (ed?.isNotEmpty() == true) R.drawable.ic_clear else 0
                 setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_search_on, 0, clearIcon, 0)
             }
@@ -74,29 +75,29 @@ class SearchFragment : Fragment() {
     private fun initBtn() {
         binding.btn.setOnClickListener {
             binding.search.setText("")
-            getCity(BAKU_CITY)
+            fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+            fetchLocation()
         }
     }
 
-//    private fun fetchLocation() {
-//        val task = fusedLocationProviderClient.lastLocation
-//
-//        if (ActivityCompat.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION)
-//            != PackageManager.PERMISSION_GRANTED && ActivityCompat
-//                .checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
-//        ) {
-//            ActivityCompat.requestPermissions(requireActivity(), arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), 101)
-//            return
-//        }
-//        task.addOnSuccessListener {
-//            if (it != null) {
-////                hourlyForecastVM.sendData(it.latitude.toString(), it.longitude.toString(), UNITS, EXCLUDE, API_KEY)
-////                observeForecast(getCityName(it.latitude,it.longitude), getCountryName(it.latitude,it.longitude))
-//            }
-//        }
-//    }
+    private fun fetchLocation() {
+        val task = fusedLocationProviderClient.lastLocation
 
-    private fun getCity(text: String) {
+        if (ActivityCompat.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION)
+            != PackageManager.PERMISSION_GRANTED && ActivityCompat
+                .checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(requireActivity(), arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), 101)
+            return
+        }
+        task.addOnSuccessListener {
+            if (it != null) {
+                getCurrentCityForecast(getCityName(it.latitude,it.longitude))
+            }
+        }
+    }
+
+    private fun getCurrentCityForecast(text: String) {
         binding.card.isVisible = true
         locationForecastVM.sendData(text.lowercase(), UNITS, API_KEY)
         observeForecast()
@@ -122,13 +123,13 @@ class SearchFragment : Fragment() {
         }
     }
 
-//    private fun getCityName(lat: Double, long: Double): String {
-//        var geoCoder = Geocoder(requireContext(), Locale.US)
-//        var address = geoCoder.getFromLocation(lat, long, 1)
-//        var cityName = address.get(0).locality
-//
-//        return cityName
-//    }
+    private fun getCityName(lat: Double, long: Double): String {
+        var geoCoder = Geocoder(requireContext(), Locale.US)
+        var address = geoCoder.getFromLocation(lat, long, 1)
+        var cityName = address.get(0).locality
+
+        return cityName
+    }
 }
 
 
