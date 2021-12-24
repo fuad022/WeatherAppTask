@@ -59,7 +59,6 @@ class MyLocationFragment : Fragment() {
         locationForecastVM.sendData(BAKU_CITY, UNITS, API_KEY)
     }
 
-    //////////////////////////////////
     private fun fetchLocation() {
         val task = fusedLocationProviderClient.lastLocation
 
@@ -96,7 +95,6 @@ class MyLocationFragment : Fragment() {
         return countryName
     }
 
-    //////////////////////////////////
 /*
     //////////////////////////////////
 
