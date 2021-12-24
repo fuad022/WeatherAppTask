@@ -1,10 +1,19 @@
 package com.example.weatherapptask.ui.mylocation
 
+import android.Manifest
+import android.annotation.SuppressLint
+import android.content.Context
+import android.content.pm.PackageManager
+import android.location.LocationManager
 import android.os.Bundle
+import android.os.Looper
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import com.example.weatherapptask.data.remote.other.Constants.Companion.API_KEY
 import com.example.weatherapptask.data.remote.other.Constants.Companion.BAKU_CITY
 import com.example.weatherapptask.data.remote.other.Constants.Companion.EXCLUDE
@@ -18,6 +27,7 @@ import com.example.weatherapptask.data.remote.LocationForecastVM
 import com.example.weatherapptask.util.Util.convertDate
 import com.example.weatherapptask.util.Util.getWeatherAnimation
 import com.example.weatherapptask.util.Util.getWholeNum
+import com.google.android.gms.location.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MyLocationFragment : Fragment() {
@@ -25,6 +35,14 @@ class MyLocationFragment : Fragment() {
     private val locationForecastVM: LocationForecastVM by viewModel()
     private val hourlyForecastVM: HourlyForecastVM by viewModel()
     private val hourlyForecastAdapter = HourlyForecastAdapter()
+
+    private var PERMISSION_ID = 52
+    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+    private lateinit var locationRequest: LocationRequest
+
+//    private var latitude = 0.0
+//    private var longitude = 0.0
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,9 +55,43 @@ class MyLocationFragment : Fragment() {
     }
 
     private fun init() {
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+//        getLastLocation()
+//        Log.d("getLastLocation", getLastLocation().toString())
+
+        Log.d("getLastLocation", fetchLocation().toString())
+
         locationForecastVM.sendData(BAKU_CITY, UNITS, API_KEY)
+
         hourlyForecastVM.sendData(LAT, LON, UNITS, EXCLUDE, API_KEY)
+//        hourlyForecastVM.sendData(latitude.toString(), longitude.toString(), UNITS, EXCLUDE, API_KEY)
     }
+
+    //////////////////////////////////
+    private fun fetchLocation(): List<String> {
+        val result = arrayListOf<String>()
+        val task = fusedLocationProviderClient.lastLocation
+
+        if (ActivityCompat.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION)
+        != PackageManager.PERMISSION_GRANTED && ActivityCompat
+                .checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(requireActivity(), arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), 101)
+//            return
+        }
+        task.addOnSuccessListener {
+            if (it != null) {
+                Log.d("latitude_fetchLocation", it.latitude.toString())
+                Log.d("longitude_fetchLocation", it.longitude.toString())
+                listOf(it.latitude.toString(), it.longitude.toString()).forEach {
+                    result.add(it)
+                }
+            }
+        }
+
+        return result
+    }
+    //////////////////////////////////
 
     private fun observeForecast() {
         locationForecastVM.locationForecastData.observe(viewLifecycleOwner, { response ->
