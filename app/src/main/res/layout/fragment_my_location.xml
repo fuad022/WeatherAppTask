@@ -38,13 +38,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_slab_medium"
-                    android:text="Azerbaijan"
                     android:textColor="@color/white"
                     android:textSize="30sp"
                     app:layout_constraintBottom_toBottomOf="@id/city"
                     app:layout_constraintEnd_toEndOf="@id/date"
                     app:layout_constraintStart_toEndOf="@id/city"
-                    app:layout_constraintTop_toTopOf="@id/city" />
+                    app:layout_constraintTop_toTopOf="@id/city"
+                    tools:text="Azerbaijan" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/date"

@@ -41,7 +41,7 @@ object Util {
         val pattern = when (dp) {
             "1" -> "MMMM dd, yyyy"
             "2" -> "HH:mm"
-            "3" -> "MMMM dd"
+            "3" -> "dd.MM"
             else -> null
         }
 

@@ -41,10 +41,10 @@
                     android:fontFamily="@font/roboto_slab_regular"
                     android:textColor="@color/background"
                     android:layout_marginTop="10dp"
-                    android:textSize="11sp"
+                    android:textSize="15sp"
                     app:layout_constraintTop_toTopOf="@id/img"
                     app:layout_constraintStart_toStartOf="@id/time"
-                    tools:text="July 22" />
+                    tools:text="22.12" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/time"

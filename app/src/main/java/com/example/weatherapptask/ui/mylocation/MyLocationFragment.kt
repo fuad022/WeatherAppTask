@@ -4,6 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
+import android.location.Geocoder
 import android.location.LocationManager
 import android.os.Bundle
 import android.os.Looper
@@ -29,47 +30,37 @@ import com.example.weatherapptask.util.Util.getWeatherAnimation
 import com.example.weatherapptask.util.Util.getWholeNum
 import com.google.android.gms.location.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.*
 
 class MyLocationFragment : Fragment() {
     private val binding by lazy { FragmentMyLocationBinding.inflate(layoutInflater) }
     private val locationForecastVM: LocationForecastVM by viewModel()
     private val hourlyForecastVM: HourlyForecastVM by viewModel()
     private val hourlyForecastAdapter = HourlyForecastAdapter()
-
-    private var PERMISSION_ID = 52
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+
     private lateinit var locationRequest: LocationRequest
-
-//    private var latitude = 0.0
-//    private var longitude = 0.0
-
+    private var PERMISSION_ID = 52
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         init()
-        observeForecast()
+//        observeForecast()
         observeHourlyForecast()
         return binding.root
     }
 
     private fun init() {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity())
-//        getLastLocation()
-//        Log.d("getLastLocation", getLastLocation().toString())
-
-        Log.d("getLastLocation", fetchLocation().toString())
+        fetchLocation()
 
         locationForecastVM.sendData(BAKU_CITY, UNITS, API_KEY)
-
-        hourlyForecastVM.sendData(LAT, LON, UNITS, EXCLUDE, API_KEY)
-//        hourlyForecastVM.sendData(latitude.toString(), longitude.toString(), UNITS, EXCLUDE, API_KEY)
     }
 
     //////////////////////////////////
-    private fun fetchLocation(): List<String> {
-        val result = arrayListOf<String>()
+    private fun fetchLocation() {
         val task = fusedLocationProviderClient.lastLocation
 
         if (ActivityCompat.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION)
@@ -77,27 +68,133 @@ class MyLocationFragment : Fragment() {
                 .checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
         ) {
             ActivityCompat.requestPermissions(requireActivity(), arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), 101)
-//            return
+            return
         }
         task.addOnSuccessListener {
             if (it != null) {
-                Log.d("latitude_fetchLocation", it.latitude.toString())
-                Log.d("longitude_fetchLocation", it.longitude.toString())
-                listOf(it.latitude.toString(), it.longitude.toString()).forEach {
-                    result.add(it)
-                }
+                hourlyForecastVM.sendData(it.latitude.toString(), it.longitude.toString(), UNITS, EXCLUDE, API_KEY)
+                observeForecast(getCityName(it.latitude,it.longitude), getCountryName(it.latitude,it.longitude))
             }
+        }
+    }
+
+    private fun getCityName(lat: Double, long: Double): String {
+        var cityName = ""
+        var geoCoder = Geocoder(requireContext(), Locale.US)
+        var address = geoCoder.getFromLocation(lat, long, 1)
+        cityName = address.get(0).locality
+
+        return cityName
+    }
+
+    private fun getCountryName(lat: Double, long: Double): String {
+        var countryName = ""
+        var geoCoder = Geocoder(requireContext(), Locale.US)
+        var address = geoCoder.getFromLocation(lat, long, 1)
+        countryName = address.get(0).countryName
+
+        return countryName
+    }
+
+    //////////////////////////////////
+/*
+    //////////////////////////////////
+
+    private fun getLastLocation(): ArrayList<String> {
+        val result = arrayListOf<String>()
+        if (checkPermission()) {
+            if (isLocationEnabled()) {
+                fusedLocationProviderClient.lastLocation.addOnCompleteListener { task ->
+                    var location = task.result
+                    if (location != null) {
+                        latitude = location.latitude
+                        longitude = location.longitude
+                        Log.d("latitude", latitude.toString())
+                        Log.d("longitude", longitude.toString())
+
+//                        result.addAll(listOf(latitude.toString(), longitude.toString()))
+//                        listOf(latitude.toString(), longitude.toString()).forEach {
+//                            result.add(it)
+//                        }
+//                        Log.d("result", result.toString())
+
+                    }
+                }
+            } else {
+                Toast.makeText(requireContext(), "Please, enable your location service", Toast.LENGTH_SHORT).show()
+            }
+        } else {
+            requestPermission()
         }
 
         return result
     }
+
+    private fun checkPermission(): Boolean {
+        if (ActivityCompat.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
+            ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            return true
+        }
+        return false
+    }
+
+    private fun requestPermission() {
+        ActivityCompat.requestPermissions(
+            requireActivity(),
+            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION), PERMISSION_ID
+        )
+    }
+
+    private fun isLocationEnabled(): Boolean {
+        val locationManager = context!!.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        if (requestCode == PERMISSION_ID) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Log.d("Debug", "You have the permission")
+            }
+        }
+    }
+
+    /*
+        @SuppressLint("MissingPermission")
+    private fun getNewLocation() {
+        locationRequest = LocationRequest.create().apply {
+            interval = 0
+            fastestInterval = 0
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+            numUpdates = 2
+        }
+        fusedLocationProviderClient!!.requestLocationUpdates(
+            locationRequest, locationCallback, Looper.myLooper()!!
+        )
+    }
+
+    private val locationCallback = object : LocationCallback() {
+        override fun onLocationResult(p0: LocationResult) {
+            val result = arrayListOf<String>()
+            var lastLocation = p0.lastLocation
+//            listOf(lastLocation.latitude, lastLocation.longitude)
+            latitude = lastLocation.latitude
+            longitude = lastLocation.longitude
+            listOf(latitude.toString(), longitude.toString()).forEach {
+                result.add(it)
+            }
+        }
+    }*/
+
     //////////////////////////////////
 
-    private fun observeForecast() {
+ */
+
+    private fun observeForecast(cityName: String, countryName: String) {
         locationForecastVM.locationForecastData.observe(viewLifecycleOwner, { response ->
             if (response.isSuccessful) {
                 response.body()?.let {
-                    binding.city.text = it.cityName
+                    binding.city.text = cityName
+                    binding.country.text = countryName
                     binding.date.text = convertDate(it.dateTime.toString(), "1")
                     binding.img.setAnimation(getWeatherAnimation(it.weather[0].icon))
                     binding.temperature.text = getWholeNum(it.temperatureInfo.temp).plus("°c")
