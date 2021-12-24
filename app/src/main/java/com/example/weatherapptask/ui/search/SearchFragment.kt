@@ -2,6 +2,8 @@ package com.example.weatherapptask.ui.search
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.pm.PackageManager
+import android.location.Geocoder
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -13,6 +15,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
 import com.example.weatherapptask.R
 import com.example.weatherapptask.data.remote.LocationForecastVM
@@ -23,13 +26,16 @@ import com.example.weatherapptask.databinding.FragmentSearchBinding
 import com.example.weatherapptask.util.Util
 import com.example.weatherapptask.util.Util.getWeatherAnimation
 import com.example.weatherapptask.util.Util.getWholeNum
+import com.google.android.gms.location.FusedLocationProviderClient
 import org.json.JSONArray
 import org.json.JSONObject
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.*
 
 class SearchFragment : Fragment() {
     private val binding by lazy { FragmentSearchBinding.inflate(layoutInflater) }
     private val locationForecastVM: LocationForecastVM by viewModel()
+    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -72,6 +78,24 @@ class SearchFragment : Fragment() {
         }
     }
 
+//    private fun fetchLocation() {
+//        val task = fusedLocationProviderClient.lastLocation
+//
+//        if (ActivityCompat.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION)
+//            != PackageManager.PERMISSION_GRANTED && ActivityCompat
+//                .checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+//        ) {
+//            ActivityCompat.requestPermissions(requireActivity(), arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), 101)
+//            return
+//        }
+//        task.addOnSuccessListener {
+//            if (it != null) {
+////                hourlyForecastVM.sendData(it.latitude.toString(), it.longitude.toString(), UNITS, EXCLUDE, API_KEY)
+////                observeForecast(getCityName(it.latitude,it.longitude), getCountryName(it.latitude,it.longitude))
+//            }
+//        }
+//    }
+
     private fun getCity(text: String) {
         binding.card.isVisible = true
         locationForecastVM.sendData(text.lowercase(), UNITS, API_KEY)
@@ -97,6 +121,14 @@ class SearchFragment : Fragment() {
             imm.hideSoftInputFromWindow(view?.windowToken, 0)
         }
     }
+
+//    private fun getCityName(lat: Double, long: Double): String {
+//        var geoCoder = Geocoder(requireContext(), Locale.US)
+//        var address = geoCoder.getFromLocation(lat, long, 1)
+//        var cityName = address.get(0).locality
+//
+//        return cityName
+//    }
 }
 
 

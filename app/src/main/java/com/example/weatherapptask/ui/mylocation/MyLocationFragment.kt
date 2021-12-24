@@ -55,8 +55,6 @@ class MyLocationFragment : Fragment() {
     private fun init() {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         fetchLocation()
-
-        locationForecastVM.sendData(BAKU_CITY, UNITS, API_KEY)
     }
 
     private fun fetchLocation() {
@@ -71,6 +69,7 @@ class MyLocationFragment : Fragment() {
         }
         task.addOnSuccessListener {
             if (it != null) {
+                locationForecastVM.sendData(getCityName(it.latitude,it.longitude), UNITS, API_KEY)
                 hourlyForecastVM.sendData(it.latitude.toString(), it.longitude.toString(), UNITS, EXCLUDE, API_KEY)
                 observeForecast(getCityName(it.latitude,it.longitude), getCountryName(it.latitude,it.longitude))
             }
