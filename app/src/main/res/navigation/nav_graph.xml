@@ -14,5 +14,18 @@
         android:id="@+id/search"
         android:name="com.example.weatherapptask.ui.search.SearchFragment"
         android:label="SearchFragment"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search">
+        <action
+            android:id="@+id/action_search_to_forecastReportFragment"
+            app:destination="@id/forecastReportFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/forecastReportFragment"
+        android:name="com.example.weatherapptask.ui.forecastreport.ForecastReportFragment"
+        android:label="ForecastReportFragment"
+        tools:layout="@layout/fragment_forecast_report">
+        <argument
+            android:name="locationModel"
+            app:argType="com.example.weatherapptask.data.remote.model.LocationModel" />
+    </fragment>
 </navigation>
