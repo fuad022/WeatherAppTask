@@ -15,6 +15,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
 import com.example.weatherapptask.R
@@ -42,12 +43,13 @@ class SearchFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding.search.setupClearButtonWithAction()
+        clickSearchBtn()
         hideKeyboard()
         initBtn()
         return binding.root
     }
 
+    /*
     @SuppressLint("ClickableViewAccessibility")
     fun EditText.setupClearButtonWithAction() {
         addTextChangedListener(object : TextWatcher {
@@ -78,6 +80,27 @@ class SearchFragment : Fragment() {
             fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity())
             fetchLocation()
         }
+    }*/
+
+    private fun clickSearchBtn() {
+        binding.searchBtn.setOnClickListener {
+            val cityNameText = binding.searchText.text.toString()
+            if (cityNameText.isEmpty()) {
+                Toast.makeText(it.context, "Type city name, please!", Toast.LENGTH_SHORT).show()
+            } else {
+                getCurrentCityForecast(cityNameText)
+                binding.btn.isClickable = true
+            }
+        }
+    }
+
+    private fun initBtn() {
+        binding.btn.setOnClickListener {
+            binding.searchText.setText("")
+            fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+            fetchLocation()
+            binding.btn.isClickable = false
+        }
     }
 
     private fun fetchLocation() {
@@ -98,8 +121,8 @@ class SearchFragment : Fragment() {
     }
 
     private fun getCurrentCityForecast(text: String) {
-        binding.card.isVisible = true
         locationForecastVM.sendData(text.lowercase(), UNITS, API_KEY)
+        binding.card.isVisible = true
         observeForecast()
     }
 
@@ -109,6 +132,7 @@ class SearchFragment : Fragment() {
                 response.body()?.let {
                     binding.temp.text = getWholeNum(it.temperatureInfo.temp).plus("°c")
                     binding.img.setAnimation(getWeatherAnimation(it.weather[0].icon))
+                    binding.img.playAnimation()
                     binding.weather.text = it.weather[0].currentWeather
                     binding.city.text = it.cityName
                 }
@@ -117,7 +141,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun hideKeyboard() {
-        binding.searchLayout.setOnTouchListener { view, motionEvent ->
+        binding.mainLayout.setOnTouchListener { view, motionEvent ->
             val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(view?.windowToken, 0)
         }
