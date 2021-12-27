@@ -21,41 +21,46 @@
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/city"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="80dp"
-                    android:layout_marginEnd="10dp"
+                    android:layout_marginEnd="1dp"
                     android:fontFamily="@font/roboto_slab_medium"
+                    android:textAlignment="viewEnd"
                     android:textColor="@color/white"
                     android:textSize="30sp"
                     app:layout_constraintEnd_toStartOf="@id/country"
-                    app:layout_constraintStart_toStartOf="@id/date"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintWidth_percent="0.45"
                     tools:text="Baku" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/country"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_slab_medium"
+                    android:textAlignment="viewStart"
                     android:textColor="@color/white"
                     android:textSize="30sp"
                     app:layout_constraintBottom_toBottomOf="@id/city"
-                    app:layout_constraintEnd_toEndOf="@id/date"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/city"
                     app:layout_constraintTop_toTopOf="@id/city"
+                    app:layout_constraintWidth_percent="0.5"
                     tools:text="Azerbaijan" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
                     android:fontFamily="@font/roboto_slab_regular"
                     android:textColor="@color/white"
                     android:textSize="15sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/city"
+                    app:layout_constraintTop_toBottomOf="@id/country"
                     tools:text="July 22, 2021" />
 
                 <com.airbnb.lottie.LottieAnimationView
