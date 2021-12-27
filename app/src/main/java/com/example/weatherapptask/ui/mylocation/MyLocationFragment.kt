@@ -78,17 +78,13 @@ class MyLocationFragment : Fragment() {
     private fun getCityName(lat: Double, long: Double): String {
         var geoCoder = Geocoder(requireContext(), Locale.US)
         var address = geoCoder.getFromLocation(lat, long, 1)
-        var cityName = address.get(0).locality
-
-        return cityName
+        return address.get(0).locality
     }
 
     private fun getCountryName(lat: Double, long: Double): String {
         var geoCoder = Geocoder(requireContext(), Locale.US)
         var address = geoCoder.getFromLocation(lat, long, 1)
-        var countryName = address.get(0).countryName
-
-        return countryName
+        return address.get(0).countryName
     }
 
 /*
