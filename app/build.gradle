@@ -52,8 +52,12 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     //Navigation Component
-    implementation "androidx.navigation:navigation-fragment-ktx:2.4.0-beta02"
-    implementation "androidx.navigation:navigation-ui-ktx:2.4.0-beta02"
+//    implementation "androidx.navigation:navigation-fragment-ktx:2.4.0-rc01"
+//    implementation "androidx.navigation:navigation-ui-ktx:2.4.0-rc01"
+//    implementation "androidx.navigation:navigation-fragment-ktx:2.4.0-beta02"
+//    implementation "androidx.navigation:navigation-ui-ktx:2.4.0-beta02"
+    implementation "androidx.navigation:navigation-fragment-ktx:2.3.5"
+    implementation "androidx.navigation:navigation-ui-ktx:2.3.5"
 
     //retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'

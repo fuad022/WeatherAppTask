@@ -18,8 +18,12 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.example.weatherapptask.R
 import com.example.weatherapptask.data.remote.LocationForecastVM
+import com.example.weatherapptask.data.remote.model.LocationModel
 import com.example.weatherapptask.data.remote.other.Constants.Companion.API_KEY
 import com.example.weatherapptask.data.remote.other.Constants.Companion.BAKU_CITY
 import com.example.weatherapptask.data.remote.other.Constants.Companion.UNITS
@@ -114,9 +118,7 @@ class SearchFragment : Fragment() {
             return
         }
         task.addOnSuccessListener {
-            if (it != null) {
-                getCurrentCityForecast(getCityName(it.latitude,it.longitude))
-            }
+            getCurrentCityForecast(getCityName(it.latitude,it.longitude))
         }
     }
 
@@ -135,6 +137,12 @@ class SearchFragment : Fragment() {
                     binding.img.playAnimation()
                     binding.weather.text = it.weather[0].currentWeather
                     binding.city.text = it.cityName
+
+                    binding.card.setOnClickListener { view ->
+                        val action = SearchFragmentDirections.actionSearchToForecastReportFragment(it)
+                        view.findNavController().navigate(action)
+                    }
+
                 }
             }
         })

@@ -1,7 +1,11 @@
 package com.example.weatherapptask.util
 
+import android.annotation.SuppressLint
 import com.example.weatherapptask.R
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.format.TextStyle
 import java.util.*
 
 object Util {
@@ -42,6 +46,7 @@ object Util {
             "1" -> "MMMM dd, yyyy"
             "2" -> "HH:mm"
             "3" -> "dd.MM"
+            "4" -> "MMMM dd"
             else -> null
         }
 
@@ -53,4 +58,11 @@ object Util {
             e.toString()
         }
     }
+
+    fun getWeekDayName(s: String): String {
+        val sdf = SimpleDateFormat("EEEE", Locale.US)
+        val d = Date(s.toLong() * 1000)
+        return sdf.format(d)
+    }
+
 }

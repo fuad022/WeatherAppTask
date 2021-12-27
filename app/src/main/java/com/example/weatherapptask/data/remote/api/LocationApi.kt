@@ -1,5 +1,6 @@
 package com.example.weatherapptask.data.remote.api
 
+import com.example.weatherapptask.data.remote.model.DailyForecastModel
 import com.example.weatherapptask.data.remote.model.HourlyForecastModel
 import com.example.weatherapptask.data.remote.model.LocationModel
 import retrofit2.Response
@@ -22,4 +23,13 @@ interface LocationApi {
         @Query("exclude") exclude: String,
         @Query("appid") apiKey: String
     ): Response<HourlyForecastModel>
+
+    @GET("onecall")
+    suspend fun getDailyForecast(
+        @Query("lat") lat: String,
+        @Query("lon") lon: String,
+        @Query("units") units: String,
+        @Query("exclude") exclude: String,
+        @Query("appid") apiKey: String
+    ): Response<DailyForecastModel>
 }

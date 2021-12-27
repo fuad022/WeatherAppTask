@@ -9,5 +9,6 @@ class Constants {
         const val LAT = "40.3777"
         const val LON = "49.892"
         const val EXCLUDE = "daily"
+        const val EXCLUDE_CURRENT = "current"
     }
 }

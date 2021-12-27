@@ -24,7 +24,7 @@
                 android:background="@color/light_black">
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/week_day"
+                    android:id="@+id/day_of_week"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="27.5dp"
@@ -34,19 +34,19 @@
                     android:textSize="14sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="Tuesday" />
+                    tools:text="Wednesday" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/month_day"
+                    android:id="@+id/day"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_slab_regular"
                     android:textColor="@color/white"
                     android:textSize="13sp"
-                    app:layout_constraintEnd_toEndOf="@id/week_day"
-                    app:layout_constraintStart_toStartOf="@id/week_day"
-                    app:layout_constraintTop_toBottomOf="@id/week_day"
-                    tools:text="July 23" />
+                    app:layout_constraintEnd_toEndOf="@id/day_of_week"
+                    app:layout_constraintStart_toStartOf="@id/day_of_week"
+                    app:layout_constraintTop_toBottomOf="@id/day_of_week"
+                    tools:text="November 23" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/temp"
@@ -55,10 +55,10 @@
                     android:fontFamily="@font/roboto_slab_medium"
                     android:textColor="@color/white"
                     android:textSize="36sp"
-                    app:layout_constraintBottom_toBottomOf="@id/month_day"
-                    app:layout_constraintEnd_toStartOf="@id/img"
-                    app:layout_constraintStart_toEndOf="@id/week_day"
-                    app:layout_constraintTop_toTopOf="@id/week_day"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
                     tools:text="24°c" />
 
                 <com.airbnb.lottie.LottieAnimationView
