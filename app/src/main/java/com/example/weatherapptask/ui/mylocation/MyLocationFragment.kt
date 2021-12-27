@@ -186,6 +186,7 @@ class MyLocationFragment : Fragment() {
                     binding.city.text = cityName
                     binding.country.text = countryName
                     binding.date.text = convertDate(it.dateTime.toString(), "1")
+                    binding.weather.text = it.weather[0].currentWeather
                     binding.img.setAnimation(getWeatherAnimation(it.weather[0].icon))
                     binding.temperature.text = getWholeNum(it.temperatureInfo.temp).plus("°c")
                     binding.tempNum.text = getWholeNum(it.temperatureInfo.temp).plus("°c")
