@@ -45,7 +45,6 @@ class MyLocationFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         init()
-        observeHourlyForecast()
         return binding.root
     }
 
@@ -194,6 +193,7 @@ class MyLocationFragment : Fragment() {
                         binding.windNum.text = getWholeNum(it.wind.speed).plus("m/sec")
 //                    binding.executePendingBindings()
                     }
+                    observeHourlyForecast()
                 }
                 is NetworkResult.Error -> {
                     Toast.makeText(
