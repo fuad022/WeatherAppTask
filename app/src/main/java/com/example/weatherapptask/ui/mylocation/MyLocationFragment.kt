@@ -16,15 +16,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import com.example.weatherapptask.data.remote.other.Constants.Companion.API_KEY
-import com.example.weatherapptask.data.remote.other.Constants.Companion.BAKU_CITY
 import com.example.weatherapptask.data.remote.other.Constants.Companion.EXCLUDE
-import com.example.weatherapptask.data.remote.other.Constants.Companion.LAT
-import com.example.weatherapptask.data.remote.other.Constants.Companion.LON
 import com.example.weatherapptask.data.remote.other.Constants.Companion.UNITS
 import com.example.weatherapptask.databinding.FragmentMyLocationBinding
 import com.example.weatherapptask.ui.mylocation.adapter.HourlyForecastAdapter
 import com.example.weatherapptask.ui.mylocation.viewmodel.HourlyForecastVM
 import com.example.weatherapptask.data.remote.LocationForecastVM
+import com.example.weatherapptask.data.remote.other.NetworkResult
 import com.example.weatherapptask.util.Util.convertDate
 import com.example.weatherapptask.util.Util.getWeatherAnimation
 import com.example.weatherapptask.util.Util.getWholeNum
@@ -181,17 +179,28 @@ class MyLocationFragment : Fragment() {
 
     private fun observeForecast(cityName: String, countryName: String) {
         locationForecastVM.locationForecastData.observe(viewLifecycleOwner, { response ->
-            if (response.isSuccessful) {
-                response.body()?.let {
-                    binding.city.text = cityName
-                    binding.country.text = countryName
-                    binding.date.text = convertDate(it.dateTime.toString(), "1")
-                    binding.weather.text = it.weather[0].currentWeather
-                    binding.img.setAnimation(getWeatherAnimation(it.weather[0].icon))
-                    binding.temperature.text = getWholeNum(it.temperatureInfo.temp).plus("°c")
-                    binding.tempNum.text = getWholeNum(it.temperatureInfo.temp).plus("°c")
-                    binding.humidyNum.text = it.temperatureInfo.humidity.toString().plus("%")
-                    binding.windNum.text = getWholeNum(it.wind.speed).plus("m/sec")
+            when (response) {
+                is NetworkResult.Success -> {
+                    response.data?.let {
+                        binding.city.text = cityName
+                        binding.country.text = countryName
+                        binding.date.text = convertDate(it.dateTime.toString(), "1")
+                        binding.weather.text = it.weather[0].currentWeather
+                        binding.img.setAnimation(getWeatherAnimation(it.weather[0].icon))
+                        binding.img.playAnimation()
+                        binding.temperature.text = getWholeNum(it.temperatureInfo.temp).plus("°c")
+                        binding.tempNum.text = getWholeNum(it.temperatureInfo.temp).plus("°c")
+                        binding.humidyNum.text = it.temperatureInfo.humidity.toString().plus("%")
+                        binding.windNum.text = getWholeNum(it.wind.speed).plus("m/sec")
+//                    binding.executePendingBindings()
+                    }
+                }
+                is NetworkResult.Error -> {
+                    Toast.makeText(
+                        requireContext(),
+                        response.message.toString(),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         })
@@ -199,9 +208,18 @@ class MyLocationFragment : Fragment() {
 
     private fun observeHourlyForecast() {
         hourlyForecastVM.hourlyForecastData.observe(viewLifecycleOwner, { response ->
-            if (response.isSuccessful) {
-                response.body()?.let {
-                    hourlyForecastAdapter.submitList(it.hourly.toMutableList())
+            when (response) {
+                is NetworkResult.Success -> {
+                    response.data?.let {
+                        hourlyForecastAdapter.submitList(it.hourly.toMutableList())
+                    }
+                }
+                is NetworkResult.Error -> {
+                    Toast.makeText(
+                        requireContext(),
+                        response.message.toString(),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         })

@@ -27,6 +27,7 @@ import com.example.weatherapptask.data.remote.model.LocationModel
 import com.example.weatherapptask.data.remote.other.Constants.Companion.API_KEY
 import com.example.weatherapptask.data.remote.other.Constants.Companion.BAKU_CITY
 import com.example.weatherapptask.data.remote.other.Constants.Companion.UNITS
+import com.example.weatherapptask.data.remote.other.NetworkResult
 import com.example.weatherapptask.databinding.FragmentSearchBinding
 import com.example.weatherapptask.util.Util
 import com.example.weatherapptask.util.Util.getWeatherAnimation
@@ -124,25 +125,34 @@ class SearchFragment : Fragment() {
 
     private fun getCurrentCityForecast(text: String) {
         locationForecastVM.sendData(text.lowercase(), UNITS, API_KEY)
-        binding.card.isVisible = true
         observeForecast()
     }
 
     private fun observeForecast() {
         locationForecastVM.locationForecastData.observe(viewLifecycleOwner, { response ->
-            if (response.isSuccessful) {
-                response.body()?.let {
-                    binding.temp.text = getWholeNum(it.temperatureInfo.temp).plus("°c")
-                    binding.img.setAnimation(getWeatherAnimation(it.weather[0].icon))
-                    binding.img.playAnimation()
-                    binding.weather.text = it.weather[0].currentWeather
-                    binding.city.text = it.cityName
+            when (response) {
+                is NetworkResult.Success -> {
+                    binding.card.isVisible = true
+                    response.data?.let {
+                        binding.temp.text = getWholeNum(it.temperatureInfo.temp).plus("°c")
+                        binding.img.setAnimation(getWeatherAnimation(it.weather[0].icon))
+                        binding.img.playAnimation()
+                        binding.weather.text = it.weather[0].currentWeather
+                        binding.city.text = it.cityName
 
-                    binding.card.setOnClickListener { view ->
-                        val action = SearchFragmentDirections.actionSearchToForecastReportFragment(it)
-                        view.findNavController().navigate(action)
+                        binding.card.setOnClickListener { view ->
+                            val action = SearchFragmentDirections.actionSearchToForecastReportFragment(it)
+                            view.findNavController().navigate(action)
+                        }
+
                     }
-
+                }
+                is NetworkResult.Error -> {
+                    Toast.makeText(
+                        requireContext(),
+                        response.message.toString(),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         })
