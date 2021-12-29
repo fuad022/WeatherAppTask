@@ -1,5 +1,6 @@
 package com.example.weatherapptask.ui.search
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
@@ -18,31 +19,25 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
-import com.example.weatherapptask.R
 import com.example.weatherapptask.data.remote.LocationForecastVM
-import com.example.weatherapptask.data.remote.model.LocationModel
 import com.example.weatherapptask.data.remote.other.Constants.Companion.API_KEY
-import com.example.weatherapptask.data.remote.other.Constants.Companion.BAKU_CITY
 import com.example.weatherapptask.data.remote.other.Constants.Companion.UNITS
 import com.example.weatherapptask.data.remote.other.NetworkResult
 import com.example.weatherapptask.databinding.FragmentSearchBinding
-import com.example.weatherapptask.util.Util
+import com.example.weatherapptask.util.Util.displayToast
+import com.example.weatherapptask.util.Util.getCityName
 import com.example.weatherapptask.util.Util.getWeatherAnimation
 import com.example.weatherapptask.util.Util.getWholeNum
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import org.json.JSONArray
-import org.json.JSONObject
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.util.*
 
 class SearchFragment : Fragment() {
     private val binding by lazy { FragmentSearchBinding.inflate(layoutInflater) }
     private val locationForecastVM: LocationForecastVM by viewModel()
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+    var toast: Toast? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -111,15 +106,15 @@ class SearchFragment : Fragment() {
     private fun fetchLocation() {
         val task = fusedLocationProviderClient.lastLocation
 
-        if (ActivityCompat.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION)
+        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
             != PackageManager.PERMISSION_GRANTED && ActivityCompat
-                .checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                .checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
         ) {
-            ActivityCompat.requestPermissions(requireActivity(), arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), 101)
+            ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 101)
             return
         }
         task.addOnSuccessListener {
-            getCurrentCityForecast(getCityName(it.latitude,it.longitude))
+            getCurrentCityForecast(getCityName(it.latitude,it.longitude, requireContext()))
         }
     }
 
@@ -139,25 +134,20 @@ class SearchFragment : Fragment() {
                         binding.img.playAnimation()
                         binding.weather.text = it.weather[0].currentWeather
                         binding.city.text = it.cityName
-
                         binding.card.setOnClickListener { view ->
                             val action = SearchFragmentDirections.actionSearchToForecastReportFragment(it)
                             view.findNavController().navigate(action)
                         }
-
                     }
                 }
                 is NetworkResult.Error -> {
-                    Toast.makeText(
-                        requireContext(),
-                        response.message.toString(),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    displayToast(response.message.toString(), requireContext())
                 }
             }
         })
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun hideKeyboard() {
         binding.mainLayout.setOnTouchListener { view, motionEvent ->
             val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -165,12 +155,9 @@ class SearchFragment : Fragment() {
         }
     }
 
-    private fun getCityName(lat: Double, long: Double): String {
-        var geoCoder = Geocoder(requireContext(), Locale.US)
-        var address = geoCoder.getFromLocation(lat, long, 1)
-        var cityName = address.get(0).locality
-
-        return cityName
+    override fun onPause() {
+        if (toast != null) toast!!.cancel()
+        super.onPause()
     }
 }
 

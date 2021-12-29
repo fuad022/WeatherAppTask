@@ -1,8 +1,6 @@
 package com.example.weatherapptask.ui.mylocation
 
 import android.Manifest
-import android.annotation.SuppressLint
-import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.location.LocationManager
@@ -24,28 +22,42 @@ import com.example.weatherapptask.ui.mylocation.viewmodel.HourlyForecastVM
 import com.example.weatherapptask.data.remote.LocationForecastVM
 import com.example.weatherapptask.data.remote.other.NetworkResult
 import com.example.weatherapptask.util.Util.convertDate
+import com.example.weatherapptask.util.Util.displayToast
+import com.example.weatherapptask.util.Util.getCityName
+import com.example.weatherapptask.util.Util.getCountryName
 import com.example.weatherapptask.util.Util.getWeatherAnimation
 import com.example.weatherapptask.util.Util.getWholeNum
 import com.google.android.gms.location.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.util.*
 
 class MyLocationFragment : Fragment() {
+
+    /*
+        private lateinit var locationRequest: LocationRequest
+    private var PERMISSION_ID = 52
+     */
+
     private val binding by lazy { FragmentMyLocationBinding.inflate(layoutInflater) }
     private val locationForecastVM: LocationForecastVM by viewModel()
     private val hourlyForecastVM: HourlyForecastVM by viewModel()
     private val hourlyForecastAdapter = HourlyForecastAdapter()
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
-
-    private lateinit var locationRequest: LocationRequest
-    private var PERMISSION_ID = 52
+    var toast: Toast? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         init()
+        swipe()
         return binding.root
+    }
+
+    private fun swipe() {
+        binding.swipe.setOnRefreshListener {
+            fetchLocation()
+            binding.swipe.isRefreshing = false
+        }
     }
 
     private fun init() {
@@ -56,32 +68,18 @@ class MyLocationFragment : Fragment() {
     private fun fetchLocation() {
         val task = fusedLocationProviderClient.lastLocation
 
-        if (ActivityCompat.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION)
+        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
         != PackageManager.PERMISSION_GRANTED && ActivityCompat
-                .checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                .checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
         ) {
-            ActivityCompat.requestPermissions(requireActivity(), arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), 101)
+            ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 101)
             return
         }
         task.addOnSuccessListener {
-            if (it != null) {
-                locationForecastVM.sendData(getCityName(it.latitude,it.longitude), UNITS, API_KEY)
-                hourlyForecastVM.sendData(it.latitude.toString(), it.longitude.toString(), UNITS, EXCLUDE, API_KEY)
-                observeForecast(getCityName(it.latitude,it.longitude), getCountryName(it.latitude,it.longitude))
-            }
+            locationForecastVM.sendData(getCityName(it.latitude,it.longitude, requireContext()), UNITS, API_KEY)
+            hourlyForecastVM.sendData(it.latitude.toString(), it.longitude.toString(), UNITS, EXCLUDE, API_KEY)
+            observeForecast(getCityName(it.latitude,it.longitude, requireContext()), getCountryName(it.latitude,it.longitude, requireContext()))
         }
-    }
-
-    private fun getCityName(lat: Double, long: Double): String {
-        var geoCoder = Geocoder(requireContext(), Locale.US)
-        var address = geoCoder.getFromLocation(lat, long, 1)
-        return address.get(0).locality
-    }
-
-    private fun getCountryName(lat: Double, long: Double): String {
-        var geoCoder = Geocoder(requireContext(), Locale.US)
-        var address = geoCoder.getFromLocation(lat, long, 1)
-        return address.get(0).countryName
     }
 
 /*
@@ -191,16 +189,12 @@ class MyLocationFragment : Fragment() {
                         binding.tempNum.text = getWholeNum(it.temperatureInfo.temp).plus("°c")
                         binding.humidyNum.text = it.temperatureInfo.humidity.toString().plus("%")
                         binding.windNum.text = getWholeNum(it.wind.speed).plus("m/sec")
-//                    binding.executePendingBindings()
+                        binding.executePendingBindings()
                     }
                     observeHourlyForecast()
                 }
                 is NetworkResult.Error -> {
-                    Toast.makeText(
-                        requireContext(),
-                        response.message.toString(),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    displayToast(response.message.toString(), requireContext())
                 }
             }
         })
@@ -215,32 +209,15 @@ class MyLocationFragment : Fragment() {
                     }
                 }
                 is NetworkResult.Error -> {
-                    Toast.makeText(
-                        requireContext(),
-                        response.message.toString(),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    displayToast(response.message.toString(), requireContext())
                 }
             }
         })
         binding.hourlyTempRv.adapter = hourlyForecastAdapter
     }
+
+    override fun onPause() {
+        if (toast != null) toast!!.cancel()
+        super.onPause()
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

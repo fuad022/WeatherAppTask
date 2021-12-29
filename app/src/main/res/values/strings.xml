@@ -1,7 +1,13 @@
 <resources>
     <string name="app_name">WeatherAppTask</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-
     <string name="title_location">My Location</string>
     <string name="title_search">Search</string>
+    <string name="search_title">Pick a location</string>
+    <string name="search_description">Type the area or city you want to know the\n detailed weather information at\n this time.</string>
+    <string name="search_hint">Search</string>
+    <string name="temp_text">Temp</string>
+    <string name="humidy_text">Humidy</string>
+    <string name="wind_text">Wind</string>
+    <string name="forecast_text">Hourly forecast for 2 days</string>
 </resources>

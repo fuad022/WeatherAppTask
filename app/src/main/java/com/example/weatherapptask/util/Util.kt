@@ -1,12 +1,13 @@
 package com.example.weatherapptask.util
 
-import android.annotation.SuppressLint
+import android.content.Context
+import android.location.Geocoder
+import android.widget.Toast
 import com.example.weatherapptask.R
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-import java.time.format.TextStyle
 import java.util.*
+
+var toast: Toast? = null
 
 object Util {
     fun getWeatherAnimation(weather: String): Int {
@@ -65,4 +66,25 @@ object Util {
         return sdf.format(d)
     }
 
+    fun getCityName(lat: Double, long: Double, context: Context): String {
+        val geoCoder = Geocoder(context, Locale.US)
+        val address = geoCoder.getFromLocation(lat, long, 1)
+        return address.get(0).locality
+    }
+
+    fun getCountryName(lat: Double, long: Double, context: Context): String {
+        val geoCoder = Geocoder(context, Locale.US)
+        val address = geoCoder.getFromLocation(lat, long, 1)
+        return address.get(0).countryName
+    }
+
+    fun displayToast(response: String, context: Context) {
+        if (toast != null) toast!!.cancel()
+        toast = Toast.makeText(
+            context,
+            response,
+            Toast.LENGTH_SHORT
+        )
+        toast?.show()
+    }
 }

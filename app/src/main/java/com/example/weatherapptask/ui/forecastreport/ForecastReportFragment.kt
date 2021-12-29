@@ -14,6 +14,7 @@ import com.example.weatherapptask.data.remote.other.NetworkResult
 import com.example.weatherapptask.databinding.FragmentForecastReportBinding
 import com.example.weatherapptask.ui.forecastreport.adapter.DailyForecastAdapter
 import com.example.weatherapptask.ui.forecastreport.viewmodel.DailyForecastVM
+import com.example.weatherapptask.util.Util.displayToast
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ForecastReportFragment : Fragment() {
@@ -21,6 +22,7 @@ class ForecastReportFragment : Fragment() {
     private val args: ForecastReportFragmentArgs by navArgs()
     private val dailyForecastVM: DailyForecastVM by viewModel()
     private val dailyForecastAdapter = DailyForecastAdapter()
+    var toast: Toast? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,14 +50,15 @@ class ForecastReportFragment : Fragment() {
                     }
                 }
                 is NetworkResult.Error -> {
-                    Toast.makeText(
-                        requireContext(),
-                        response.message.toString(),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    displayToast(response.message.toString(), requireContext())
                 }
             }
         })
         binding.dailyRv.adapter = dailyForecastAdapter
+    }
+
+    override fun onPause() {
+        if (toast != null) toast!!.cancel()
+        super.onPause()
     }
 }

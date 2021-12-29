@@ -9,203 +9,213 @@
         android:background="@color/background"
         tools:context=".ui.mylocation.MyLocationFragment">
 
-        <androidx.core.widget.NestedScrollView
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipe"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:overScrollMode="never"
-            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:overScrollMode="never"
+                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/city"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="80dp"
-                    android:layout_marginEnd="1dp"
-                    android:fontFamily="@font/roboto_slab_medium"
-                    android:textAlignment="viewEnd"
-                    android:textColor="@color/white"
-                    android:textSize="30sp"
-                    app:layout_constraintEnd_toStartOf="@id/country"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintWidth_percent="0.45"
-                    tools:text="Baku" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/country"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_slab_medium"
-                    android:textAlignment="viewStart"
-                    android:textColor="@color/white"
-                    android:textSize="30sp"
-                    app:layout_constraintBottom_toBottomOf="@id/city"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/city"
-                    app:layout_constraintTop_toTopOf="@id/city"
-                    app:layout_constraintWidth_percent="0.5"
-                    tools:text="Azerbaijan" />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/city"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="80dp"
+                        android:layout_marginEnd="1dp"
+                        android:fontFamily="@font/roboto_slab_medium"
+                        android:textAlignment="viewEnd"
+                        android:textColor="@color/white"
+                        android:textSize="30sp"
+                        app:layout_constraintEnd_toStartOf="@id/country"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintWidth_percent="0.45"
+                        tools:text="Baku" />
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:fontFamily="@font/roboto_slab_regular"
-                    android:textColor="@color/white"
-                    android:textSize="15sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/country"
-                    tools:text="July 22, 2021" />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/country"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_slab_medium"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/white"
+                        android:textSize="30sp"
+                        app:layout_constraintBottom_toBottomOf="@id/city"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/city"
+                        app:layout_constraintTop_toTopOf="@id/city"
+                        app:layout_constraintWidth_percent="0.5"
+                        tools:text="Azerbaijan" />
 
-                <com.airbnb.lottie.LottieAnimationView
-                    android:id="@+id/img"
-                    android:layout_width="155dp"
-                    android:layout_height="155dp"
-                    android:layout_marginTop="15dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/date"
-                    app:lottie_autoPlay="true"
-                    app:lottie_loop="true" />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:fontFamily="@font/roboto_slab_regular"
+                        android:textColor="@color/white"
+                        android:textSize="15sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/country"
+                        tools:text="July 22, 2021" />
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/weather"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:fontFamily="@font/roboto_slab_regular"
-                    android:textColor="@color/white"
-                    android:textSize="20sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/img"
-                    tools:text="Cloudy" />
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/img"
+                        android:layout_width="155dp"
+                        android:layout_height="155dp"
+                        android:layout_marginTop="15dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/date"
+                        app:lottie_autoPlay="true"
+                        app:lottie_loop="true" />
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/temperature"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_slab_medium"
-                    android:textColor="@color/white"
-                    android:textSize="70sp"
-                    app:layout_constraintEnd_toEndOf="@id/img"
-                    app:layout_constraintStart_toStartOf="@id/img"
-                    app:layout_constraintTop_toBottomOf="@id/weather"
-                    tools:text="26°c" />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/weather"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/roboto_slab_regular"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/img"
+                        tools:text="Cloudy" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/temp_txt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="30dp"
-                    android:layout_marginTop="30dp"
-                    android:fontFamily="@font/roboto_slab_regular"
-                    android:text="Temp"
-                    android:textColor="@color/white"
-                    android:textSize="15sp"
-                    app:layout_constraintEnd_toStartOf="@id/humidy_txt"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/temperature" />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/temperature"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_slab_medium"
+                        android:textColor="@color/white"
+                        android:textSize="70sp"
+                        app:layout_constraintEnd_toEndOf="@id/img"
+                        app:layout_constraintStart_toStartOf="@id/img"
+                        app:layout_constraintTop_toBottomOf="@id/weather"
+                        tools:text="26°c" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/temp_num"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_slab_semi_bold"
-                    android:textColor="@color/white"
-                    android:textSize="20sp"
-                    app:layout_constraintEnd_toEndOf="@id/temp_txt"
-                    app:layout_constraintStart_toStartOf="@id/temp_txt"
-                    app:layout_constraintTop_toBottomOf="@id/temp_txt"
-                    tools:text="26°c" />
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/temp_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="30dp"
+                        android:layout_marginTop="30dp"
+                        android:fontFamily="@font/roboto_slab_regular"
+                        android:text="@string/temp_text"
+                        android:textColor="@color/white"
+                        android:textSize="15sp"
+                        app:layout_constraintEnd_toStartOf="@id/humidy_txt"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/temperature" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/humidy_txt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="30dp"
-                    android:fontFamily="@font/roboto_slab_regular"
-                    android:text="Humidy"
-                    android:textColor="@color/white"
-                    android:textSize="15sp"
-                    app:layout_constraintBottom_toBottomOf="@id/temp_txt"
-                    app:layout_constraintEnd_toStartOf="@id/wind_txt"
-                    app:layout_constraintStart_toEndOf="@id/temp_txt"
-                    app:layout_constraintTop_toTopOf="@id/temp_txt" />
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/temp_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_slab_semi_bold"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        app:layout_constraintEnd_toEndOf="@id/temp_txt"
+                        app:layout_constraintStart_toStartOf="@id/temp_txt"
+                        app:layout_constraintTop_toBottomOf="@id/temp_txt"
+                        tools:text="26°c" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/humidy_num"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_slab_semi_bold"
-                    android:textColor="@color/white"
-                    android:textSize="20sp"
-                    app:layout_constraintEnd_toEndOf="@id/humidy_txt"
-                    app:layout_constraintStart_toStartOf="@id/humidy_txt"
-                    app:layout_constraintTop_toBottomOf="@id/humidy_txt"
-                    tools:text="60%" />
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/humidy_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="30dp"
+                        android:fontFamily="@font/roboto_slab_regular"
+                        android:text="@string/humidy_text"
+                        android:textColor="@color/white"
+                        android:textSize="15sp"
+                        app:layout_constraintBottom_toBottomOf="@id/temp_txt"
+                        app:layout_constraintEnd_toStartOf="@id/wind_txt"
+                        app:layout_constraintStart_toEndOf="@id/temp_txt"
+                        app:layout_constraintTop_toTopOf="@id/temp_txt" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/wind_txt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="30dp"
-                    android:fontFamily="@font/roboto_slab_regular"
-                    android:text="Wind"
-                    android:textColor="@color/white"
-                    android:textSize="15sp"
-                    app:layout_constraintBottom_toBottomOf="@id/humidy_txt"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/humidy_txt"
-                    app:layout_constraintTop_toTopOf="@id/humidy_txt" />
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/humidy_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_slab_semi_bold"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        app:layout_constraintEnd_toEndOf="@id/humidy_txt"
+                        app:layout_constraintStart_toStartOf="@id/humidy_txt"
+                        app:layout_constraintTop_toBottomOf="@id/humidy_txt"
+                        tools:text="60%" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/wind_num"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_slab_semi_bold"
-                    android:textColor="@color/white"
-                    android:textSize="20sp"
-                    app:layout_constraintEnd_toEndOf="@id/wind_txt"
-                    app:layout_constraintStart_toStartOf="@id/wind_txt"
-                    app:layout_constraintTop_toBottomOf="@id/wind_txt"
-                    tools:text="10m/sec" />
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/wind_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="30dp"
+                        android:fontFamily="@font/roboto_slab_regular"
+                        android:text="@string/wind_text"
+                        android:textColor="@color/white"
+                        android:textSize="15sp"
+                        app:layout_constraintBottom_toBottomOf="@id/humidy_txt"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/humidy_txt"
+                        app:layout_constraintTop_toTopOf="@id/humidy_txt" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/today_txt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="34dp"
-                    android:layout_marginTop="20dp"
-                    android:fontFamily="@font/roboto_slab_regular"
-                    android:text="Hourly forecast for 2 days"
-                    android:textColor="@color/white"
-                    android:textSize="20sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/temp_num" />
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/wind_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_slab_semi_bold"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        app:layout_constraintEnd_toEndOf="@id/wind_txt"
+                        app:layout_constraintStart_toStartOf="@id/wind_txt"
+                        app:layout_constraintTop_toBottomOf="@id/wind_txt"
+                        tools:text="10m/sec" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/hourly_temp_rv"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="90dp"
-                    android:orientation="horizontal"
-                    android:overScrollMode="never"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/today_txt"
-                    tools:listitem="@layout/hourly_temp_item" />
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/today_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="34dp"
+                        android:layout_marginTop="20dp"
+                        android:fontFamily="@font/roboto_slab_regular"
+                        android:text="@string/forecast_text"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/temp_num" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.core.widget.NestedScrollView>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/hourly_temp_rv"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="90dp"
+                        android:orientation="horizontal"
+                        android:overScrollMode="never"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/today_txt"
+                        tools:listitem="@layout/hourly_temp_item" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.core.widget.NestedScrollView>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
