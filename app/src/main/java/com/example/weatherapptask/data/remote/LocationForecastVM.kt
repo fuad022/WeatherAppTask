@@ -7,13 +7,29 @@ import android.net.NetworkCapabilities
 import androidx.lifecycle.*
 import com.example.weatherapptask.data.remote.model.LocationModel
 import com.example.weatherapptask.data.remote.other.NetworkResult
+import com.example.weatherapptask.data.repo.MainRepository
 import com.example.weatherapptask.data.repo.Repository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import java.lang.Exception
 
-class LocationForecastVM(private val repository: Repository, application: Application) : AndroidViewModel(application) {
+class LocationForecastVM(
+//    private val repository: Repository,
+    private val mainRepository: MainRepository,
+    application: Application
+) : AndroidViewModel(application) {
 
+    /** ROOM DATABASE */
+//    val readLocationForecast: LiveData<List<LocationModel>> = mainRepository.local.readLocationForecast().asLiveData()
+    val readLocationForecast: LiveData<LocationModel> = mainRepository.local.readLocationForecast().asLiveData()
+
+    private fun insertLocationForecast(locationModel: LocationModel) =
+        viewModelScope.launch(Dispatchers.IO) {
+            mainRepository.local.insertLocationForecast(locationModel)
+        }
+
+    /** RETROFIT */
     private val _locationForecastData = MutableLiveData<NetworkResult<LocationModel>>()
     val locationForecastData: LiveData<NetworkResult<LocationModel>> get() = _locationForecastData
 
@@ -26,14 +42,24 @@ class LocationForecastVM(private val repository: Repository, application: Applic
         _locationForecastData.value = NetworkResult.Loading()
         if (hasInternetConnection()) {
             try {
-                val response = repository.getCurrentForecast(city, units, apiKey)
+//                val response = repository.getCurrentForecast(city, units, apiKey)
+                val response = mainRepository.remote.getCurrentForecast(city, units, apiKey)
                 _locationForecastData.value = handleCurrentForecastResponse(response)
+
+                val locationForecast = _locationForecastData.value!!.data
+                if (locationForecast != null) {
+                    offlineCacheLocationForecast(locationForecast)
+                }
             } catch (e: Exception) {
                 _locationForecastData.value = NetworkResult.Error("Location Forecast not found.")
             }
         } else {
             _locationForecastData.value = NetworkResult.Error("No Internet Connection.")
         }
+    }
+
+    private fun offlineCacheLocationForecast(locationForecast: LocationModel) {
+        insertLocationForecast(locationForecast)
     }
 
     private fun handleCurrentForecastResponse(response: Response<LocationModel>): NetworkResult<LocationModel>? {

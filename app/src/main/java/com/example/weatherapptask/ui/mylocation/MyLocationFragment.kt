@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.lifecycleScope
 import com.example.weatherapptask.data.remote.other.Constants.Companion.API_KEY
 import com.example.weatherapptask.data.remote.other.Constants.Companion.EXCLUDE
 import com.example.weatherapptask.data.remote.other.Constants.Companion.UNITS
@@ -27,7 +28,9 @@ import com.example.weatherapptask.util.Util.getCityName
 import com.example.weatherapptask.util.Util.getCountryName
 import com.example.weatherapptask.util.Util.getWeatherAnimation
 import com.example.weatherapptask.util.Util.getWholeNum
+import com.example.weatherapptask.util.observeOnce
 import com.google.android.gms.location.*
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MyLocationFragment : Fragment() {
@@ -48,7 +51,8 @@ class MyLocationFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        init()
+//        init()
+        readDatabase()
         swipe()
         return binding.root
     }
@@ -57,6 +61,39 @@ class MyLocationFragment : Fragment() {
         binding.swipe.setOnRefreshListener {
             fetchLocation()
             binding.swipe.isRefreshing = false
+        }
+    }
+
+    private fun readDatabase() {
+        lifecycleScope.launch {
+            locationForecastVM.readLocationForecast.observeOnce(viewLifecycleOwner, {
+                if (it != null) {
+                    binding.city.text = it.cityName
+                    binding.date.text = convertDate(it.dateTime.toString(), "1")
+                    binding.weather.text = it.weather[0].currentWeather
+                    binding.img.setAnimation(getWeatherAnimation(it.weather[0].icon))
+                    binding.img.playAnimation()
+                    binding.temperature.text = getWholeNum(it.temperatureInfo.temp).plus("°c")
+                    binding.tempNum.text = getWholeNum(it.temperatureInfo.temp).plus("°c")
+                    binding.humidyNum.text = it.temperatureInfo.humidity.toString().plus("%")
+                    binding.windNum.text = getWholeNum(it.wind.speed).plus("m/sec")
+                } else {
+                    init()
+                }
+                readHourlyForecastDatabase()
+            })
+        }
+    }
+
+    private fun readHourlyForecastDatabase() {
+        lifecycleScope.launch {
+            hourlyForecastVM.readHourlyForecast.observeOnce(viewLifecycleOwner, { database ->
+                if (database.isNotEmpty()) {
+                    hourlyForecastAdapter.submitList(database[0].hourlyForecastModel.hourly.toMutableList())
+                } else {
+                    observeHourlyForecast()
+                }
+            })
         }
     }
 
@@ -78,7 +115,8 @@ class MyLocationFragment : Fragment() {
         task.addOnSuccessListener {
             locationForecastVM.sendData(getCityName(it.latitude,it.longitude, requireContext()), UNITS, API_KEY)
             hourlyForecastVM.sendData(it.latitude.toString(), it.longitude.toString(), UNITS, EXCLUDE, API_KEY)
-            observeForecast(getCityName(it.latitude,it.longitude, requireContext()), getCountryName(it.latitude,it.longitude, requireContext()))
+//            observeForecast(getCityName(it.latitude,it.longitude, requireContext()), getCountryName(it.latitude,it.longitude, requireContext()))
+            observeForecast()
         }
     }
 
@@ -174,13 +212,15 @@ class MyLocationFragment : Fragment() {
 
  */
 
-    private fun observeForecast(cityName: String, countryName: String) {
+//    private fun observeForecast(cityName: String, countryName: String) {
+    private fun observeForecast() {
         locationForecastVM.locationForecastData.observe(viewLifecycleOwner, { response ->
             when (response) {
                 is NetworkResult.Success -> {
                     response.data?.let {
-                        binding.city.text = cityName
-                        binding.country.text = countryName
+//                        binding.city.text = cityName
+//                        binding.country.text = countryName
+                        binding.city.text = it.cityName
                         binding.date.text = convertDate(it.dateTime.toString(), "1")
                         binding.weather.text = it.weather[0].currentWeather
                         binding.img.setAnimation(getWeatherAnimation(it.weather[0].icon))
@@ -194,10 +234,29 @@ class MyLocationFragment : Fragment() {
                     observeHourlyForecast()
                 }
                 is NetworkResult.Error -> {
+                    loadDataFromCache()
                     displayToast(response.message.toString(), requireContext())
                 }
             }
         })
+    }
+
+    private fun loadDataFromCache() {
+        lifecycleScope.launch {
+            locationForecastVM.readLocationForecast.observe(viewLifecycleOwner, {
+                if (it != null) {
+                    binding.city.text = it.cityName
+                    binding.date.text = convertDate(it.dateTime.toString(), "1")
+                    binding.weather.text = it.weather[0].currentWeather
+                    binding.img.setAnimation(getWeatherAnimation(it.weather[0].icon))
+                    binding.img.playAnimation()
+                    binding.temperature.text = getWholeNum(it.temperatureInfo.temp).plus("°c")
+                    binding.tempNum.text = getWholeNum(it.temperatureInfo.temp).plus("°c")
+                    binding.humidyNum.text = it.temperatureInfo.humidity.toString().plus("%")
+                    binding.windNum.text = getWholeNum(it.wind.speed).plus("m/sec")
+                }
+            })
+        }
     }
 
     private fun observeHourlyForecast() {
@@ -209,11 +268,22 @@ class MyLocationFragment : Fragment() {
                     }
                 }
                 is NetworkResult.Error -> {
+                    loadHourlyForecastDataFromCache()
                     displayToast(response.message.toString(), requireContext())
                 }
             }
         })
         binding.hourlyTempRv.adapter = hourlyForecastAdapter
+    }
+
+    private fun loadHourlyForecastDataFromCache() {
+        lifecycleScope.launch {
+            hourlyForecastVM.readHourlyForecast.observe(viewLifecycleOwner, { database ->
+                if (database.isNotEmpty()) {
+                    hourlyForecastAdapter.submitList(database[0].hourlyForecastModel.hourly.toMutableList())
+                }
+            })
+        }
     }
 
     override fun onPause() {

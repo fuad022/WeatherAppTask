@@ -10,5 +10,10 @@ class Constants {
         const val LON = "49.892"
         const val EXCLUDE = "daily"
         const val EXCLUDE_CURRENT = "current"
+
+        //ROOM Database
+        const val DATABASE_NAME = "forecast_database"
+        const val LOCATION_FORECAST_TABLE = "location_forecast_table"
+        const val HOURLY_FORECAST_TABLE = "hourly_forecast_table"
     }
 }

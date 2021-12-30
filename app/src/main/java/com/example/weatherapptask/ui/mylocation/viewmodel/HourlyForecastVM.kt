@@ -5,15 +5,31 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import androidx.lifecycle.*
+import com.example.weatherapptask.data.database.HourlyForecastEntity
 import com.example.weatherapptask.data.remote.model.HourlyForecastModel
 import com.example.weatherapptask.data.remote.other.NetworkResult
+import com.example.weatherapptask.data.repo.MainRepository
 import com.example.weatherapptask.data.repo.Repository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import java.lang.Exception
 
-class HourlyForecastVM(private val repository: Repository, application: Application) : AndroidViewModel(application) {
+class HourlyForecastVM(
+//    private val repository: Repository,
+    private val mainRepository: MainRepository,
+    application: Application
+) : AndroidViewModel(application) {
 
+    /** ROOM DATABASE*/
+    val readHourlyForecast: LiveData<List<HourlyForecastEntity>> = mainRepository.local.readHourlyForecast().asLiveData()
+
+    private fun insertHourlyForecast(hourlyForecastEntity: HourlyForecastEntity) =
+        viewModelScope.launch(Dispatchers.IO) {
+            mainRepository.local.insertHourlyForecast(hourlyForecastEntity)
+        }
+
+    /** RETROFIT */
     private val _hourlyForecastData = MutableLiveData<NetworkResult<HourlyForecastModel>>()
     val hourlyForecastData: LiveData<NetworkResult<HourlyForecastModel>> get() = _hourlyForecastData
 
@@ -26,14 +42,25 @@ class HourlyForecastVM(private val repository: Repository, application: Applicat
         _hourlyForecastData.value = NetworkResult.Loading()
         if (hasInternetConnection()) {
             try {
-                val response = repository.getHourlyForecast(lat, lon, units, exclude, appid)
+//                val response = repository.getHourlyForecast(lat, lon, units, exclude, appid)
+                val response = mainRepository.remote.getHourlyForecast(lat, lon, units, exclude, appid)
                 _hourlyForecastData.value = handleHourlyForecastResponse(response)
+
+                val hourlyForecast = _hourlyForecastData.value!!.data
+                if (hourlyForecast != null) {
+                    offlineCacheLocationForecast(hourlyForecast)
+                }
             } catch (e: Exception) {
                 _hourlyForecastData.value = NetworkResult.Error("Hourly Forecast not found.")
             }
         } else {
             _hourlyForecastData.value = NetworkResult.Error("No Internet Connection.")
         }
+    }
+
+    private fun offlineCacheLocationForecast(hourlyForecast: HourlyForecastModel) {
+        val hourlyForecastEntity = HourlyForecastEntity(hourlyForecast)
+        insertHourlyForecast(hourlyForecastEntity)
     }
 
     private fun handleHourlyForecastResponse(response: Response<HourlyForecastModel>): NetworkResult<HourlyForecastModel>? {

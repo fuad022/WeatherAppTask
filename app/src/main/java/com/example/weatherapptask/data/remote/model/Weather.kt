@@ -8,12 +8,13 @@ import kotlinx.parcelize.Parcelize
 @Keep
 @Parcelize
 data class Weather(
-    @SerializedName("description")
-    val description: String,
-    @SerializedName("icon")
-    val icon: String,
-    @SerializedName("id")
-    val id: Int,
     @SerializedName("main")
-    val currentWeather: String
+    val currentWeather: String,
+    @SerializedName("icon")
+    val icon: String
+//    ,
+//    @SerializedName("description")
+//    val description: String,
+//    @SerializedName("id")
+//    val id: Int
 ) : Parcelable
