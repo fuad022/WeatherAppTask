@@ -11,6 +11,7 @@ import com.example.weatherapptask.data.remote.other.Constants.Companion.DATABASE
 import com.example.weatherapptask.data.repo.LocalRepository
 import com.example.weatherapptask.data.repo.MainRepository
 import com.example.weatherapptask.ui.forecastreport.viewmodel.DailyForecastVM
+import com.example.weatherapptask.ui.search.viewmodel.SearchForecastVM
 import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -21,6 +22,7 @@ val appModule = module {
     viewModel { LocationForecastVM(get(), androidApplication()) }
     viewModel { HourlyForecastVM(get(), androidApplication()) }
     viewModel { DailyForecastVM(get(), androidApplication()) }
+    viewModel { SearchForecastVM(get(), androidApplication()) }
 }
 
 val databaseModule = module {

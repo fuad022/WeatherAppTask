@@ -25,6 +25,7 @@ import com.example.weatherapptask.data.remote.other.Constants.Companion.API_KEY
 import com.example.weatherapptask.data.remote.other.Constants.Companion.UNITS
 import com.example.weatherapptask.data.remote.other.NetworkResult
 import com.example.weatherapptask.databinding.FragmentSearchBinding
+import com.example.weatherapptask.ui.search.viewmodel.SearchForecastVM
 import com.example.weatherapptask.util.Util.displayToast
 import com.example.weatherapptask.util.Util.getCityName
 import com.example.weatherapptask.util.Util.getWeatherAnimation
@@ -36,6 +37,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class SearchFragment : Fragment() {
     private val binding by lazy { FragmentSearchBinding.inflate(layoutInflater) }
     private val locationForecastVM: LocationForecastVM by viewModel()
+    private val searchForecastVM: SearchForecastVM by viewModel()
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     var toast: Toast? = null
 
@@ -88,10 +90,15 @@ class SearchFragment : Fragment() {
             if (cityNameText.isEmpty()) {
                 Toast.makeText(it.context, "Type city name, please!", Toast.LENGTH_SHORT).show()
             } else {
-                getCurrentCityForecast(cityNameText)
+                getCityForecastByCityName(cityNameText)
                 binding.btn.isClickable = true
             }
         }
+    }
+
+    private fun getCityForecastByCityName(cityNameText: String) {
+        searchForecastVM.sendData(cityNameText, UNITS, API_KEY)
+        observeSearchForecast()
     }
 
     private fun initBtn() {
@@ -114,17 +121,41 @@ class SearchFragment : Fragment() {
             return
         }
         task.addOnSuccessListener {
-            getCurrentCityForecast(getCityName(it.latitude,it.longitude, requireContext()))
+            getCurrentCityForecastByCoordinates(it.latitude.toString(),it.longitude.toString())
         }
     }
 
-    private fun getCurrentCityForecast(text: String) {
-        locationForecastVM.sendData(text.lowercase(), UNITS, API_KEY)
+    private fun getCurrentCityForecastByCoordinates(lat: String, lon: String) {
+        locationForecastVM.sendData(lat, lon, UNITS, API_KEY)
         observeForecast()
     }
 
     private fun observeForecast() {
         locationForecastVM.locationForecastData.observe(viewLifecycleOwner, { response ->
+            when (response) {
+                is NetworkResult.Success -> {
+                    binding.card.isVisible = true
+                    response.data?.let {
+                        binding.temp.text = getWholeNum(it.temperatureInfo.temp).plus("°c")
+                        binding.img.setAnimation(getWeatherAnimation(it.weather[0].icon))
+                        binding.img.playAnimation()
+                        binding.weather.text = it.weather[0].currentWeather
+                        binding.city.text = it.cityName
+                        binding.card.setOnClickListener { view ->
+                            val action = SearchFragmentDirections.actionSearchToForecastReportFragment(it)
+                            view.findNavController().navigate(action)
+                        }
+                    }
+                }
+                is NetworkResult.Error -> {
+                    displayToast(response.message.toString(), requireContext())
+                }
+            }
+        })
+    }
+
+    private fun observeSearchForecast() {
+        searchForecastVM.searchForecastData.observe(viewLifecycleOwner, { response ->
             when (response) {
                 is NetworkResult.Success -> {
                     binding.card.isVisible = true

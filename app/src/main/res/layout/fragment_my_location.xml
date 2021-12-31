@@ -33,7 +33,6 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="80dp"
-                        android:layout_marginEnd="1dp"
                         android:fontFamily="@font/roboto_slab_medium"
                         android:textAlignment="center"
                         android:textColor="@color/white"
@@ -41,7 +40,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintWidth_percent="0.45"
+                        app:layout_constraintWidth_percent="0.9"
                         tools:text="Baku" />
 
                     <com.google.android.material.textview.MaterialTextView

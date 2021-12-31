@@ -11,6 +11,11 @@ class Repository {
         city: String, units: String, apiKey: String
     ): Response<LocationModel> = RetrofitInstance.api.getCurrentForecast(city, units, apiKey)
 
+    suspend fun getCurrentForecastByCoordinates(
+        lat: String, lon: String, units: String, apiKey: String
+    ): Response<LocationModel> =
+        RetrofitInstance.api.getCurrentForecastByCoordinates(lat, lon, units, apiKey)
+
     suspend fun getHourlyForecast(
         lat: String, lon: String, units: String, exclude: String, apiKey: String
     ): Response<HourlyForecastModel> =

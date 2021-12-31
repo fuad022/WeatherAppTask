@@ -34,7 +34,7 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MyLocationFragment : Fragment() {
-    
+
     private val binding by lazy { FragmentMyLocationBinding.inflate(layoutInflater) }
     private val locationForecastVM: LocationForecastVM by viewModel()
     private val hourlyForecastVM: HourlyForecastVM by viewModel()
@@ -108,7 +108,8 @@ class MyLocationFragment : Fragment() {
             return
         }
         task.addOnSuccessListener {
-            locationForecastVM.sendData(getCityName(it.latitude,it.longitude, requireContext()), UNITS, API_KEY)
+//            locationForecastVM.sendData(getCityName(it.latitude,it.longitude, requireContext()), UNITS, API_KEY)
+            locationForecastVM.sendData(it.latitude.toString(), it.longitude.toString(), UNITS, API_KEY)
             hourlyForecastVM.sendData(it.latitude.toString(), it.longitude.toString(), UNITS, EXCLUDE, API_KEY)
 //            observeForecast(getCityName(it.latitude,it.longitude, requireContext()), getCountryName(it.latitude,it.longitude, requireContext()))
             observeForecast()

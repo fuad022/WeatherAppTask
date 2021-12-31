@@ -33,17 +33,18 @@ class LocationForecastVM(
     private val _locationForecastData = MutableLiveData<NetworkResult<LocationModel>>()
     val locationForecastData: LiveData<NetworkResult<LocationModel>> get() = _locationForecastData
 
-    fun sendData(city: String, units: String, apiKey: String) =
+    fun sendData(lat: String, lon: String, units: String, apiKey: String) =
         viewModelScope.launch {
-            getCurrentForecastSafeCall(city, units, apiKey)
+            getCurrentForecastSafeCall(lat, lon, units, apiKey)
         }
 
-    private suspend fun getCurrentForecastSafeCall(city: String, units: String, apiKey: String) {
+    private suspend fun getCurrentForecastSafeCall(lat: String, lon: String, units: String, apiKey: String) {
         _locationForecastData.value = NetworkResult.Loading()
         if (hasInternetConnection()) {
             try {
 //                val response = repository.getCurrentForecast(city, units, apiKey)
-                val response = mainRepository.remote.getCurrentForecast(city, units, apiKey)
+//                val response = mainRepository.remote.getCurrentForecast(city, units, apiKey)
+                val response = mainRepository.remote.getCurrentForecastByCoordinates(lat, lon, units, apiKey)
                 _locationForecastData.value = handleCurrentForecastResponse(response)
 
                 val locationForecast = _locationForecastData.value!!.data

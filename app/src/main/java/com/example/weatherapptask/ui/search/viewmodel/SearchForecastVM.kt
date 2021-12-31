@@ -1,45 +1,48 @@
-package com.example.weatherapptask.ui.forecastreport.viewmodel
+package com.example.weatherapptask.ui.search.viewmodel
 
 import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import androidx.lifecycle.*
-import com.example.weatherapptask.data.remote.model.DailyForecastModel
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.example.weatherapptask.data.remote.model.LocationModel
 import com.example.weatherapptask.data.remote.other.NetworkResult
 import com.example.weatherapptask.data.repo.Repository
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import java.lang.Exception
 
-class DailyForecastVM(
+class SearchForecastVM(
     private val repository: Repository,
     application: Application
 ) : AndroidViewModel(application) {
 
-    private val _dailyForecastData = MutableLiveData<NetworkResult<DailyForecastModel>>()
-    val dailyForecastData: LiveData<NetworkResult<DailyForecastModel>> get() = _dailyForecastData
+    private val _searchForecastData = MutableLiveData<NetworkResult<LocationModel>>()
+    val searchForecastData: LiveData<NetworkResult<LocationModel>> get() = _searchForecastData
 
-    fun sendData(lat: String, lon: String, units: String, exclude: String, appid: String) =
+    fun sendData(cityName: String, units: String, appid: String) =
         viewModelScope.launch {
-            getDailyForecastSafeCall(lat, lon, units, exclude, appid)
+            getDailyForecastSafeCall(cityName, units, appid)
         }
 
-    private suspend fun getDailyForecastSafeCall(lat: String, lon: String, units: String, exclude: String, appid: String) {
-        _dailyForecastData.value = NetworkResult.Loading()
+    private suspend fun getDailyForecastSafeCall(cityName: String, units: String, appid: String) {
+        _searchForecastData.value = NetworkResult.Loading()
         if (hasInternetConnection()) {
             try {
-                val response = repository.getDailyForecast(lat, lon, units, exclude, appid)
-                _dailyForecastData.value = handleDailyForecastResponse(response)
+                val response = repository.getCurrentForecast(cityName, units, appid)
+                _searchForecastData.value = handleSearchForecastResponse(response)
             } catch (e: Exception) {
-                _dailyForecastData.value = NetworkResult.Error("Hourly Forecast not found.")
+                _searchForecastData.value = NetworkResult.Error("Forecast by search not found.")
             }
         } else {
-            _dailyForecastData.value = NetworkResult.Error("No Internet Connection.")
+            _searchForecastData.value = NetworkResult.Error("No Internet Connection.")
         }
     }
 
-    private fun handleDailyForecastResponse(response: Response<DailyForecastModel>): NetworkResult<DailyForecastModel>? {
+    private fun handleSearchForecastResponse(response: Response<LocationModel>): NetworkResult<LocationModel>? {
         when {
             response.message().toString().contains("timeout") -> {
                 return NetworkResult.Error("Timeout")
@@ -47,12 +50,12 @@ class DailyForecastVM(
             response.code() == 402 -> {
                 return NetworkResult.Error("API Key Limited.")
             }
-            response.body()!!.daily.isNullOrEmpty() -> {
-                return NetworkResult.Error("Daily Forecast not found.")
+            response.body() == null -> {
+                return NetworkResult.Error("Forecast by search not found.")
             }
             response.isSuccessful -> {
-                val locationForecast = response.body()
-                return NetworkResult.Success(locationForecast!!)
+                val forecast = response.body()
+                return NetworkResult.Success(forecast!!)
             }
             else -> {
                 return NetworkResult.Error(response.message())

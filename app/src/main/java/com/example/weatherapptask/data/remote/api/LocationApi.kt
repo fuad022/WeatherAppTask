@@ -15,6 +15,14 @@ interface LocationApi {
         @Query("appid") apiKey: String
     ): Response<LocationModel>
 
+    @GET("weather")
+    suspend fun getCurrentForecastByCoordinates(
+        @Query("lat") lat: String,
+        @Query("lon") lon: String,
+        @Query("units") units: String,
+        @Query("appid") apiKey: String
+    ): Response<LocationModel>
+
     @GET("onecall")
     suspend fun getHourlyForecast(
         @Query("lat") lat: String,
