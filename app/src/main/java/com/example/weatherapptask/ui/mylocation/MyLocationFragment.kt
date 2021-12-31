@@ -34,12 +34,7 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MyLocationFragment : Fragment() {
-
-    /*
-        private lateinit var locationRequest: LocationRequest
-    private var PERMISSION_ID = 52
-     */
-
+    
     private val binding by lazy { FragmentMyLocationBinding.inflate(layoutInflater) }
     private val locationForecastVM: LocationForecastVM by viewModel()
     private val hourlyForecastVM: HourlyForecastVM by viewModel()
@@ -119,7 +114,7 @@ class MyLocationFragment : Fragment() {
             observeForecast()
         }
     }
-    
+
 //    private fun observeForecast(cityName: String, countryName: String) {
     private fun observeForecast() {
         locationForecastVM.locationForecastData.observe(viewLifecycleOwner, { response ->
