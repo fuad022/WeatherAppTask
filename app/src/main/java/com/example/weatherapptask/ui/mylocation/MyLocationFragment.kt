@@ -54,6 +54,7 @@ class MyLocationFragment : Fragment() {
 
     private fun swipe() {
         binding.swipe.setOnRefreshListener {
+//            fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity())
             fetchLocation()
             binding.swipe.isRefreshing = false
         }

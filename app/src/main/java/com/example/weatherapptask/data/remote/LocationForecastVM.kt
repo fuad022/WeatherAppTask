@@ -38,6 +38,12 @@ class LocationForecastVM(
             getCurrentForecastSafeCall(lat, lon, units, apiKey)
         }
 
+//    fun sendData(city: String, units: String, apiKey: String) =
+//        viewModelScope.launch {
+//            getCurrentForecastSafeCall(city, units, apiKey)
+//        }
+
+//    private suspend fun getCurrentForecastSafeCall(city: String, units: String, apiKey: String) {
     private suspend fun getCurrentForecastSafeCall(lat: String, lon: String, units: String, apiKey: String) {
         _locationForecastData.value = NetworkResult.Loading()
         if (hasInternetConnection()) {
