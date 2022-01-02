@@ -12,5 +12,5 @@ class HourlyForecastEntity(
     var hourlyForecastModel: HourlyForecastModel
 ) {
     @PrimaryKey(autoGenerate = false)
-    var id: Int = 0
+    var id: Int = 1
 }
