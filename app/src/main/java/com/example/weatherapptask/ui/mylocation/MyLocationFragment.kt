@@ -41,8 +41,8 @@ class MyLocationFragment : Fragment() {
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     var toast: Toast? = null
 
-    private var PERMISSION_ID = 52 //
-    private lateinit var locationRequest: LocationRequest //
+    private var PERMISSION_ID = 52
+    private lateinit var locationRequest: LocationRequest
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
