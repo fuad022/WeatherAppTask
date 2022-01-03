@@ -57,6 +57,7 @@ class HourlyForecastVM(
 
     private fun offlineCacheLocationForecast(hourlyForecast: HourlyForecastModel) {
         val hourlyForecastEntity = HourlyForecastEntity(hourlyForecast)
+//        val hourlyForecastEntity = HourlyForecastEntity(0, hourlyForecast)
         insertHourlyForecast(hourlyForecastEntity)
     }
 
