@@ -40,9 +40,8 @@ class MyLocationFragment : Fragment() {
     private val hourlyForecastVM: HourlyForecastVM by viewModel()
     private val hourlyForecastAdapter = HourlyForecastAdapter()
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
-    var toast: Toast? = null
-
     private lateinit var locationRequest: LocationRequest
+    var toast: Toast? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
