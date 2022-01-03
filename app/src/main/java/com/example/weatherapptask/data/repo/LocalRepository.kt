@@ -11,10 +11,6 @@ class LocalRepository(private val forecastDao: ForecastDao) {
         forecastDao.insertLocationForecast(locationModel)
     }
 
-//    fun readLocationForecast(): Flow<List<LocationModel>> {
-//        return forecastDao.readLocationForecast()
-//    }
-
     fun readLocationForecast(): Flow<LocationModel> {
         return forecastDao.readLocationForecast()
     }
