@@ -22,6 +22,7 @@ import com.example.weatherapptask.databinding.FragmentMyLocationBinding
 import com.example.weatherapptask.ui.mylocation.adapter.HourlyForecastAdapter
 import com.example.weatherapptask.ui.mylocation.viewmodel.HourlyForecastVM
 import com.example.weatherapptask.data.remote.LocationForecastVM
+import com.example.weatherapptask.data.remote.other.Constants.Companion.PERMISSION_ID
 import com.example.weatherapptask.data.remote.other.NetworkResult
 import com.example.weatherapptask.util.Util.convertDate
 import com.example.weatherapptask.util.Util.displayToast
@@ -41,7 +42,6 @@ class MyLocationFragment : Fragment() {
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     var toast: Toast? = null
 
-    private var PERMISSION_ID = 52
     private lateinit var locationRequest: LocationRequest
 
     override fun onCreateView(

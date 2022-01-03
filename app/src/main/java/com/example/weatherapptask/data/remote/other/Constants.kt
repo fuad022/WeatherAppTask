@@ -15,5 +15,7 @@ class Constants {
         const val DATABASE_NAME = "forecast_database"
         const val LOCATION_FORECAST_TABLE = "location_forecast_table"
         const val HOURLY_FORECAST_TABLE = "hourly_forecast_table"
+
+        const val PERMISSION_ID = 52
     }
 }
