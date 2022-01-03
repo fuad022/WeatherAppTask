@@ -15,13 +15,11 @@ import retrofit2.Response
 import java.lang.Exception
 
 class LocationForecastVM(
-//    private val repository: Repository,
     private val mainRepository: MainRepository,
     application: Application
 ) : AndroidViewModel(application) {
 
     /** ROOM DATABASE */
-//    val readLocationForecast: LiveData<List<LocationModel>> = mainRepository.local.readLocationForecast().asLiveData()
     val readLocationForecast: LiveData<LocationModel> = mainRepository.local.readLocationForecast().asLiveData()
 
     private fun insertLocationForecast(locationModel: LocationModel) =
@@ -38,18 +36,10 @@ class LocationForecastVM(
             getCurrentForecastSafeCall(lat, lon, units, apiKey)
         }
 
-//    fun sendData(city: String, units: String, apiKey: String) =
-//        viewModelScope.launch {
-//            getCurrentForecastSafeCall(city, units, apiKey)
-//        }
-
-//    private suspend fun getCurrentForecastSafeCall(city: String, units: String, apiKey: String) {
     private suspend fun getCurrentForecastSafeCall(lat: String, lon: String, units: String, apiKey: String) {
         _locationForecastData.value = NetworkResult.Loading()
         if (hasInternetConnection()) {
             try {
-//                val response = repository.getCurrentForecast(city, units, apiKey)
-//                val response = mainRepository.remote.getCurrentForecast(city, units, apiKey)
                 val response = mainRepository.remote.getCurrentForecastByCoordinates(lat, lon, units, apiKey)
                 _locationForecastData.value = handleCurrentForecastResponse(response)
 

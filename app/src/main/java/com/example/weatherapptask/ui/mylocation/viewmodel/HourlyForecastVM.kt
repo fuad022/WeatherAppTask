@@ -9,14 +9,12 @@ import com.example.weatherapptask.data.database.HourlyForecastEntity
 import com.example.weatherapptask.data.remote.model.HourlyForecastModel
 import com.example.weatherapptask.data.remote.other.NetworkResult
 import com.example.weatherapptask.data.repo.MainRepository
-import com.example.weatherapptask.data.repo.Repository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import java.lang.Exception
 
 class HourlyForecastVM(
-//    private val repository: Repository,
     private val mainRepository: MainRepository,
     application: Application
 ) : AndroidViewModel(application) {
@@ -42,7 +40,6 @@ class HourlyForecastVM(
         _hourlyForecastData.value = NetworkResult.Loading()
         if (hasInternetConnection()) {
             try {
-//                val response = repository.getHourlyForecast(lat, lon, units, exclude, appid)
                 val response = mainRepository.remote.getHourlyForecast(lat, lon, units, exclude, appid)
                 _hourlyForecastData.value = handleHourlyForecastResponse(response)
 
