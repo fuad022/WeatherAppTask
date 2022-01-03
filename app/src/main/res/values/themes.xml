@@ -13,6 +13,8 @@
         <item name="android:statusBarColor" tools:targetApi="l">@color/background</item>
         <!-- Navigation bar color. -->
         <item name="android:navigationBarColor">@color/bottom_nav</item>
+        <!-- Disable force dark mode. -->
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
     </style>
 
     <style name="Theme.BottomNavigationView" parent="Widget.Design.BottomNavigationView">
