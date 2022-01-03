@@ -12,9 +12,4 @@ data class Weather(
     val currentWeather: String,
     @SerializedName("icon")
     val icon: String
-//    ,
-//    @SerializedName("description")
-//    val description: String,
-//    @SerializedName("id")
-//    val id: Int
 ) : Parcelable

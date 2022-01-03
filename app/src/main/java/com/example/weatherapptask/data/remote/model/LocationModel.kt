@@ -36,17 +36,4 @@ data class LocationModel(
     @SerializedName("wind")
     @TypeConverters(WindTypeConverter::class)
     val wind: Wind
-//    ,
-//    @SerializedName("sys")
-//    val sys: Sys,
-//    @SerializedName("timezone")
-//    val timezone: Int,
-//    @SerializedName("visibility")
-//    val visibility: Int,
-//    @SerializedName("base")
-//    val base: String,
-//    @SerializedName("clouds")
-//    val clouds: Clouds,
-//    @SerializedName("cod")
-//    val cod: Int
 ) : Parcelable

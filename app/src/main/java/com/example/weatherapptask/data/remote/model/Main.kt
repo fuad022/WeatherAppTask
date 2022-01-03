@@ -12,13 +12,4 @@ data class Main(
     val temp: Double,
     @SerializedName("humidity")
     val humidity: Int
-//    ,
-//    @SerializedName("feels_like")
-//    val feelsLike: Double,
-//    @SerializedName("pressure")
-//    val pressure: Int,
-//    @SerializedName("temp_max")
-//    val tempMax: Double,
-//    @SerializedName("temp_min")
-//    val temp_min: Double
 ) : Parcelable

@@ -10,9 +10,4 @@ import kotlinx.parcelize.Parcelize
 data class Wind(
     @SerializedName("speed")
     val speed: Double
-//    ,
-//    @SerializedName("deg")
-//    val deg: Int,
-//    @SerializedName("gust")
-//    val gust: Double
 ) : Parcelable
