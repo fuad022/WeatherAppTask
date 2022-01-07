@@ -84,7 +84,6 @@ class SearchFragment : Fragment() {
                 Toast.makeText(it.context, "Type city name, please!", Toast.LENGTH_SHORT).show()
             } else {
                 getCityForecastByCityName(cityNameText)
-//                getCurrentCityForecast(cityNameText)
                 binding.btn.isClickable = true
             }
         }
@@ -116,7 +115,6 @@ class SearchFragment : Fragment() {
         }
         task.addOnSuccessListener {
             getCurrentCityForecastByCoordinates(it.latitude.toString(),it.longitude.toString())
-//            getCurrentCityForecast(getCityName(it.latitude,it.longitude, requireContext()))
         }
     }
 
@@ -124,11 +122,6 @@ class SearchFragment : Fragment() {
         locationForecastVM.sendData(lat, lon, UNITS, API_KEY)
         observeForecast()
     }
-
-//    private fun getCurrentCityForecast(text: String) {
-//        locationForecastVM.sendData(text.lowercase(), UNITS, API_KEY)
-//        observeForecast()
-//    }
 
     private fun observeForecast() {
         locationForecastVM.locationForecastData.observe(viewLifecycleOwner, { response ->
