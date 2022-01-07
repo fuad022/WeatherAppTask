@@ -69,13 +69,13 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0"
 
     // Koin main features for Android (Scope,ViewModel ...)
-    implementation "io.insert-koin:koin-android:3.1.4"
+    implementation "io.insert-koin:koin-android:3.1.2"
 
     //Lottie
     implementation 'com.airbnb.android:lottie:4.2.1'
 
     //Google location
-    implementation 'com.google.android.gms:play-services-location:19.0.1'
+    implementation 'com.google.android.gms:play-services-location:19.0.0'
 
     //Room
     implementation "androidx.room:room-runtime:2.4.0"

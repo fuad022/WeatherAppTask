@@ -87,11 +87,12 @@ class MyLocationFragment : Fragment() {
         lifecycleScope.launch {
             hourlyForecastVM.readHourlyForecast.observeOnce(viewLifecycleOwner, { database ->
                 if (database.isNotEmpty()) {
-                    val a = database[0].hourlyForecastModel.hourly.toMutableList()
+                    var a = database[0].hourlyForecastModel.hourly.toMutableList()
                     Log.d("readHourlyForecastDatabase", a.toString())
                     database[0].hourlyForecastModel.let {
                         hourlyForecastAdapter.submitList(it.hourly.toMutableList())
                     }
+//                    hourlyForecastAdapter.submitList(database[0].hourlyForecastModel.hourly.toMutableList())
                 } else {
                     observeHourlyForecast()
                 }
@@ -122,15 +123,46 @@ class MyLocationFragment : Fragment() {
 
     ///////////////////////////////New check permission
 
+    private fun checkPermission(): Boolean {
+        if (ActivityCompat.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
+            ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            return true
+        }
+        return false
+    }
+
+    private fun requestPermission() {
+        ActivityCompat.requestPermissions(
+            requireActivity(),
+            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION), PERMISSION_ID
+        )
+    }
+
+    private fun isLocationEnabled(): Boolean {
+        val locationManager = context!!.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        if (requestCode == PERMISSION_ID) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Log.d("Debug", "You have the permission")
+            }
+        }
+    }
+
     private fun getLastLocation() {
         if (checkPermission()) {
             if (isLocationEnabled()) {
                 fusedLocationProviderClient.lastLocation.addOnCompleteListener { task ->
-                    val location = task.result
+                    var location = task.result
                     if (location == null) {
                         getNewLocation()
                     } else {
-                        initForecastData(location.latitude.toString(), location.longitude.toString())
+                        locationForecastVM.sendData(location.latitude.toString(), location.longitude.toString(), UNITS, API_KEY)
+                        hourlyForecastVM.sendData(location.latitude.toString(), location.longitude.toString(), UNITS, EXCLUDE, API_KEY)
+
+                        observeForecast()
                     }
                 }
             } else {
@@ -139,19 +171,6 @@ class MyLocationFragment : Fragment() {
         } else {
             requestPermission()
         }
-    }
-
-    private fun checkPermission(): Boolean {
-        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
-            ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            return true
-        }
-        return false
-    }
-
-    private fun isLocationEnabled(): Boolean {
-        val locationManager = context!!.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
     }
 
     @SuppressLint("MissingPermission")
@@ -168,23 +187,13 @@ class MyLocationFragment : Fragment() {
     }
 
     private val locationCallback = object : LocationCallback() {
-        override fun onLocationResult(result: LocationResult) {
-            val lastLocation = result.lastLocation
-            initForecastData(lastLocation.latitude.toString(), lastLocation.longitude.toString())
+        override fun onLocationResult(p0: LocationResult) {
+            var lastLocation = p0.lastLocation
+            locationForecastVM.sendData(lastLocation.latitude.toString(), lastLocation.longitude.toString(), UNITS, API_KEY)
+            hourlyForecastVM.sendData(lastLocation.latitude.toString(), lastLocation.longitude.toString(), UNITS, EXCLUDE, API_KEY)
+
+            observeForecast()
         }
-    }
-
-    private fun requestPermission() {
-        ActivityCompat.requestPermissions(
-            requireActivity(),
-            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION), PERMISSION_ID
-        )
-    }
-
-    private fun initForecastData(lat: String, lon: String) {
-        locationForecastVM.sendData(lat, lon, UNITS, API_KEY)
-        hourlyForecastVM.sendData(lat, lon, UNITS, EXCLUDE, API_KEY)
-        observeForecast()
     }
 
     ///////////////////////////////New check permission
@@ -254,7 +263,7 @@ class MyLocationFragment : Fragment() {
         lifecycleScope.launch {
             hourlyForecastVM.readHourlyForecast.observe(viewLifecycleOwner, { database ->
                 if (database.isNotEmpty()) {
-                    val a = database[0].hourlyForecastModel.hourly.toMutableList()
+                    var a = database[0].hourlyForecastModel.hourly.toMutableList()
                     Log.d("loadHourlyForecastDataFromCache", a.toString())
                     database[0].hourlyForecastModel.let {
                         hourlyForecastAdapter.submitList(it.hourly.toMutableList())
