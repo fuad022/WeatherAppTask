@@ -28,4 +28,9 @@
             android:name="locationModel"
             app:argType="com.example.weatherapptask.data.remote.model.LocationModel" />
     </fragment>
+    <fragment
+        android:id="@+id/favorites"
+        android:name="com.example.weatherapptask.ui.favorites.FavoritesFragment"
+        android:label="FavoritesFragment"
+        tools:layout="@layout/fragment_favorites" />
 </navigation>
