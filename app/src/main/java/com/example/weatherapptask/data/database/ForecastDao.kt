@@ -1,9 +1,6 @@
 package com.example.weatherapptask.data.database
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.example.weatherapptask.data.remote.model.LocationModel
 import kotlinx.coroutines.flow.Flow
 
@@ -21,4 +18,19 @@ interface ForecastDao {
 
     @Query("SELECT * FROM hourly_forecast_table ORDER BY id ASC")
     fun readHourlyForecast(): Flow<List<HourlyForecastEntity>>
+
+
+    // New changes
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertFavoriteForecast(favoritesEntity: FavoritesEntity)
+
+    @Query("SELECT * FROM favorite_forecast_table ORDER BY id ASC")
+    fun readFavoriteForecasts(): Flow<List<FavoritesEntity>>
+
+    @Delete
+    suspend fun deleteFavoriteForecast(favoritesEntity: FavoritesEntity)
+
+    @Query("DELETE FROM favorite_forecast_table")
+    suspend fun deleteAllFavoriteForecasts()
+    // New changes
 }

@@ -1,5 +1,6 @@
 package com.example.weatherapptask.data.repo
 
+import com.example.weatherapptask.data.database.FavoritesEntity
 import com.example.weatherapptask.data.database.ForecastDao
 import com.example.weatherapptask.data.database.HourlyForecastEntity
 import com.example.weatherapptask.data.remote.model.LocationModel
@@ -22,4 +23,22 @@ class LocalRepository(private val forecastDao: ForecastDao) {
     fun readHourlyForecast(): Flow<List<HourlyForecastEntity>> {
         return forecastDao.readHourlyForecast()
     }
+
+    // New changes
+    fun readFavoriteForecasts(): Flow<List<FavoritesEntity>> {
+        return forecastDao.readFavoriteForecasts()
+    }
+
+    suspend fun insertFavoriteForecast(favoritesEntity: FavoritesEntity) {
+        forecastDao.insertFavoriteForecast(favoritesEntity)
+    }
+
+    suspend fun deleteFavoriteForecast(favoritesEntity: FavoritesEntity) {
+        forecastDao.deleteFavoriteForecast(favoritesEntity)
+    }
+
+    suspend fun deleteAllFavoriteForecasts() {
+        forecastDao.deleteAllFavoriteForecasts()
+    }
+    // New changes
 }

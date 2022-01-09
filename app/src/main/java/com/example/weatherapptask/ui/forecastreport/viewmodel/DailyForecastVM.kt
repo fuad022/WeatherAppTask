@@ -32,7 +32,7 @@ class DailyForecastVM(
                 val response = repository.getDailyForecast(lat, lon, units, exclude, appid)
                 _dailyForecastData.value = handleDailyForecastResponse(response)
             } catch (e: Exception) {
-                _dailyForecastData.value = NetworkResult.Error("Hourly Forecast not found.")
+                _dailyForecastData.value = NetworkResult.Error("Daily Forecast not found.")
             }
         } else {
             _dailyForecastData.value = NetworkResult.Error("No Internet Connection.")

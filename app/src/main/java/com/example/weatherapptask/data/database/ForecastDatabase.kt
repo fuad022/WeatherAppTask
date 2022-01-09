@@ -6,7 +6,7 @@ import androidx.room.TypeConverters
 import com.example.weatherapptask.data.remote.model.LocationModel
 
 @Database(
-    entities = [LocationModel::class, HourlyForecastEntity::class],
+    entities = [LocationModel::class, HourlyForecastEntity::class, FavoritesEntity::class],
     version = 1,
     exportSchema = false
 )

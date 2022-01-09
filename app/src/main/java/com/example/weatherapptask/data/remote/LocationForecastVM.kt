@@ -5,6 +5,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import androidx.lifecycle.*
+import com.example.weatherapptask.data.database.FavoritesEntity
 import com.example.weatherapptask.data.remote.model.LocationModel
 import com.example.weatherapptask.data.remote.other.NetworkResult
 import com.example.weatherapptask.data.repo.MainRepository
@@ -21,11 +22,31 @@ class LocationForecastVM(
 
     /** ROOM DATABASE */
     val readLocationForecast: LiveData<LocationModel> = mainRepository.local.readLocationForecast().asLiveData()
+    // New changes
+    val readFavoriteForecasts: LiveData<List<FavoritesEntity>> = mainRepository.local.readFavoriteForecasts().asLiveData()
+    // New changes
 
     private fun insertLocationForecast(locationModel: LocationModel) =
         viewModelScope.launch(Dispatchers.IO) {
             mainRepository.local.insertLocationForecast(locationModel)
         }
+
+    // New changes
+    fun insertFavoriteForecast(favoritesEntity: FavoritesEntity) =
+        viewModelScope.launch(Dispatchers.IO) {
+            mainRepository.local.insertFavoriteForecast(favoritesEntity)
+        }
+
+    private fun deleteFavoriteForecast(favoritesEntity: FavoritesEntity) =
+        viewModelScope.launch(Dispatchers.IO) {
+            mainRepository.local.deleteFavoriteForecast(favoritesEntity)
+        }
+
+    private fun deleteAllFavoriteForecasts() =
+        viewModelScope.launch(Dispatchers.IO) {
+            mainRepository.local.deleteAllFavoriteForecasts()
+        }
+    // New changes
 
     /** RETROFIT */
     private val _locationForecastData = MutableLiveData<NetworkResult<LocationModel>>()
