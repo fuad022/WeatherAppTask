@@ -12,7 +12,8 @@ interface ForecastDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertLocationForecast(locationModel: LocationModel)
 
-    @Query("SELECT * FROM location_forecast_table ORDER BY id ASC")
+//    @Query("SELECT * FROM location_forecast_table ORDER BY id ASC")
+    @Query("SELECT * FROM location_forecast_table ORDER BY dateTime DESC")
     fun readLocationForecast(): Flow<LocationModel>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
