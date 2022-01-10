@@ -1,6 +1,7 @@
 package com.example.weatherapptask.ui.forecastreport
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -22,8 +23,10 @@ import com.example.weatherapptask.util.Util.convertDate
 import com.example.weatherapptask.util.Util.displayToast
 import com.example.weatherapptask.util.Util.getWeatherAnimation
 import com.example.weatherapptask.util.Util.getWholeNum
+import com.example.weatherapptask.util.observeOnce
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.lang.Exception
 
 class ForecastReportFragment : Fragment() {
     private val binding by lazy { FragmentForecastReportBinding.inflate(layoutInflater) }
@@ -32,6 +35,8 @@ class ForecastReportFragment : Fragment() {
     private val locationForecastVM: LocationForecastVM by viewModel() // New changes
     private val dailyForecastAdapter = DailyForecastAdapter()
     var toast: Toast? = null
+    private var forecastSaved = false
+    private var savedForecastId = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,7 +50,6 @@ class ForecastReportFragment : Fragment() {
     private fun init() {
         binding.city.text = args.locationModel.cityName
 
-        // New changes
         binding.date.text = convertDate(args.locationModel.dateTime.toString(), "1")
         binding.weather.text = args.locationModel.weather[0].currentWeather
         binding.img.setAnimation(getWeatherAnimation(args.locationModel.weather[0].icon))
@@ -55,10 +59,19 @@ class ForecastReportFragment : Fragment() {
         binding.humidyNum.text = args.locationModel.temperatureInfo.humidity.toString().plus("%")
         binding.windNum.text = getWholeNum(args.locationModel.wind.speed).plus("m/sec")
 
+        checkSavedForecasts()
+
         binding.favoriteIcon.setOnClickListener {
-            saveToFavorites()
+            if (!forecastSaved) {
+                saveToFavorites()
+            } else if (forecastSaved) {
+                removeFromFavorites()
+            }
+//            when {
+//                !forecastSaved -> saveToFavorites()
+//                forecastSaved ->  removeFromFavorites()
+//            }
         }
-        // New changes
 
         /*
         dailyForecastVM.sendData(
@@ -67,7 +80,22 @@ class ForecastReportFragment : Fragment() {
         )*/
     }
 
-    // New changes
+    private fun checkSavedForecasts() {
+        locationForecastVM.readFavoriteForecasts.observe(this, { favoritesEntity ->
+            try {
+                for (savedForecast in favoritesEntity) {
+                    if (savedForecast.id == args.locationModel.id) {
+                        changeFavoriteIconColor(R.color.yelow)
+                        savedForecastId = savedForecast.id
+                        forecastSaved = true
+                    }
+                }
+            } catch (e: Exception) {
+                Log.d("ForecastReportFragment", e.message.toString())
+            }
+        })
+    }
+
     private fun saveToFavorites() {
         val favoritesEntity = FavoritesEntity(
             args.locationModel.id,
@@ -81,10 +109,25 @@ class ForecastReportFragment : Fragment() {
         locationForecastVM.insertFavoriteForecast(favoritesEntity)
         changeFavoriteIconColor(R.color.yelow)
         showSnackBar("Forecast saved.")
+        forecastSaved = true
     }
-    // New changes
 
-    // New changes
+    private fun removeFromFavorites() {
+        val favoritesEntity = FavoritesEntity(
+            savedForecastId,
+            args.locationModel.cityCoordinate,
+            args.locationModel.dateTime,
+            args.locationModel.temperatureInfo,
+            args.locationModel.cityName,
+            args.locationModel.weather,
+            args.locationModel.wind
+        )
+        locationForecastVM.deleteFavoriteForecast(favoritesEntity)
+        changeFavoriteIconColor(R.color.white)
+        showSnackBar("Removed from Favorites.")
+        forecastSaved = false
+    }
+
     private fun showSnackBar(message: String) {
         Snackbar.make(
             binding.reportLayout,
@@ -92,16 +135,13 @@ class ForecastReportFragment : Fragment() {
             Snackbar.LENGTH_SHORT
         ).setAction("Okay") {}.show()
     }
-    // New changes
 
-    // New changes
     private fun changeFavoriteIconColor(color: Int) {
         binding.favoriteIcon.setColorFilter(
             ContextCompat.getColor(requireContext(), color),
             android.graphics.PorterDuff.Mode.MULTIPLY
         )
     }
-    // New changes
 
     /*
     private fun observeDailyForecast() {
@@ -123,5 +163,10 @@ class ForecastReportFragment : Fragment() {
     override fun onPause() {
         if (toast != null) toast!!.cancel()
         super.onPause()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        changeFavoriteIconColor(R.color.white)
     }
 }

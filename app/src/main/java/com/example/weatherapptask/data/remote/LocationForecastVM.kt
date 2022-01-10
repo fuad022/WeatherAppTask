@@ -22,22 +22,19 @@ class LocationForecastVM(
 
     /** ROOM DATABASE */
     val readLocationForecast: LiveData<LocationModel> = mainRepository.local.readLocationForecast().asLiveData()
-    // New changes
     val readFavoriteForecasts: LiveData<List<FavoritesEntity>> = mainRepository.local.readFavoriteForecasts().asLiveData()
-    // New changes
 
     private fun insertLocationForecast(locationModel: LocationModel) =
         viewModelScope.launch(Dispatchers.IO) {
             mainRepository.local.insertLocationForecast(locationModel)
         }
 
-    // New changes
     fun insertFavoriteForecast(favoritesEntity: FavoritesEntity) =
         viewModelScope.launch(Dispatchers.IO) {
             mainRepository.local.insertFavoriteForecast(favoritesEntity)
         }
 
-    private fun deleteFavoriteForecast(favoritesEntity: FavoritesEntity) =
+    fun deleteFavoriteForecast(favoritesEntity: FavoritesEntity) =
         viewModelScope.launch(Dispatchers.IO) {
             mainRepository.local.deleteFavoriteForecast(favoritesEntity)
         }
@@ -46,7 +43,6 @@ class LocationForecastVM(
         viewModelScope.launch(Dispatchers.IO) {
             mainRepository.local.deleteAllFavoriteForecasts()
         }
-    // New changes
 
     /** RETROFIT */
     private val _locationForecastData = MutableLiveData<NetworkResult<LocationModel>>()

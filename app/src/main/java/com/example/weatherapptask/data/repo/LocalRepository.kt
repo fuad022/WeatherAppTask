@@ -24,7 +24,6 @@ class LocalRepository(private val forecastDao: ForecastDao) {
         return forecastDao.readHourlyForecast()
     }
 
-    // New changes
     fun readFavoriteForecasts(): Flow<List<FavoritesEntity>> {
         return forecastDao.readFavoriteForecasts()
     }
@@ -40,5 +39,4 @@ class LocalRepository(private val forecastDao: ForecastDao) {
     suspend fun deleteAllFavoriteForecasts() {
         forecastDao.deleteAllFavoriteForecasts()
     }
-    // New changes
 }

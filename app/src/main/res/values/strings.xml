@@ -11,4 +11,5 @@
     <string name="wind_text">Wind</string>
     <string name="forecast_text">Hourly forecast for 2 days</string>
     <string name="favorites">Favorites</string>
+    <string name="forecast_report">Forecast Report</string>
 </resources>

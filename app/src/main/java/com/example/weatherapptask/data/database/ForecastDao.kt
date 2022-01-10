@@ -19,8 +19,6 @@ interface ForecastDao {
     @Query("SELECT * FROM hourly_forecast_table ORDER BY id ASC")
     fun readHourlyForecast(): Flow<List<HourlyForecastEntity>>
 
-
-    // New changes
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertFavoriteForecast(favoritesEntity: FavoritesEntity)
 
@@ -32,5 +30,4 @@ interface ForecastDao {
 
     @Query("DELETE FROM favorite_forecast_table")
     suspend fun deleteAllFavoriteForecasts()
-    // New changes
 }
