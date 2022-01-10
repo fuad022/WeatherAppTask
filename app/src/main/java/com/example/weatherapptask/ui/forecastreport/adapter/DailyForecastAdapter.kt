@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapptask.data.remote.model.Daily
-import com.example.weatherapptask.data.remote.model.Hourly
 import com.example.weatherapptask.databinding.DailyTempItemBinding
 import com.example.weatherapptask.util.Util
 import com.example.weatherapptask.util.Util.convertDate

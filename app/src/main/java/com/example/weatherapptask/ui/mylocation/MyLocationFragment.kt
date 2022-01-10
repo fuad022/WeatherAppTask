@@ -87,12 +87,9 @@ class MyLocationFragment : Fragment() {
         lifecycleScope.launch {
             hourlyForecastVM.readHourlyForecast.observeOnce(viewLifecycleOwner, { database ->
                 if (database.isNotEmpty()) {
-                    var a = database[0].hourlyForecastModel.hourly.toMutableList()
-                    Log.d("readHourlyForecastDatabase", a.toString())
                     database[0].hourlyForecastModel.let {
                         hourlyForecastAdapter.submitList(it.hourly.toMutableList())
                     }
-//                    hourlyForecastAdapter.submitList(database[0].hourlyForecastModel.hourly.toMutableList())
                 } else {
                     observeHourlyForecast()
                 }
@@ -263,12 +260,9 @@ class MyLocationFragment : Fragment() {
         lifecycleScope.launch {
             hourlyForecastVM.readHourlyForecast.observe(viewLifecycleOwner, { database ->
                 if (database.isNotEmpty()) {
-                    var a = database[0].hourlyForecastModel.hourly.toMutableList()
-                    Log.d("loadHourlyForecastDataFromCache", a.toString())
                     database[0].hourlyForecastModel.let {
                         hourlyForecastAdapter.submitList(it.hourly.toMutableList())
                     }
-//                    hourlyForecastAdapter.submitList(database[0].hourlyForecastModel.hourly.toMutableList())
                 }
             })
             binding.hourlyTempRv.adapter = hourlyForecastAdapter

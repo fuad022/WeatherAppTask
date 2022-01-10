@@ -13,8 +13,7 @@ import com.example.weatherapptask.util.Util.getWholeNum
 
 class HourlyForecastAdapter : ListAdapter<Hourly, HourlyForecastAdapter.ItemHolder>(DiffCallback()) {
 
-    class ItemHolder(private val binding: HourlyTempItemBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    class ItemHolder(private val binding: HourlyTempItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(model: Hourly) {
             binding.img.setAnimation(getWeatherAnimation(model.weather[0].icon))
             binding.date.text = convertDate(model.dt.toString(), "3")

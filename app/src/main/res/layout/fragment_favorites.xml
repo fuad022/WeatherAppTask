@@ -5,6 +5,13 @@
 
     <data>
 
+        <variable
+            name="locationForecastVM"
+            type="com.example.weatherapptask.data.remote.LocationForecastVM" />
+
+        <variable
+            name="fAdapter"
+            type="com.example.weatherapptask.ui.favorites.adapter.FavoritesForecastsAdapter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -13,11 +20,34 @@
         android:background="@color/background"
         tools:context=".ui.favorites.FavoritesFragment">
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/favoriteForecastRv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginTop="15dp"
+            android:clipToPadding="false"
+            android:overScrollMode="never"
+            android:paddingBottom="10dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:itemCount="5"
+            tools:listitem="@layout/favorite_forecast_row_item" />
+
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/no_data_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/hello_blank_fragment"
+            android:alpha="0.6"
+            android:text="@string/no_favorite_forecasts"
             android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
