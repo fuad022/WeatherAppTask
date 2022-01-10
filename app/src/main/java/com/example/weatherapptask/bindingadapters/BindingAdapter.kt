@@ -11,7 +11,7 @@ class BindingAdapter {
 
     companion object {
 
-        @BindingAdapter("viewVisibility", "satData", requireAll = false)
+        @BindingAdapter("viewVisibility", "setData", requireAll = false)
         @JvmStatic
         fun satDataAndViewVisibility(
             view: View,
