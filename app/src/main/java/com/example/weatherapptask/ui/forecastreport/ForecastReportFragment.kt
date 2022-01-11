@@ -133,7 +133,7 @@ class ForecastReportFragment : Fragment() {
             binding.reportLayout,
             message,
             Snackbar.LENGTH_SHORT
-        ).setAction("Okay") {}.show()
+        ).setAction("OK") {}.show()
     }
 
     private fun changeFavoriteIconColor(color: Int) {
