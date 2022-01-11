@@ -1,32 +1,29 @@
 package com.example.weatherapptask.ui.favorites.adapter
 
-import android.view.LayoutInflater
-import android.view.ViewGroup
+import android.view.*
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentActivity
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.weatherapptask.R
 import com.example.weatherapptask.data.database.FavoritesEntity
 import com.example.weatherapptask.databinding.FavoriteForecastRowItemBinding
 import com.example.weatherapptask.ui.favorites.FavoritesFragmentDirections
 import com.example.weatherapptask.util.Util.getWeatherAnimation
 import com.example.weatherapptask.util.Util.getWholeNum
 
-class FavoritesForecastsAdapter : ListAdapter<FavoritesEntity, FavoritesForecastsAdapter.ItemHolder>(DiffCallback()) {
+class FavoritesForecastsAdapter(
+    private val requireActivity: FragmentActivity
+) : ListAdapter<FavoritesEntity, FavoritesForecastsAdapter.ItemHolder>(DiffCallback()),
+    ActionMode.Callback {
     var setOnItemClick: ((FavoritesEntity) -> Unit)? = null
 
     inner class ItemHolder(private val binding: FavoriteForecastRowItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(model: FavoritesEntity?) {
-            /*
 //            binding.favoritesEntity = favoritesEntity
 //            binding.executePendingBindings()
-            binding.favoriteCity.text = model.cityName
-            binding.favoriteWeather.text = model.weather[0].currentWeather
-            binding.favoriteTemp.text = getWholeNum(model.temperatureInfo.temp).plus("°c")
-            binding.favoriteImg.setAnimation(getWeatherAnimation(model.weather[0].icon))
-            binding.favoriteImg.playAnimation()
-            */
-            ///////
 
             model?.let { m ->
                 binding.favoriteCity.text = m.cityName
@@ -45,6 +42,14 @@ class FavoritesForecastsAdapter : ListAdapter<FavoritesEntity, FavoritesForecast
                             FavoritesFragmentDirections.actionFavoritesToForecastReportFragment(m)
                         )
                     }
+                }
+
+                /**
+                 * Long click listener
+                 */
+                binding.root.setOnLongClickListener {
+                    requireActivity.startActionMode(this@FavoritesForecastsAdapter)
+                    true
                 }
             }
         }
@@ -75,4 +80,28 @@ class FavoritesForecastsAdapter : ListAdapter<FavoritesEntity, FavoritesForecast
     override fun submitList(list: MutableList<FavoritesEntity>?) {
         super.submitList(list?.map { it.copy() })
     }
+
+    override fun onCreateActionMode(actionMode: ActionMode?, menu: Menu?): Boolean {
+        actionMode?.menuInflater?.inflate(R.menu.favorites_contextual_menu, menu)
+
+        return true
+    }
+
+    override fun onPrepareActionMode(actionMode: ActionMode?, menu: Menu?): Boolean {
+        return true
+    }
+
+    override fun onActionItemClicked(actionMode: ActionMode?, menu: MenuItem?): Boolean {
+        return true
+    }
+
+    override fun onDestroyActionMode(actionMode: ActionMode?) {
+
+    }
+
+    /*
+    private fun applyStatusBarColor(color: Int) {
+        requireActivity.window.statusBarColor =
+            ContextCompat.getColor(requireActivity, color)
+    }*/
 }

@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidProjects/WeatherAppTask/app/src/main/res/drawable/ic_arrow_back.xml" value="0.37083333333333335" />
         <entry key="..\:/AndroidProjects/WeatherAppTask/app/src/main/res/drawable/ic_clear.xml" value="0.37083333333333335" />
         <entry key="..\:/AndroidProjects/WeatherAppTask/app/src/main/res/drawable/ic_search_off.xml" value="0.2755208333333333" />
         <entry key="..\:/AndroidProjects/WeatherAppTask/app/src/main/res/drawable/ic_search_on.xml" value="0.37083333333333335" />
@@ -20,6 +21,7 @@
         <entry key="..\:/AndroidProjects/WeatherAppTask/app/src/main/res/layout/fragment_search.xml" value="0.384375" />
         <entry key="..\:/AndroidProjects/WeatherAppTask/app/src/main/res/layout/hourly_temp_item.xml" value="0.9" />
         <entry key="..\:/AndroidProjects/WeatherAppTask/app/src/main/res/menu/bottom_nav_menu.xml" value="0.3546875" />
+        <entry key="..\:/AndroidProjects/WeatherAppTask/app/src/main/res/menu/favorites_contextual_menu.xml" value="0.3546875" />
       </map>
     </option>
   </component>

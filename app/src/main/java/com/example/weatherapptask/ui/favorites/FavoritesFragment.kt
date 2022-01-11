@@ -12,7 +12,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FavoritesFragment : Fragment() {
     private val binding by lazy { FragmentFavoritesBinding.inflate(layoutInflater) }
-    private val favoritesForecastsAdapter = FavoritesForecastsAdapter()
+    private val favoritesForecastsAdapter: FavoritesForecastsAdapter by lazy { FavoritesForecastsAdapter(requireActivity()) }
     private val locationForecastVM: LocationForecastVM by viewModel()
 
     override fun onCreateView(
