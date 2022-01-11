@@ -119,12 +119,36 @@ class SearchFragment : Fragment() {
     }
 
     private fun getCurrentCityForecastByCoordinates(lat: String, lon: String) {
-        locationForecastVM.sendData(lat, lon, UNITS, API_KEY)
+//        locationForecastVM.sendData(lat, lon, UNITS, API_KEY)
+        searchForecastVM.sendCoordinatesData(lat, lon, UNITS, API_KEY)
         observeForecast()
     }
 
     private fun observeForecast() {
+        /*
         locationForecastVM.locationForecastData.observe(viewLifecycleOwner, { response ->
+            when (response) {
+                is NetworkResult.Success -> {
+                    binding.card.isVisible = true
+                    response.data?.let {
+                        binding.temp.text = getWholeNum(it.temperatureInfo.temp).plus("°c")
+                        binding.img.setAnimation(getWeatherAnimation(it.weather[0].icon))
+                        binding.img.playAnimation()
+                        binding.weather.text = it.weather[0].currentWeather
+                        binding.city.text = it.cityName
+                        binding.card.setOnClickListener { view ->
+                            val action = SearchFragmentDirections.actionSearchToForecastReportFragment(it)
+                            view.findNavController().navigate(action)
+                        }
+                    }
+                }
+                is NetworkResult.Error -> {
+                    displayToast(response.message.toString(), requireContext())
+                }
+            }
+        })*/
+
+        searchForecastVM.locationSearchForecastData.observe(viewLifecycleOwner, { response ->
             when (response) {
                 is NetworkResult.Success -> {
                     binding.card.isVisible = true

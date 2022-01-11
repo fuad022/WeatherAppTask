@@ -235,7 +235,6 @@
                     tools:text="10m/sec" />
                 <!-- New added -->
 
-
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>

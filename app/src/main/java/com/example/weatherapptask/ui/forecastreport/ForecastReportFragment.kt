@@ -48,16 +48,16 @@ class ForecastReportFragment : Fragment() {
     }
 
     private fun init() {
-        binding.city.text = args.locationModel.cityName
+        binding.city.text = args.favoritesEntity.cityName
 
-        binding.date.text = convertDate(args.locationModel.dateTime.toString(), "1")
-        binding.weather.text = args.locationModel.weather[0].currentWeather
-        binding.img.setAnimation(getWeatherAnimation(args.locationModel.weather[0].icon))
+        binding.date.text = convertDate(args.favoritesEntity.dateTime.toString(), "1")
+        binding.weather.text = args.favoritesEntity.weather[0].currentWeather
+        binding.img.setAnimation(getWeatherAnimation(args.favoritesEntity.weather[0].icon))
         binding.img.playAnimation()
-        binding.temperature.text = getWholeNum(args.locationModel.temperatureInfo.temp).plus("°c")
-        binding.tempNum.text = getWholeNum(args.locationModel.temperatureInfo.temp).plus("°c")
-        binding.humidyNum.text = args.locationModel.temperatureInfo.humidity.toString().plus("%")
-        binding.windNum.text = getWholeNum(args.locationModel.wind.speed).plus("m/sec")
+        binding.temperature.text = getWholeNum(args.favoritesEntity.temperatureInfo.temp).plus("°c")
+        binding.tempNum.text = getWholeNum(args.favoritesEntity.temperatureInfo.temp).plus("°c")
+        binding.humidyNum.text = args.favoritesEntity.temperatureInfo.humidity.toString().plus("%")
+        binding.windNum.text = getWholeNum(args.favoritesEntity.wind.speed).plus("m/sec")
 
         checkSavedForecasts()
 
@@ -84,7 +84,7 @@ class ForecastReportFragment : Fragment() {
         locationForecastVM.readFavoriteForecasts.observe(this, { favoritesEntity ->
             try {
                 for (savedForecast in favoritesEntity) {
-                    if (savedForecast.id == args.locationModel.id) {
+                    if (savedForecast.id == args.favoritesEntity.id) {
                         changeFavoriteIconColor(R.color.yelow)
                         savedForecastId = savedForecast.id
                         forecastSaved = true
@@ -98,13 +98,13 @@ class ForecastReportFragment : Fragment() {
 
     private fun saveToFavorites() {
         val favoritesEntity = FavoritesEntity(
-            args.locationModel.id,
-            args.locationModel.cityCoordinate,
-            args.locationModel.dateTime,
-            args.locationModel.temperatureInfo,
-            args.locationModel.cityName,
-            args.locationModel.weather,
-            args.locationModel.wind
+            args.favoritesEntity.id,
+            args.favoritesEntity.cityCoordinate,
+            args.favoritesEntity.dateTime,
+            args.favoritesEntity.temperatureInfo,
+            args.favoritesEntity.cityName,
+            args.favoritesEntity.weather,
+            args.favoritesEntity.wind
         )
         locationForecastVM.insertFavoriteForecast(favoritesEntity)
         changeFavoriteIconColor(R.color.yelow)
@@ -115,12 +115,12 @@ class ForecastReportFragment : Fragment() {
     private fun removeFromFavorites() {
         val favoritesEntity = FavoritesEntity(
             savedForecastId,
-            args.locationModel.cityCoordinate,
-            args.locationModel.dateTime,
-            args.locationModel.temperatureInfo,
-            args.locationModel.cityName,
-            args.locationModel.weather,
-            args.locationModel.wind
+            args.favoritesEntity.cityCoordinate,
+            args.favoritesEntity.dateTime,
+            args.favoritesEntity.temperatureInfo,
+            args.favoritesEntity.cityName,
+            args.favoritesEntity.weather,
+            args.favoritesEntity.wind
         )
         locationForecastVM.deleteFavoriteForecast(favoritesEntity)
         changeFavoriteIconColor(R.color.white)

@@ -25,12 +25,16 @@
         android:label="ForecastReportFragment"
         tools:layout="@layout/fragment_forecast_report">
         <argument
-            android:name="locationModel"
-            app:argType="com.example.weatherapptask.data.remote.model.LocationModel" />
+            android:name="favoritesEntity"
+            app:argType="com.example.weatherapptask.data.database.FavoritesEntity" />
     </fragment>
     <fragment
         android:id="@+id/favorites"
         android:name="com.example.weatherapptask.ui.favorites.FavoritesFragment"
         android:label="FavoritesFragment"
-        tools:layout="@layout/fragment_favorites" />
+        tools:layout="@layout/fragment_favorites" >
+        <action
+            android:id="@+id/action_favorites_to_forecastReportFragment"
+            app:destination="@id/forecastReportFragment" />
+    </fragment>
 </navigation>

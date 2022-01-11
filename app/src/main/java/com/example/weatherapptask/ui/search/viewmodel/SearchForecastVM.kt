@@ -8,6 +8,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.weatherapptask.data.database.FavoritesEntity
 import com.example.weatherapptask.data.remote.model.LocationModel
 import com.example.weatherapptask.data.remote.other.NetworkResult
 import com.example.weatherapptask.data.repo.Repository
@@ -20,15 +21,17 @@ class SearchForecastVM(
     application: Application
 ) : AndroidViewModel(application) {
 
-    private val _searchForecastData = MutableLiveData<NetworkResult<LocationModel>>()
-    val searchForecastData: LiveData<NetworkResult<LocationModel>> get() = _searchForecastData
+//    private val _searchForecastData = MutableLiveData<NetworkResult<LocationModel>>()
+//    val searchForecastData: LiveData<NetworkResult<LocationModel>> get() = _searchForecastData
+    private val _searchForecastData = MutableLiveData<NetworkResult<FavoritesEntity>>()
+    val searchForecastData: LiveData<NetworkResult<FavoritesEntity>> get() = _searchForecastData
 
     fun sendData(cityName: String, units: String, appid: String) =
         viewModelScope.launch {
-            getDailyForecastSafeCall(cityName, units, appid)
+            getSearchForecastSafeCall(cityName, units, appid)
         }
 
-    private suspend fun getDailyForecastSafeCall(cityName: String, units: String, appid: String) {
+    private suspend fun getSearchForecastSafeCall(cityName: String, units: String, appid: String) {
         _searchForecastData.value = NetworkResult.Loading()
         if (hasInternetConnection()) {
             try {
@@ -42,7 +45,32 @@ class SearchForecastVM(
         }
     }
 
-    private fun handleSearchForecastResponse(response: Response<LocationModel>): NetworkResult<LocationModel>? {
+    /// Click location button
+    private val _locationSearchForecastData = MutableLiveData<NetworkResult<FavoritesEntity>>()
+    val locationSearchForecastData: LiveData<NetworkResult<FavoritesEntity>> get() = _locationSearchForecastData
+
+    fun sendCoordinatesData(lat: String, lon: String, units: String, apiKey: String) =
+        viewModelScope.launch {
+            getCurrentForecastSafeCall(lat, lon, units, apiKey)
+        }
+
+    private suspend fun getCurrentForecastSafeCall(lat: String, lon: String, units: String, apiKey: String) {
+        _locationSearchForecastData.value = NetworkResult.Loading()
+        if (hasInternetConnection()) {
+            try {
+                val response = repository.getSearchCurrentForecastByCoordinates(lat, lon, units, apiKey)
+                _locationSearchForecastData.value = handleSearchForecastResponse(response)
+            } catch (e: Exception) {
+                _locationSearchForecastData.value = NetworkResult.Error("Location Forecast not found.")
+            }
+        } else {
+            _locationSearchForecastData.value = NetworkResult.Error("No Internet Connection.")
+        }
+    }
+    ///
+
+//    private fun handleSearchForecastResponse(response: Response<LocationModel>): NetworkResult<LocationModel>? {
+    private fun handleSearchForecastResponse(response: Response<FavoritesEntity>): NetworkResult<FavoritesEntity>? {
         when {
             response.message().toString().contains("timeout") -> {
                 return NetworkResult.Error("Timeout")

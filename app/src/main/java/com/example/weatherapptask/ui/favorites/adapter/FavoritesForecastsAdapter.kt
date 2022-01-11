@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapptask.data.database.FavoritesEntity
 import com.example.weatherapptask.databinding.FavoriteForecastRowItemBinding
+import com.example.weatherapptask.ui.favorites.FavoritesFragment
+import com.example.weatherapptask.ui.favorites.FavoritesFragmentDirections
 import com.example.weatherapptask.util.Util
 import com.example.weatherapptask.util.Util.getWeatherAnimation
 import com.example.weatherapptask.util.Util.getWholeNum
@@ -22,6 +24,11 @@ class FavoritesForecastsAdapter : ListAdapter<FavoritesEntity, FavoritesForecast
             binding.favoriteTemp.text = getWholeNum(model.temperatureInfo.temp).plus("°c")
             binding.favoriteImg.setAnimation(getWeatherAnimation(model.weather[0].icon))
             binding.favoriteImg.playAnimation()
+
+//            binding.forecastRowItem.setOnClickListener {
+//                val action = FavoritesFragmentDirections.actionFavoritesToForecastReportFragment(model)
+//            }
+
         }
     }
 

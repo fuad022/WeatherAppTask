@@ -13,4 +13,5 @@
     <string name="favorites">Favorites</string>
     <string name="forecast_report">Forecast Report</string>
     <string name="no_favorite_forecasts">No Favorite Forecasts.</string>
+    <string name="favorites_forecasts">Favorites Forecasts</string>
 </resources>
