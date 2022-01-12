@@ -39,7 +39,7 @@ class LocationForecastVM(
             mainRepository.local.deleteFavoriteForecast(favoritesEntity)
         }
 
-    private fun deleteAllFavoriteForecasts() =
+    fun deleteAllFavoriteForecasts() =
         viewModelScope.launch(Dispatchers.IO) {
             mainRepository.local.deleteAllFavoriteForecasts()
         }

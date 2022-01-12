@@ -21,6 +21,7 @@
         tools:context=".ui.favorites.FavoritesFragment">
 
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/nasted_scroll"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true"
