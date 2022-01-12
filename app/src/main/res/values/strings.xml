@@ -16,4 +16,5 @@
     <string name="favorites_forecasts">Favorites Forecasts</string>
     <string name="delete_favorite_menu">Delete Favorite Menu</string>
     <string name="delete_all">Delete All</string>
+    <string name="delete_all_favorite_menu">Delete All Favorite Menu</string>
 </resources>

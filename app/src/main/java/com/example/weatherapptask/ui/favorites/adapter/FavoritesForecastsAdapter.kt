@@ -23,7 +23,7 @@ class FavoritesForecastsAdapter(
 
     private var multiSelection = false
     private lateinit var mActionMode: ActionMode
-    private lateinit var rootView: View ////
+    private lateinit var rootView: View
     private var selectedForecasts = arrayListOf<FavoritesEntity>()
     private var myViewHolders = arrayListOf<ItemHolder>()
 
@@ -54,7 +54,7 @@ class FavoritesForecastsAdapter(
 
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
         myViewHolders.add(holder)
-        rootView = holder.itemView.rootView ////
+        rootView = holder.itemView.rootView
 
         val currentForecast = getItem(position)
         holder.bind(currentForecast)
@@ -154,6 +154,12 @@ class FavoritesForecastsAdapter(
 
             multiSelection = false
             selectedForecasts.clear()
+            actionMode?.finish()
+        }
+        if (menu?.itemId == R.id.delete_all_favorite_forecast_menu) {
+            locationForecastVM.deleteAllFavoriteForecasts()
+            showSnackBar("All forecasts removed.")
+
             actionMode?.finish()
         }
         return true
