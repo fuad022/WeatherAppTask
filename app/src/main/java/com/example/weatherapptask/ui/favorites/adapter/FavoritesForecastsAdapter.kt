@@ -50,15 +50,15 @@ class FavoritesForecastsAdapter(
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
 //        myViewHolders.add(holder)
 
-        val selectedForecast = getItem(position)
-        holder.bind(selectedForecast)
+        val currentForecast = getItem(position)
+        holder.bind(currentForecast)
 
         /**
          * Single click listener
          */
         holder.binding.root.setOnClickListener {
             val action =
-                FavoritesFragmentDirections.actionFavoritesToForecastReportFragment(selectedForecast)
+                FavoritesFragmentDirections.actionFavoritesToForecastReportFragment(currentForecast)
             holder.itemView.findNavController().navigate(action)
         }
 
