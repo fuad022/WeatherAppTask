@@ -143,23 +143,6 @@ class ForecastReportFragment : Fragment() {
         )
     }
 
-    /*
-    private fun observeDailyForecast() {
-        dailyForecastVM.dailyForecastData.observe(viewLifecycleOwner, { response ->
-            when (response) {
-                is NetworkResult.Success -> {
-                    response.data?.let {
-                        dailyForecastAdapter.submitList(it.daily.toMutableList())
-                    }
-                }
-                is NetworkResult.Error -> {
-                    displayToast(response.message.toString(), requireContext())
-                }
-            }
-        })
-        binding.dailyRv.adapter = dailyForecastAdapter
-    }*/
-
     override fun onPause() {
         if (toast != null) toast!!.cancel()
         super.onPause()
@@ -169,4 +152,21 @@ class ForecastReportFragment : Fragment() {
         super.onDestroy()
         changeFavoriteIconColor(R.color.white)
     }
+
+    /*
+private fun observeDailyForecast() {
+    dailyForecastVM.dailyForecastData.observe(viewLifecycleOwner, { response ->
+        when (response) {
+            is NetworkResult.Success -> {
+                response.data?.let {
+                    dailyForecastAdapter.submitList(it.daily.toMutableList())
+                }
+            }
+            is NetworkResult.Error -> {
+                displayToast(response.message.toString(), requireContext())
+            }
+        }
+    })
+    binding.dailyRv.adapter = dailyForecastAdapter
+}*/
 }

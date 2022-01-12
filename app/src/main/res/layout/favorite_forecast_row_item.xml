@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-<!--    <data>-->
+    <!--    <data>-->
 
-<!--        <variable-->
-<!--            name="favoritesEntity"-->
-<!--            type="com.example.weatherapptask.data.database.FavoritesEntity" />-->
-<!--    </data>-->
+    <!--        <variable-->
+    <!--            name="favoritesEntity"-->
+    <!--            type="com.example.weatherapptask.data.database.FavoritesEntity" />-->
+    <!--    </data>-->
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/forecast_row_item"
@@ -30,6 +30,7 @@
             app:strokeWidth="1dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/inner_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/light_black">

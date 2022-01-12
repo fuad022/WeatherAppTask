@@ -3,7 +3,7 @@ package com.example.weatherapptask.ui.favorites.adapter
 import android.view.*
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
-import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -16,41 +16,23 @@ import com.example.weatherapptask.util.Util.getWholeNum
 
 class FavoritesForecastsAdapter(
     private val requireActivity: FragmentActivity
-) : ListAdapter<FavoritesEntity, FavoritesForecastsAdapter.ItemHolder>(DiffCallback()),
-    ActionMode.Callback {
-    var setOnItemClick: ((FavoritesEntity) -> Unit)? = null
+) : ListAdapter<FavoritesEntity, FavoritesForecastsAdapter.ItemHolder>(DiffCallback()), ActionMode.Callback {
 
-    inner class ItemHolder(private val binding: FavoriteForecastRowItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(model: FavoritesEntity?) {
+    private var multiSelection = false
+    private var selectedForecasts = arrayListOf<FavoritesEntity>()
+    private var myViewHolders = arrayListOf<ItemHolder>()
+
+    class ItemHolder(val binding: FavoriteForecastRowItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(favoritesEntity: FavoritesEntity?) {
 //            binding.favoritesEntity = favoritesEntity
 //            binding.executePendingBindings()
 
-            model?.let { m ->
+            favoritesEntity?.let { m ->
                 binding.favoriteCity.text = m.cityName
                 binding.favoriteWeather.text = m.weather[0].currentWeather
                 binding.favoriteTemp.text = getWholeNum(m.temperatureInfo.temp).plus("°c")
                 binding.favoriteImg.setAnimation(getWeatherAnimation(m.weather[0].icon))
                 binding.favoriteImg.playAnimation()
-
-                /**
-                 * Single click listener
-                 */
-                binding.root.setOnClickListener {
-                    m.let { entity ->
-                        setOnItemClick?.invoke(entity)
-                        Navigation.findNavController(it).navigate(
-                            FavoritesFragmentDirections.actionFavoritesToForecastReportFragment(m)
-                        )
-                    }
-                }
-
-                /**
-                 * Long click listener
-                 */
-                binding.root.setOnLongClickListener {
-                    requireActivity.startActionMode(this@FavoritesForecastsAdapter)
-                    true
-                }
             }
         }
     }
@@ -66,7 +48,45 @@ class FavoritesForecastsAdapter(
     }
 
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
-        holder.bind(getItem(position))
+//        myViewHolders.add(holder)
+
+        val selectedForecast = getItem(position)
+        holder.bind(selectedForecast)
+
+        /**
+         * Single click listener
+         */
+        holder.binding.root.setOnClickListener {
+            val action =
+                FavoritesFragmentDirections.actionFavoritesToForecastReportFragment(selectedForecast)
+            holder.itemView.findNavController().navigate(action)
+        }
+
+        /**
+         * Long click listener
+         */
+        holder.binding.root.setOnLongClickListener {
+            requireActivity.startActionMode(this@FavoritesForecastsAdapter)
+            true
+        }
+    }
+
+    private fun applySelection(holder: ItemHolder, currentForecast: FavoritesEntity) {
+        if (selectedForecasts.contains(currentForecast)) {
+            selectedForecasts.remove(currentForecast)
+            changeForecastStyle(holder, R.color.light_black, R.color.light_black)
+        } else {
+            selectedForecasts.add(currentForecast)
+            changeForecastStyle(holder, R.color.card_view, R.color.card_view)
+        }
+    }
+
+    private fun changeForecastStyle(holder: ItemHolder, backgroundColor: Int, strokeColor: Int) {
+        holder.binding.innerLayout.setBackgroundColor(
+            ContextCompat.getColor(requireActivity, backgroundColor)
+        )
+        holder.binding.favoriteRowCardView.strokeColor =
+            ContextCompat.getColor(requireActivity, strokeColor)
     }
 
     private class DiffCallback : DiffUtil.ItemCallback<FavoritesEntity>() {
@@ -96,7 +116,11 @@ class FavoritesForecastsAdapter(
     }
 
     override fun onDestroyActionMode(actionMode: ActionMode?) {
-
+//        myViewHolders.forEach { holder ->
+//            changeForecastStyle(holder, R.color.background, R.color.background)
+//        }
+//        multiSelection = false
+//        selectedForecasts.clear()
     }
 
     /*
