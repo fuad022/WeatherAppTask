@@ -9,6 +9,7 @@
         <entry key="..\:/AndroidProjects/WeatherAppTask/app/src/main/res/drawable/ic_delete_all.xml" value="0.37083333333333335" />
         <entry key="..\:/AndroidProjects/WeatherAppTask/app/src/main/res/drawable/ic_search_off.xml" value="0.2755208333333333" />
         <entry key="..\:/AndroidProjects/WeatherAppTask/app/src/main/res/drawable/ic_search_on.xml" value="0.37083333333333335" />
+        <entry key="..\:/AndroidProjects/WeatherAppTask/app/src/main/res/drawable/selector_favorites.xml" value="0.2755208333333333" />
         <entry key="..\:/AndroidProjects/WeatherAppTask/app/src/main/res/drawable/selector_my_location.xml" value="0.37083333333333335" />
         <entry key="..\:/AndroidProjects/WeatherAppTask/app/src/main/res/drawable/selector_search.xml" value="0.37083333333333335" />
         <entry key="..\:/AndroidProjects/WeatherAppTask/app/src/main/res/drawable/shape_bottom_nav.xml" value="0.37083333333333335" />
@@ -18,7 +19,7 @@
         <entry key="..\:/AndroidProjects/WeatherAppTask/app/src/main/res/layout/daily_temp_item.xml" value="0.5" />
         <entry key="..\:/AndroidProjects/WeatherAppTask/app/src/main/res/layout/favorite_forecast_row_item.xml" value="0.4727085478887745" />
         <entry key="..\:/AndroidProjects/WeatherAppTask/app/src/main/res/layout/fragment_favorites.xml" value="0.3546875" />
-        <entry key="..\:/AndroidProjects/WeatherAppTask/app/src/main/res/layout/fragment_forecast_report.xml" value="0.3546875" />
+        <entry key="..\:/AndroidProjects/WeatherAppTask/app/src/main/res/layout/fragment_forecast_report.xml" value="0.4" />
         <entry key="..\:/AndroidProjects/WeatherAppTask/app/src/main/res/layout/fragment_my_location.xml" value="0.3546875" />
         <entry key="..\:/AndroidProjects/WeatherAppTask/app/src/main/res/layout/fragment_search.xml" value="0.384375" />
         <entry key="..\:/AndroidProjects/WeatherAppTask/app/src/main/res/layout/hourly_temp_item.xml" value="0.9" />

@@ -1,9 +1,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.WeatherAppTask" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.WeatherAppTask" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_200</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorPrimary">@color/background</item>
+        <item name="colorPrimaryVariant">@color/background</item>
         <item name="colorOnPrimary">@color/black</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
@@ -15,10 +15,11 @@
         <item name="android:navigationBarColor">@color/bottom_nav</item>
         <!-- Disable force dark mode. -->
         <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
-        <!--  -->
+        <!-- Action Mode -->
         <item name="actionModeBackground">@color/contextual_action_bar_color</item>
         <item name="actionModeCloseButtonStyle">@style/closeButton</item>
         <item name="actionModeStyle">@style/ActionModeStyle</item>
+        <item name="android:windowActionModeOverlay">true</item>
     </style>
 
     <style name="Theme.BottomNavigationView" parent="Widget.Design.BottomNavigationView">

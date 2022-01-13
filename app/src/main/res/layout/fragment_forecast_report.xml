@@ -35,7 +35,7 @@
                     android:id="@+id/title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="45dp"
+                    android:layout_marginTop="15dp"
                     android:fontFamily="@font/roboto_slab_medium"
                     android:text="@string/forecast_report"
                     android:textColor="@color/white"
@@ -48,7 +48,7 @@
                     android:id="@+id/city"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="50dp"
+                    android:layout_marginTop="70dp"
                     android:fontFamily="@font/roboto_slab_medium"
                     android:textAlignment="center"
                     android:textColor="@color/white"
@@ -78,34 +78,34 @@
                     app:layout_constraintStart_toStartOf="@id/city"
                     app:layout_constraintTop_toBottomOf="@id/city" />
 
-<!--                <androidx.appcompat.widget.AppCompatTextView-->
-<!--                    android:id="@+id/next_forecast_txt"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="34dp"-->
-<!--                    android:layout_marginTop="20dp"-->
-<!--                    android:fontFamily="@font/roboto_slab_regular"-->
-<!--                    android:text="Next Forecast"-->
-<!--                    android:textColor="@color/white"-->
-<!--                    android:textSize="17sp"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toBottomOf="@id/btn" />-->
+                <!--                <androidx.appcompat.widget.AppCompatTextView-->
+                <!--                    android:id="@+id/next_forecast_txt"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginStart="34dp"-->
+                <!--                    android:layout_marginTop="20dp"-->
+                <!--                    android:fontFamily="@font/roboto_slab_regular"-->
+                <!--                    android:text="Next Forecast"-->
+                <!--                    android:textColor="@color/white"-->
+                <!--                    android:textSize="17sp"-->
+                <!--                    app:layout_constraintStart_toStartOf="parent"-->
+                <!--                    app:layout_constraintTop_toBottomOf="@id/btn" />-->
 
-<!--                <androidx.recyclerview.widget.RecyclerView-->
-<!--                    android:id="@+id/daily_rv"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:layout_marginTop="10dp"-->
-<!--                    android:clipToPadding="false"-->
-<!--                    android:overScrollMode="never"-->
-<!--                    android:paddingBottom="10dp"-->
-<!--                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
-<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                    app:layout_constraintEnd_toEndOf="parent"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toBottomOf="@id/next_forecast_txt"-->
-<!--                    tools:itemCount="5"-->
-<!--                    tools:listitem="@layout/daily_temp_item" />-->
+                <!--                <androidx.recyclerview.widget.RecyclerView-->
+                <!--                    android:id="@+id/daily_rv"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="match_parent"-->
+                <!--                    android:layout_marginTop="10dp"-->
+                <!--                    android:clipToPadding="false"-->
+                <!--                    android:overScrollMode="never"-->
+                <!--                    android:paddingBottom="10dp"-->
+                <!--                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
+                <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+                <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+                <!--                    app:layout_constraintStart_toStartOf="parent"-->
+                <!--                    app:layout_constraintTop_toBottomOf="@id/next_forecast_txt"-->
+                <!--                    tools:itemCount="5"-->
+                <!--                    tools:listitem="@layout/daily_temp_item" />-->
 
                 <!-- New added -->
                 <com.google.android.material.textview.MaterialTextView
