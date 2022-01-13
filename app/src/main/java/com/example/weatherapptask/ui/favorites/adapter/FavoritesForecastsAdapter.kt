@@ -59,6 +59,8 @@ class FavoritesForecastsAdapter(
         val currentForecast = getItem(position)
         holder.bind(currentForecast)
 
+        saveItemStateOnScroll(currentForecast, holder)
+
         /**
          * Single click listener
          */
@@ -85,6 +87,14 @@ class FavoritesForecastsAdapter(
                 applySelection(holder, currentForecast)
                 true
             }
+        }
+    }
+
+    private fun saveItemStateOnScroll(currentForecast: FavoritesEntity, holder: ItemHolder) {
+        if (selectedForecasts.contains(currentForecast)) {
+            changeForecastStyle(holder, R.color.card_view, R.color.card_view)
+        } else {
+            changeForecastStyle(holder, R.color.light_black, R.color.light_black)
         }
     }
 
