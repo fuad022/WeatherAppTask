@@ -35,14 +35,31 @@ class ForecastReportFragment : Fragment() {
     var toast: Toast? = null
     private var forecastSaved = false
     private var savedForecastId = 0
+    private lateinit var menuItem: MenuItem
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        setHasOptionsMenu(true)
         init()
 //        observeDailyForecast()
         return binding.root
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.report_menu, menu)
+        menuItem = menu.findItem(R.id.save_to_favorites_menu)
+        checkSavedForecasts(menuItem)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.save_to_favorites_menu && !forecastSaved) {
+            saveToFavorites(item)
+        } else if (item.itemId == R.id.save_to_favorites_menu && forecastSaved) {
+            removeFromFavorites(item)
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun init() {
@@ -57,19 +74,21 @@ class ForecastReportFragment : Fragment() {
         binding.humidyNum.text = args.favoritesEntity.temperatureInfo.humidity.toString().plus("%")
         binding.windNum.text = getWholeNum(args.favoritesEntity.wind.speed).plus("m/sec")
 
-        checkSavedForecasts()
+        /*
+//        checkSavedForecasts()
 
-        binding.favoriteIcon.setOnClickListener {
-            if (!forecastSaved) {
-                saveToFavorites()
-            } else if (forecastSaved) {
-                removeFromFavorites()
-            }
-//            when {
-//                !forecastSaved -> saveToFavorites()
-//                forecastSaved ->  removeFromFavorites()
+//        binding.favoriteIcon.setOnClickListener {
+//            if (!forecastSaved) {
+//                saveToFavorites()
+//            } else if (forecastSaved) {
+//                removeFromFavorites()
 //            }
-        }
+////            when {
+////                !forecastSaved -> saveToFavorites()
+////                forecastSaved ->  removeFromFavorites()
+////            }
+//        }
+        */
 
         /*
         dailyForecastVM.sendData(
@@ -78,12 +97,12 @@ class ForecastReportFragment : Fragment() {
         )*/
     }
 
-    private fun checkSavedForecasts() {
+    private fun checkSavedForecasts(menuItem: MenuItem) {
         locationForecastVM.readFavoriteForecasts.observe(this, { favoritesEntity ->
             try {
                 for (savedForecast in favoritesEntity) {
                     if (savedForecast.id == args.favoritesEntity.id) {
-                        changeFavoriteIconColor(R.color.yelow)
+                        changeFavoriteIconColor(menuItem, R.color.yelow)
                         savedForecastId = savedForecast.id
                         forecastSaved = true
                     }
@@ -94,7 +113,7 @@ class ForecastReportFragment : Fragment() {
         })
     }
 
-    private fun saveToFavorites() {
+    private fun saveToFavorites(item: MenuItem) {
         val favoritesEntity = FavoritesEntity(
             args.favoritesEntity.id,
             args.favoritesEntity.cityCoordinate,
@@ -105,12 +124,12 @@ class ForecastReportFragment : Fragment() {
             args.favoritesEntity.wind
         )
         locationForecastVM.insertFavoriteForecast(favoritesEntity)
-        changeFavoriteIconColor(R.color.yelow)
+        changeFavoriteIconColor(item, R.color.yelow)
         showSnackBar("Forecast saved.")
         forecastSaved = true
     }
 
-    private fun removeFromFavorites() {
+    private fun removeFromFavorites(item: MenuItem) {
         val favoritesEntity = FavoritesEntity(
             savedForecastId,
             args.favoritesEntity.cityCoordinate,
@@ -121,7 +140,7 @@ class ForecastReportFragment : Fragment() {
             args.favoritesEntity.wind
         )
         locationForecastVM.deleteFavoriteForecast(favoritesEntity)
-        changeFavoriteIconColor(R.color.white)
+        changeFavoriteIconColor(item, R.color.white)
         showSnackBar("Removed from Favorites.")
         forecastSaved = false
     }
@@ -134,27 +153,9 @@ class ForecastReportFragment : Fragment() {
         ).setAction("OK") {}.show()
     }
 
-    private fun changeFavoriteIconColor(color: Int) {
-        binding.favoriteIcon.setColorFilter(
-            ContextCompat.getColor(requireContext(), color),
-            android.graphics.PorterDuff.Mode.MULTIPLY
-        )
+    private fun changeFavoriteIconColor(item: MenuItem, color: Int) {
+        item.icon.setTint(ContextCompat.getColor(requireContext(), color))
     }
-
-//    //////////////////////// Menu
-//
-//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-//        inflater.inflate(R.menu.report_menu, menu)
-//    }
-//
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        if (item.itemId == R.id.save_to_favorites_menu) {
-//            saveToFavorites()
-//        }
-//        return super.onOptionsItemSelected(item)
-//    }
-//
-//    //////////////////////// Menu
 
     override fun onPause() {
         if (toast != null) toast!!.cancel()
@@ -163,7 +164,8 @@ class ForecastReportFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        changeFavoriteIconColor(R.color.white)
+//        changeFavoriteIconColor(R.color.white)
+        changeFavoriteIconColor(menuItem, R.color.white)
     }
 
     /*
@@ -182,4 +184,63 @@ private fun observeDailyForecast() {
     })
     binding.dailyRv.adapter = dailyForecastAdapter
 }*/
+
+    /*
+
+//    private fun checkSavedForecasts() {
+//        locationForecastVM.readFavoriteForecasts.observe(this, { favoritesEntity ->
+//            try {
+//                for (savedForecast in favoritesEntity) {
+//                    if (savedForecast.id == args.favoritesEntity.id) {
+//                        changeFavoriteIconColor(R.color.yelow)
+//                        savedForecastId = savedForecast.id
+//                        forecastSaved = true
+//                    }
+//                }
+//            } catch (e: Exception) {
+//                Log.d("ForecastReportFragment", e.message.toString())
+//            }
+//        })
+//    }
+
+//    private fun saveToFavorites() {
+//        val favoritesEntity = FavoritesEntity(
+//            args.favoritesEntity.id,
+//            args.favoritesEntity.cityCoordinate,
+//            args.favoritesEntity.dateTime,
+//            args.favoritesEntity.temperatureInfo,
+//            args.favoritesEntity.cityName,
+//            args.favoritesEntity.weather,
+//            args.favoritesEntity.wind
+//        )
+//        locationForecastVM.insertFavoriteForecast(favoritesEntity)
+//        changeFavoriteIconColor(R.color.yelow)
+//        showSnackBar("Forecast saved.")
+//        forecastSaved = true
+//    }
+
+//    private fun removeFromFavorites() {
+//        val favoritesEntity = FavoritesEntity(
+//            savedForecastId,
+//            args.favoritesEntity.cityCoordinate,
+//            args.favoritesEntity.dateTime,
+//            args.favoritesEntity.temperatureInfo,
+//            args.favoritesEntity.cityName,
+//            args.favoritesEntity.weather,
+//            args.favoritesEntity.wind
+//        )
+//        locationForecastVM.deleteFavoriteForecast(favoritesEntity)
+//        changeFavoriteIconColor(R.color.white)
+//        showSnackBar("Removed from Favorites.")
+//        forecastSaved = false
+//    }
+
+//    private fun changeFavoriteIconColor(color: Int) {
+//        binding.favoriteIcon.setColorFilter(
+//            ContextCompat.getColor(requireContext(), color),
+//            android.graphics.PorterDuff.Mode.MULTIPLY
+//        )
+//    }
+
+     */
 }
