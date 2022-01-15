@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-//
+
     private fun hideBottomNav() {
         binding.bottomNav.isVisible = false
     }
