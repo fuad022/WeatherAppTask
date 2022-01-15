@@ -3,6 +3,7 @@ package com.example.weatherapptask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
@@ -35,11 +36,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun hideBottomNav() {
-        binding.bottomNav.visibility = View.GONE
+        binding.bottomNav.isVisible = false
     }
 
     private fun showBottomNav() {
-        binding.bottomNav.visibility = View.VISIBLE
+        binding.bottomNav.isVisible = true
     }
 }
 
