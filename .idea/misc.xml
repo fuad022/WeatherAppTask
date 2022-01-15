@@ -24,8 +24,9 @@
         <entry key="..\:/AndroidProjects/WeatherAppTask/app/src/main/res/layout/fragment_search.xml" value="0.384375" />
         <entry key="..\:/AndroidProjects/WeatherAppTask/app/src/main/res/layout/hourly_temp_item.xml" value="0.9" />
         <entry key="..\:/AndroidProjects/WeatherAppTask/app/src/main/res/menu/bottom_nav_menu.xml" value="0.3546875" />
-        <entry key="..\:/AndroidProjects/WeatherAppTask/app/src/main/res/menu/favorite_forecasts_menu.xml" value="0.3546875" />
+        <entry key="..\:/AndroidProjects/WeatherAppTask/app/src/main/res/menu/favorite_forecasts_menu.xml" value="0.4" />
         <entry key="..\:/AndroidProjects/WeatherAppTask/app/src/main/res/menu/favorites_contextual_menu.xml" value="0.3546875" />
+        <entry key="..\:/AndroidProjects/WeatherAppTask/app/src/main/res/menu/report_menu.xml" value="0.264" />
       </map>
     </option>
   </component>

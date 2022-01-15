@@ -1,5 +1,6 @@
 package com.example.weatherapptask.ui.favorites.adapter
 
+import android.util.Log
 import android.view.*
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
@@ -25,6 +26,8 @@ class FavoritesForecastsAdapter(
     private lateinit var mActionMode: ActionMode
     private lateinit var rootView: View
     private var selectedForecasts = arrayListOf<FavoritesEntity>()
+    private var listEntity = arrayListOf<FavoritesEntity>()
+    private var listEntitySet = mutableSetOf<FavoritesEntity>()
     private var myViewHolders = arrayListOf<ItemHolder>()
 
     class ItemHolder(val binding: FavoriteForecastRowItemBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -67,7 +70,9 @@ class FavoritesForecastsAdapter(
         holder.binding.root.setOnClickListener {
             if (multiSelection) {
                 applySelection(holder, currentForecast)
+//                listEntity.clear()
             } else {
+//                listEntitySet.clear()
                 val action =
                     FavoritesFragmentDirections.actionFavoritesToForecastReportFragment(currentForecast)
                 holder.itemView.findNavController().navigate(action)
@@ -97,6 +102,16 @@ class FavoritesForecastsAdapter(
             changeForecastStyle(holder, R.color.light_black, R.color.light_black)
         }
     }
+
+//    fun storeListEntity(list: List<FavoritesEntity>) {
+//        list.forEach {
+//            listEntitySet.add(it)
+//        }
+//
+//        Log.d("listEntitySetSizeFromFragment", listEntitySet.size.toString()) // new add
+//        Log.d("listEntitySetInStoreListEntity", listEntitySet.toString()) // new add
+//
+//    }
 
     private fun applySelection(holder: ItemHolder, currentForecast: FavoritesEntity) {
         if (selectedForecasts.contains(currentForecast)) {
@@ -148,6 +163,15 @@ class FavoritesForecastsAdapter(
     override fun onCreateActionMode(actionMode: ActionMode?, menu: Menu?): Boolean {
         actionMode?.menuInflater?.inflate(R.menu.favorites_contextual_menu, menu)
         mActionMode = actionMode!!
+
+//        Log.d("listEntitySetSize", listEntitySet.size.toString())
+//        Log.d("listEntitySetDetail", listEntitySet.toString())
+//
+//        if (listEntitySet.size == 1) {
+//            val a = menu?.findItem(R.id.delete_all_favorite_forecast_menu)
+//            a?.isVisible = false
+//        }
+
         return true
     }
 
@@ -159,19 +183,40 @@ class FavoritesForecastsAdapter(
         if (menu?.itemId == R.id.delete_favorite_forecast_menu) {
             selectedForecasts.forEach {
                 locationForecastVM.deleteFavoriteForecast(it)
+
+//                listEntitySet.remove(it) // new add for remove entity in store list
             }
             showSnackBar("${selectedForecasts.size} Forecast/s removed.")
-
+////            Log.d("listEntitySizeAfterDelete", listEntity.size.toString()) // new add
+//            Log.d("listEntitySizeAfterDelete", listEntitySet.size.toString()) // new add
+//            notifyDataSetChanged()
             multiSelection = false
             selectedForecasts.clear()
             actionMode?.finish()
         }
-        if (menu?.itemId == R.id.delete_all_favorite_forecast_menu) {
-            locationForecastVM.deleteAllFavoriteForecasts()
-            showSnackBar("All forecasts removed.")
+        //Comment
+//        if (menu?.itemId == R.id.delete_all_favorite_forecast_menu) {
+//            locationForecastVM.deleteAllFavoriteForecasts()
+//            showSnackBar("All forecasts removed.")
+//
+//            actionMode?.finish()
+//        }
+        //Comment
 
-            actionMode?.finish()
-        }
+//        if (menu?.itemId == R.id.delete_all_favorite_forecast_menu) {
+//
+//            myViewHolders.forEach { holder ->
+//                changeForecastStyle(holder, R.color.card_view, R.color.card_view)
+//            }
+//            selectedForecasts.clear()
+//            selectedForecasts.addAll(listEntitySet)
+//            Log.d("selectedForecasts", selectedForecasts.size.toString())
+//            Log.d("listEntitySize", listEntitySet.size.toString()) // new add
+//            applyActionModeTitle()
+//            notifyDataSetChanged()
+//
+//        }
+
         return true
     }
 

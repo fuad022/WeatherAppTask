@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name"></string>
+    <string name="app_name">WeatherAppTask</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_location">My Location</string>
     <string name="title_search">Search</string>
@@ -17,4 +17,5 @@
     <string name="delete_favorite_menu">Delete Favorite Menu</string>
     <string name="delete_all">Delete All</string>
     <string name="delete_all_favorite_menu">Delete All Favorite Menu</string>
+    <string name="save_to_favorites">Save to Favorites</string>
 </resources>

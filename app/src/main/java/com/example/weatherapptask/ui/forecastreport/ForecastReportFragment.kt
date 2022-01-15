@@ -2,10 +2,8 @@ package com.example.weatherapptask.ui.forecastreport
 
 import android.os.Bundle
 import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.navArgs
@@ -142,6 +140,21 @@ class ForecastReportFragment : Fragment() {
             android.graphics.PorterDuff.Mode.MULTIPLY
         )
     }
+
+//    //////////////////////// Menu
+//
+//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+//        inflater.inflate(R.menu.report_menu, menu)
+//    }
+//
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        if (item.itemId == R.id.save_to_favorites_menu) {
+//            saveToFavorites()
+//        }
+//        return super.onOptionsItemSelected(item)
+//    }
+//
+//    //////////////////////// Menu
 
     override fun onPause() {
         if (toast != null) toast!!.cancel()

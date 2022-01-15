@@ -19,6 +19,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        supportActionBar?.setDisplayShowTitleEnabled(false)  // disable action bar titile
+
         val bottomNav: BottomNavigationView = binding.bottomNav
         val navController = findNavController(R.id.fragment)
         bottomNav.setupWithNavController(navController)
