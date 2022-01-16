@@ -202,6 +202,9 @@ class SearchFragment : Fragment() {
     }
 
     private fun observeSearchForecast() {
+        /*
+        This condition add for reason: IllegalStateException: Can't access the Fragment View's LifecycleOwner when getView() is null i.e., before onCreateView() or after onDestroyView()
+         */
         if (view != null) {
             searchForecastVM.searchForecastData.observe(viewLifecycleOwner, { response ->
                 when (response) {
