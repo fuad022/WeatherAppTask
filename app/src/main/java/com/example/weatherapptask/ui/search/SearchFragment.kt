@@ -72,7 +72,7 @@ class SearchFragment : Fragment() {
             fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 //            fetchLocation()
             getLastLocation()
-            binding.btn.isClickable = false
+//            binding.btn.isClickable = false
         }
     }
 
@@ -109,6 +109,7 @@ class SearchFragment : Fragment() {
     private fun getLastLocation() {
         if (checkPermission()) {
             if (isLocationEnabled()) {
+                binding.btn.isClickable = false
                 fusedLocationProviderClient.lastLocation.addOnCompleteListener { task ->
                     var location = task.result
                     if (location == null) {
@@ -201,27 +202,30 @@ class SearchFragment : Fragment() {
     }
 
     private fun observeSearchForecast() {
-        searchForecastVM.searchForecastData.observe(viewLifecycleOwner, { response ->
-            when (response) {
-                is NetworkResult.Success -> {
-                    binding.card.isVisible = true
-                    response.data?.let {
-                        binding.temp.text = getWholeNum(it.temperatureInfo.temp).plus("°c")
-                        binding.img.setAnimation(getWeatherAnimation(it.weather[0].icon))
-                        binding.img.playAnimation()
-                        binding.weather.text = it.weather[0].currentWeather
-                        binding.city.text = it.cityName
-                        binding.card.setOnClickListener { view ->
-                            val action = SearchFragmentDirections.actionSearchToForecastReportFragment(it)
-                            view.findNavController().navigate(action)
+        if (view != null) {
+            searchForecastVM.searchForecastData.observe(viewLifecycleOwner, { response ->
+                when (response) {
+                    is NetworkResult.Success -> {
+                        binding.card.isVisible = true
+                        response.data?.let {
+                            binding.temp.text = getWholeNum(it.temperatureInfo.temp).plus("°c")
+                            binding.img.setAnimation(getWeatherAnimation(it.weather[0].icon))
+                            binding.img.playAnimation()
+                            binding.weather.text = it.weather[0].currentWeather
+                            binding.city.text = it.cityName
+                            binding.card.setOnClickListener { view ->
+                                val action =
+                                    SearchFragmentDirections.actionSearchToForecastReportFragment(it)
+                                view.findNavController().navigate(action)
+                            }
                         }
                     }
+                    is NetworkResult.Error -> {
+                        displayToast(response.message.toString(), requireContext())
+                    }
                 }
-                is NetworkResult.Error -> {
-                    displayToast(response.message.toString(), requireContext())
-                }
-            }
-        })
+            })
+        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -236,6 +240,12 @@ class SearchFragment : Fragment() {
         if (toast != null) toast!!.cancel()
         super.onPause()
     }
+
+/*
+    override fun onDestroyView() {
+        searchForecastVM.searchForecastData.removeObservers(viewLifecycleOwner)
+        super.onDestroyView()
+    }*/
 
     /*
     @SuppressLint("ClickableViewAccessibility")
