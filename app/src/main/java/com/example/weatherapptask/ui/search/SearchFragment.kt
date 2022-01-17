@@ -56,6 +56,7 @@ class SearchFragment : Fragment() {
     private fun clickSearchBtn() {
         binding.searchBtn.setOnClickListener {
             val cityNameText = binding.searchText.text.toString()
+            binding.searchText.text?.clear()
             if (cityNameText.isEmpty()) {
                 Toast.makeText(it.context, "Type city name, please!", Toast.LENGTH_SHORT).show()
             } else {
@@ -72,7 +73,7 @@ class SearchFragment : Fragment() {
 
     private fun initBtn() {
         binding.btn.setOnClickListener {
-            binding.searchText.setText("")
+            binding.searchText.text?.clear()
             fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 //            fetchLocation()
             getLastLocation()
@@ -195,7 +196,7 @@ class SearchFragment : Fragment() {
                         binding.card.setOnClickListener { view ->
                             val action = SearchFragmentDirections.actionSearchToForecastReportFragment(it)
                             view.findNavController().navigate(action)
-                            binding.searchText.setText("")
+                            binding.searchText.text?.clear()
                         }
                     }
                 }
@@ -225,7 +226,7 @@ class SearchFragment : Fragment() {
                                 val action =
                                     SearchFragmentDirections.actionSearchToForecastReportFragment(it)
                                 view.findNavController().navigate(action)
-                                binding.searchText.setText("")
+                                binding.searchText.text?.clear()
                             }
                         }
                     }
