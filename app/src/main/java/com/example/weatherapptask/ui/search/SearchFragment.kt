@@ -191,6 +191,7 @@ class SearchFragment : Fragment() {
                         binding.card.setOnClickListener { view ->
                             val action = SearchFragmentDirections.actionSearchToForecastReportFragment(it)
                             view.findNavController().navigate(action)
+                            binding.searchText.setText("")
                         }
                     }
                 }
@@ -220,6 +221,7 @@ class SearchFragment : Fragment() {
                                 val action =
                                     SearchFragmentDirections.actionSearchToForecastReportFragment(it)
                                 view.findNavController().navigate(action)
+                                binding.searchText.setText("")
                             }
                         }
                     }
