@@ -1,8 +1,11 @@
 package com.example.weatherapptask
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
@@ -21,6 +24,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         supportActionBar?.setDisplayShowTitleEnabled(false)  // disable action bar titile
+        supportActionBar?.setBackgroundDrawable(
+            ColorDrawable(ContextCompat.getColor(this, R.color.background))
+        )
 
         val bottomNav: BottomNavigationView = binding.bottomNav
         val navController = findNavController(R.id.fragment)
