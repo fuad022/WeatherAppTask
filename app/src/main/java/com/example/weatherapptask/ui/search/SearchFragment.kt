@@ -32,17 +32,21 @@ import com.google.android.gms.location.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchFragment : Fragment() {
-    private val binding by lazy { FragmentSearchBinding.inflate(layoutInflater) }
+//    private val binding by lazy { FragmentSearchBinding.inflate(layoutInflater) }
     private val locationForecastVM: LocationForecastVM by viewModel()
     private val searchForecastVM: SearchForecastVM by viewModel()
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var locationRequest: LocationRequest
     var toast: Toast? = null
 
+    private var _binding: FragmentSearchBinding? = null
+    private val binding get() = _binding!!
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        _binding = FragmentSearchBinding.inflate(inflater, container, false)
         clickSearchBtn()
         hideKeyboard()
         initBtn()
@@ -244,6 +248,11 @@ class SearchFragment : Fragment() {
     override fun onPause() {
         if (toast != null) toast!!.cancel()
         super.onPause()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 /*
