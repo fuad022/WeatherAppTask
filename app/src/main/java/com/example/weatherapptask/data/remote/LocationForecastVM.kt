@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.widget.Toast
 import androidx.lifecycle.*
 import com.example.weatherapptask.data.database.FavoritesEntity
 import com.example.weatherapptask.data.remote.model.LocationModel
@@ -19,6 +20,10 @@ class LocationForecastVM(
     private val mainRepository: MainRepository,
     application: Application
 ) : AndroidViewModel(application) {
+
+//    //
+//    var networkStatus = false
+//    //
 
     /** ROOM DATABASE */
     val readLocationForecast: LiveData<LocationModel> = mainRepository.local.readLocationForecast().asLiveData()
@@ -110,4 +115,8 @@ class LocationForecastVM(
             else -> false
         }
     }
+
+//    fun showNetworkStatus() {
+//        Toast.makeText(getApplication(), "No Internet Connection", Toast.LENGTH_SHORT).show()
+//    }
 }

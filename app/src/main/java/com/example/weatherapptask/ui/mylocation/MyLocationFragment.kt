@@ -25,12 +25,14 @@ import com.example.weatherapptask.data.remote.LocationForecastVM
 import com.example.weatherapptask.data.remote.other.Constants.Companion.PERMISSION_ID
 import com.example.weatherapptask.data.remote.other.NetworkResult
 import com.example.weatherapptask.util.GPSUtils
+import com.example.weatherapptask.util.NetworkListener
 import com.example.weatherapptask.util.Util.convertDate
 import com.example.weatherapptask.util.Util.displayToast
 import com.example.weatherapptask.util.Util.getWeatherAnimation
 import com.example.weatherapptask.util.Util.getWholeNum
 import com.example.weatherapptask.util.observeOnce
 import com.google.android.gms.location.*
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -44,13 +46,26 @@ class MyLocationFragment : Fragment() {
     private lateinit var locationRequest: LocationRequest
     var toast: Toast? = null
 
+//    private lateinit var networkListener: NetworkListener
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        GPSUtils(requireContext()).turnOnGPS()
+//        GPSUtils(requireContext()).turnOnGPS()
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         readDatabase()
+//        //
+//        lifecycleScope.launch {
+//            networkListener = NetworkListener()
+//            networkListener.checkNetworkAvailability(requireContext())
+//                .collect { status ->
+//                    Log.d("NetworkListener", status.toString())
+//                    locationForecastVM.networkStatus = status
+//                    locationForecastVM.showNetworkStatus()
+//                }
+//        }
+//        //
         swipe()
         return binding.root
     }
@@ -59,6 +74,13 @@ class MyLocationFragment : Fragment() {
         binding.swipe.setOnRefreshListener {
             //fetchLocation()///
             getLastLocation()
+
+//            if (locationForecastVM.networkStatus) {
+//                getLastLocation()
+//            } else {
+//                locationForecastVM.showNetworkStatus()
+//            }
+
             binding.swipe.isRefreshing = false
         }
     }
