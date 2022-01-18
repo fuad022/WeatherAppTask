@@ -18,13 +18,13 @@ import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
 import androidx.navigation.findNavController
 import com.example.weatherapptask.data.remote.LocationForecastVM
-import com.example.weatherapptask.data.remote.other.Constants
 import com.example.weatherapptask.data.remote.other.Constants.Companion.API_KEY
 import com.example.weatherapptask.data.remote.other.Constants.Companion.PERMISSION_ID
 import com.example.weatherapptask.data.remote.other.Constants.Companion.UNITS
 import com.example.weatherapptask.data.remote.other.NetworkResult
 import com.example.weatherapptask.databinding.FragmentSearchBinding
 import com.example.weatherapptask.ui.search.viewmodel.SearchForecastVM
+import com.example.weatherapptask.util.GPSUtils
 import com.example.weatherapptask.util.Util.displayToast
 import com.example.weatherapptask.util.Util.getWeatherAnimation
 import com.example.weatherapptask.util.Util.getWholeNum
@@ -124,7 +124,8 @@ class SearchFragment : Fragment() {
                     }
                 }
             } else {
-                Toast.makeText(requireContext(), "Please, enable your location service", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(requireContext(), "Please, enable your location service", Toast.LENGTH_SHORT).show()
+                GPSUtils(requireContext()).turnOnGPS()
             }
         } else {
             requestPermission()

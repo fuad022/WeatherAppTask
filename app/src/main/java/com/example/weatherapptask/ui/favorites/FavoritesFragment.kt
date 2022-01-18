@@ -71,6 +71,7 @@ class FavoritesFragment : Fragment() {
     }
 
     private fun showSnackBar() {
-        Snackbar.make(binding.root, "All forecasts removed.", Snackbar.LENGTH_SHORT).setAction("OK") {}.show()
+        Snackbar.make(binding.root, "All forecasts removed.", Snackbar.LENGTH_SHORT)
+            .setAction("OK") {}.show()
     }
 }

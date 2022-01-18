@@ -24,6 +24,7 @@ import com.example.weatherapptask.ui.mylocation.viewmodel.HourlyForecastVM
 import com.example.weatherapptask.data.remote.LocationForecastVM
 import com.example.weatherapptask.data.remote.other.Constants.Companion.PERMISSION_ID
 import com.example.weatherapptask.data.remote.other.NetworkResult
+import com.example.weatherapptask.util.GPSUtils
 import com.example.weatherapptask.util.Util.convertDate
 import com.example.weatherapptask.util.Util.displayToast
 import com.example.weatherapptask.util.Util.getWeatherAnimation
@@ -47,6 +48,7 @@ class MyLocationFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        GPSUtils(requireContext()).turnOnGPS()
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         readDatabase()
         swipe()
@@ -163,7 +165,8 @@ class MyLocationFragment : Fragment() {
                     }
                 }
             } else {
-                Toast.makeText(requireContext(), "Please, enable your location service", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(requireContext(), "Please, enable your location service", Toast.LENGTH_SHORT).show()
+                GPSUtils(requireContext()).turnOnGPS()
             }
         } else {
             requestPermission()
@@ -196,29 +199,30 @@ class MyLocationFragment : Fragment() {
     ///////////////////////////////New check permission
 
     private fun observeForecast() {
-        locationForecastVM.locationForecastData.observe(viewLifecycleOwner, { response ->
-            when (response) {
-                is NetworkResult.Success -> {
-                    response.data?.let {
-                        binding.city.text = it.cityName
-                        binding.date.text = convertDate(it.dateTime.toString(), "1")
-                        binding.weather.text = it.weather[0].currentWeather
-                        binding.img.setAnimation(getWeatherAnimation(it.weather[0].icon))
-                        binding.img.playAnimation()
-                        binding.temperature.text = getWholeNum(it.temperatureInfo.temp).plus("°c")
-                        binding.tempNum.text = getWholeNum(it.temperatureInfo.temp).plus("°c")
-                        binding.humidyNum.text = it.temperatureInfo.humidity.toString().plus("%")
-                        binding.windNum.text = getWholeNum(it.wind.speed).plus("m/sec")
-//                        binding.executePendingBindings()
+        if (view != null) {
+            locationForecastVM.locationForecastData.observe(viewLifecycleOwner, { response ->
+                when (response) {
+                    is NetworkResult.Success -> {
+                        response.data?.let {
+                            binding.city.text = it.cityName
+                            binding.date.text = convertDate(it.dateTime.toString(), "1")
+                            binding.weather.text = it.weather[0].currentWeather
+                            binding.img.setAnimation(getWeatherAnimation(it.weather[0].icon))
+                            binding.img.playAnimation()
+                            binding.temperature.text = getWholeNum(it.temperatureInfo.temp).plus("°c")
+                            binding.tempNum.text = getWholeNum(it.temperatureInfo.temp).plus("°c")
+                            binding.humidyNum.text = it.temperatureInfo.humidity.toString().plus("%")
+                            binding.windNum.text = getWholeNum(it.wind.speed).plus("m/sec")
+                        }
+                        observeHourlyForecast()
                     }
-                    observeHourlyForecast()
+                    is NetworkResult.Error -> {
+                        loadDataFromCache()
+                        displayToast(response.message.toString(), requireContext())
+                    }
                 }
-                is NetworkResult.Error -> {
-                    loadDataFromCache()
-                    displayToast(response.message.toString(), requireContext())
-                }
-            }
-        })
+            })
+        }
     }
 
     private fun loadDataFromCache() {

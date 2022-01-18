@@ -18,5 +18,6 @@ class Constants {
         const val FAVORITE_FORECAST_TABLE = "favorite_forecast_table"
 
         const val PERMISSION_ID = 52
+        const val GPS_CODE = 1002
     }
 }
