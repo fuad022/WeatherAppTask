@@ -252,6 +252,7 @@ class SearchFragment : Fragment() {
 
     override fun onPause() {
         if (toast != null) toast!!.cancel()
+        binding.searchText.text?.clear()
         super.onPause()
     }
 

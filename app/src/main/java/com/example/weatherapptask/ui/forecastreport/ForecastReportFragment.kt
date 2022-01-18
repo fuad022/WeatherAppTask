@@ -11,7 +11,6 @@ import com.example.weatherapptask.R
 import com.example.weatherapptask.data.database.FavoritesEntity
 import com.example.weatherapptask.data.remote.LocationForecastVM
 import com.example.weatherapptask.data.remote.other.Constants.Companion.API_KEY
-import com.example.weatherapptask.data.remote.other.Constants.Companion.EXCLUDE_CURRENT
 import com.example.weatherapptask.data.remote.other.Constants.Companion.UNITS
 import com.example.weatherapptask.data.remote.other.NetworkResult
 import com.example.weatherapptask.databinding.FragmentForecastReportBinding
