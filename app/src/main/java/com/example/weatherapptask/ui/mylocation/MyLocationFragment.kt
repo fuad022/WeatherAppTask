@@ -46,7 +46,7 @@ class MyLocationFragment : Fragment() {
     private lateinit var locationRequest: LocationRequest
     var toast: Toast? = null
 
-//    private lateinit var networkListener: NetworkListener
+    private lateinit var networkListener: NetworkListener
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,17 +55,17 @@ class MyLocationFragment : Fragment() {
 //        GPSUtils(requireContext()).turnOnGPS()
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         readDatabase()
-//        //
-//        lifecycleScope.launch {
-//            networkListener = NetworkListener()
-//            networkListener.checkNetworkAvailability(requireContext())
-//                .collect { status ->
-//                    Log.d("NetworkListener", status.toString())
-//                    locationForecastVM.networkStatus = status
-//                    locationForecastVM.showNetworkStatus()
-//                }
-//        }
-//        //
+
+        lifecycleScope.launchWhenStarted {
+            networkListener = NetworkListener()
+            networkListener.checkNetworkAvailability(requireContext())
+                .collect { status ->
+                    Log.d("NetworkListener", status.toString())
+                    locationForecastVM.networkStatus = status
+                    locationForecastVM.showNetworkStatus()
+                }
+        }
+
         swipe()
         return binding.root
     }
@@ -73,13 +73,12 @@ class MyLocationFragment : Fragment() {
     private fun swipe() {
         binding.swipe.setOnRefreshListener {
             //fetchLocation()///
-            getLastLocation()
 
-//            if (locationForecastVM.networkStatus) {
-//                getLastLocation()
-//            } else {
-//                locationForecastVM.showNetworkStatus()
-//            }
+            if (locationForecastVM.networkStatus) {
+                getLastLocation()
+            } else {
+                locationForecastVM.showNetworkStatus()
+            }
 
             binding.swipe.isRefreshing = false
         }
@@ -182,7 +181,6 @@ class MyLocationFragment : Fragment() {
                     } else {
                         locationForecastVM.sendData(location.latitude.toString(), location.longitude.toString(), UNITS, API_KEY)
                         hourlyForecastVM.sendData(location.latitude.toString(), location.longitude.toString(), UNITS, EXCLUDE, API_KEY)
-
                         observeForecast()
                     }
                 }
@@ -213,7 +211,6 @@ class MyLocationFragment : Fragment() {
             var lastLocation = p0.lastLocation
             locationForecastVM.sendData(lastLocation.latitude.toString(), lastLocation.longitude.toString(), UNITS, API_KEY)
             hourlyForecastVM.sendData(lastLocation.latitude.toString(), lastLocation.longitude.toString(), UNITS, EXCLUDE, API_KEY)
-
             observeForecast()
         }
     }

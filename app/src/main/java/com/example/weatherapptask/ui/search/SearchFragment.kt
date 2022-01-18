@@ -16,6 +16,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import com.example.weatherapptask.data.remote.LocationForecastVM
 import com.example.weatherapptask.data.remote.other.Constants.Companion.API_KEY
@@ -25,10 +26,12 @@ import com.example.weatherapptask.data.remote.other.NetworkResult
 import com.example.weatherapptask.databinding.FragmentSearchBinding
 import com.example.weatherapptask.ui.search.viewmodel.SearchForecastVM
 import com.example.weatherapptask.util.GPSUtils
+import com.example.weatherapptask.util.NetworkListener
 import com.example.weatherapptask.util.Util.displayToast
 import com.example.weatherapptask.util.Util.getWeatherAnimation
 import com.example.weatherapptask.util.Util.getWholeNum
 import com.google.android.gms.location.*
+import kotlinx.coroutines.flow.collect
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchFragment : Fragment() {
@@ -42,11 +45,23 @@ class SearchFragment : Fragment() {
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var networkListener: NetworkListener
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
+
+        lifecycleScope.launchWhenStarted {
+            networkListener = NetworkListener()
+            networkListener.checkNetworkAvailability(requireContext())
+                .collect { status ->
+                    Log.d("NetworkListener", status.toString())
+                    locationForecastVM.networkStatus = status
+                }
+        }
+
         clickSearchBtn()
         hideKeyboard()
         initBtn()
@@ -76,7 +91,13 @@ class SearchFragment : Fragment() {
             binding.searchText.text?.clear()
             fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 //            fetchLocation()
-            getLastLocation()
+
+            if (locationForecastVM.networkStatus) {
+                getLastLocation()
+            } else {
+                locationForecastVM.showNetworkStatus()
+            }
+
 //            binding.btn.isClickable = false
         }
     }

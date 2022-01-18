@@ -11,6 +11,8 @@ import com.example.weatherapptask.data.remote.model.LocationModel
 import com.example.weatherapptask.data.remote.other.NetworkResult
 import com.example.weatherapptask.data.repo.MainRepository
 import com.example.weatherapptask.data.repo.Repository
+import com.example.weatherapptask.util.Util
+import com.example.weatherapptask.util.Util.displayToast
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Response
@@ -21,9 +23,7 @@ class LocationForecastVM(
     application: Application
 ) : AndroidViewModel(application) {
 
-//    //
-//    var networkStatus = false
-//    //
+    var networkStatus = false
 
     /** ROOM DATABASE */
     val readLocationForecast: LiveData<LocationModel> = mainRepository.local.readLocationForecast().asLiveData()
@@ -116,7 +116,9 @@ class LocationForecastVM(
         }
     }
 
-//    fun showNetworkStatus() {
-//        Toast.makeText(getApplication(), "No Internet Connection", Toast.LENGTH_SHORT).show()
-//    }
+    fun showNetworkStatus() {
+        if (!networkStatus) {
+            displayToast("No Internet Connection", getApplication())
+        }
+    }
 }
