@@ -183,28 +183,31 @@ class SearchFragment : Fragment() {
             }
         })*/
 
-        searchForecastVM.locationSearchForecastData.observe(viewLifecycleOwner, { response ->
-            when (response) {
-                is NetworkResult.Success -> {
-                    binding.card.isVisible = true
-                    response.data?.let {
-                        binding.temp.text = getWholeNum(it.temperatureInfo.temp).plus("°c")
-                        binding.img.setAnimation(getWeatherAnimation(it.weather[0].icon))
-                        binding.img.playAnimation()
-                        binding.weather.text = it.weather[0].currentWeather
-                        binding.city.text = it.cityName
-                        binding.card.setOnClickListener { view ->
-                            val action = SearchFragmentDirections.actionSearchToForecastReportFragment(it)
-                            view.findNavController().navigate(action)
-                            binding.searchText.text?.clear()
+        if (view != null) {
+            searchForecastVM.locationSearchForecastData.observe(viewLifecycleOwner, { response ->
+                when (response) {
+                    is NetworkResult.Success -> {
+                        binding.card.isVisible = true
+                        response.data?.let {
+                            binding.temp.text = getWholeNum(it.temperatureInfo.temp).plus("°c")
+                            binding.img.setAnimation(getWeatherAnimation(it.weather[0].icon))
+                            binding.img.playAnimation()
+                            binding.weather.text = it.weather[0].currentWeather
+                            binding.city.text = it.cityName
+                            binding.card.setOnClickListener { view ->
+                                val action =
+                                    SearchFragmentDirections.actionSearchToForecastReportFragment(it)
+                                view.findNavController().navigate(action)
+                                binding.searchText.text?.clear()
+                            }
                         }
                     }
+                    is NetworkResult.Error -> {
+                        displayToast(response.message.toString(), requireContext())
+                    }
                 }
-                is NetworkResult.Error -> {
-                    displayToast(response.message.toString(), requireContext())
-                }
-            }
-        })
+            })
+        }
     }
 
     private fun observeSearchForecast() {
