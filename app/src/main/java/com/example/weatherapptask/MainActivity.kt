@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        supportActionBar?.setDisplayShowTitleEnabled(false)  // disable action bar titile
+        supportActionBar?.setDisplayShowTitleEnabled(false)  // disable action bar title
         supportActionBar?.setBackgroundDrawable(
             ColorDrawable(ContextCompat.getColor(this, R.color.background))
         )
